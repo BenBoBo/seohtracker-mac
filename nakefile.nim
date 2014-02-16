@@ -9,7 +9,8 @@ template glob_rst(basedir: string): expr =
   to_seq(walk_files(basedir/"*.rst"))
 
 let
-  normal_rst_files = concat(glob_rst("."), glob_rst("docs"))
+  normal_rst_files = concat(glob_rst("."), glob_rst("docs"),
+    glob_rst("resources"/"html"))
   # Use correct path concat, wait for https://github.com/Araq/Nimrod/issues/871.
 
 proc update_timestamp(path: string) =
