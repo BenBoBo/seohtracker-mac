@@ -1,3 +1,6 @@
 [submodule "external/quicklook-rest-with-nimrod"]
 	path = external/quicklook-rest-with-nimrod
 	url = https://github.com/gradha/quicklook-rest-with-nimrod.git
+[submodule "external/seohtracker-logic"]
+	path = external/seohtracker-logic
+	url = https://github.com/gradha/seohtracker-logic.git
