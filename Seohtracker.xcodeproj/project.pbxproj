@@ -14,7 +14,33 @@
 		D533F7FE18B662CB00A7FFC3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D533F7FD18B662CB00A7FFC3 /* Images.xcassets */; };
 		D533F81E18B6650200A7FFC3 /* EHAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F81B18B6650200A7FFC3 /* EHAppDelegate.m */; };
 		D533F81F18B6650200A7FFC3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F81C18B6650200A7FFC3 /* main.m */; };
+		D533F83E18B671FD00A7FFC3 /* impure_db_sqlite.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F82C18B671FD00A7FFC3 /* impure_db_sqlite.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D533F83F18B671FD00A7FFC3 /* logic_l_db.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F82D18B671FD00A7FFC3 /* logic_l_db.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D533F84018B671FD00A7FFC3 /* logic_l_log.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F82E18B671FD00A7FFC3 /* logic_l_log.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D533F84118B671FD00A7FFC3 /* logic_l_main.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F82F18B671FD00A7FFC3 /* logic_l_main.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D533F84218B671FD00A7FFC3 /* logic_l_types.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83018B671FD00A7FFC3 /* logic_l_types.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D533F84318B671FD00A7FFC3 /* nim_n_global.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83218B671FD00A7FFC3 /* nim_n_global.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D533F84418B671FD00A7FFC3 /* posix_posix.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83418B671FD00A7FFC3 /* posix_posix.m */; };
+		D533F84518B671FD00A7FFC3 /* pure_lexbase.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83518B671FD00A7FFC3 /* pure_lexbase.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D533F84618B671FD00A7FFC3 /* pure_os.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83618B671FD00A7FFC3 /* pure_os.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D533F84718B671FD00A7FFC3 /* pure_parsecsv.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83718B671FD00A7FFC3 /* pure_parsecsv.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D533F84818B671FD00A7FFC3 /* pure_parseutils.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83818B671FD00A7FFC3 /* pure_parseutils.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D533F84918B671FD00A7FFC3 /* pure_streams.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83918B671FD00A7FFC3 /* pure_streams.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D533F84A18B671FD00A7FFC3 /* pure_strutils.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83A18B671FD00A7FFC3 /* pure_strutils.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D533F84B18B671FD00A7FFC3 /* pure_times.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83B18B671FD00A7FFC3 /* pure_times.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D533F84C18B671FD00A7FFC3 /* root_system.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83C18B671FD00A7FFC3 /* root_system.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D533F84D18B671FD00A7FFC3 /* wrappers_sqlite3.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83D18B671FD00A7FFC3 /* wrappers_sqlite3.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D533F82818B671AF00A7FFC3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D533F7DA18B662CB00A7FFC3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D533F82418B6719800A7FFC3;
+			remoteInfo = "compile nimrod";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		D533F7E218B662CB00A7FFC3 /* seohtracker-devel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "seohtracker-devel.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -30,6 +56,24 @@
 		D533F81B18B6650200A7FFC3 /* EHAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EHAppDelegate.m; sourceTree = "<group>"; };
 		D533F81C18B6650200A7FFC3 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		D533F81D18B6650200A7FFC3 /* Seohtracker-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Seohtracker-Prefix.pch"; sourceTree = "<group>"; };
+		D533F82C18B671FD00A7FFC3 /* impure_db_sqlite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = impure_db_sqlite.m; sourceTree = "<group>"; };
+		D533F82D18B671FD00A7FFC3 /* logic_l_db.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = logic_l_db.m; sourceTree = "<group>"; };
+		D533F82E18B671FD00A7FFC3 /* logic_l_log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = logic_l_log.m; sourceTree = "<group>"; };
+		D533F82F18B671FD00A7FFC3 /* logic_l_main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = logic_l_main.m; sourceTree = "<group>"; };
+		D533F83018B671FD00A7FFC3 /* logic_l_types.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = logic_l_types.m; sourceTree = "<group>"; };
+		D533F83118B671FD00A7FFC3 /* n_global.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = n_global.h; sourceTree = "<group>"; };
+		D533F83218B671FD00A7FFC3 /* nim_n_global.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = nim_n_global.m; sourceTree = "<group>"; };
+		D533F83318B671FD00A7FFC3 /* nimbase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nimbase.h; sourceTree = "<group>"; };
+		D533F83418B671FD00A7FFC3 /* posix_posix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = posix_posix.m; sourceTree = "<group>"; };
+		D533F83518B671FD00A7FFC3 /* pure_lexbase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = pure_lexbase.m; sourceTree = "<group>"; };
+		D533F83618B671FD00A7FFC3 /* pure_os.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = pure_os.m; sourceTree = "<group>"; };
+		D533F83718B671FD00A7FFC3 /* pure_parsecsv.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = pure_parsecsv.m; sourceTree = "<group>"; };
+		D533F83818B671FD00A7FFC3 /* pure_parseutils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = pure_parseutils.m; sourceTree = "<group>"; };
+		D533F83918B671FD00A7FFC3 /* pure_streams.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = pure_streams.m; sourceTree = "<group>"; };
+		D533F83A18B671FD00A7FFC3 /* pure_strutils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = pure_strutils.m; sourceTree = "<group>"; };
+		D533F83B18B671FD00A7FFC3 /* pure_times.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = pure_times.m; sourceTree = "<group>"; };
+		D533F83C18B671FD00A7FFC3 /* root_system.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = root_system.m; sourceTree = "<group>"; };
+		D533F83D18B671FD00A7FFC3 /* wrappers_sqlite3.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = wrappers_sqlite3.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +91,7 @@
 		D533F7D918B662CB00A7FFC3 = {
 			isa = PBXGroup;
 			children = (
+				D533F82A18B671FD00A7FFC3 /* build */,
 				D533F82018B6653900A7FFC3 /* resources */,
 				D533F81918B6650200A7FFC3 /* src */,
 				D533F7E418B662CB00A7FFC3 /* Frameworks */,
@@ -119,7 +164,57 @@
 			name = plist;
 			sourceTree = "<group>";
 		};
+		D533F82A18B671FD00A7FFC3 /* build */ = {
+			isa = PBXGroup;
+			children = (
+				D533F82B18B671FD00A7FFC3 /* nimcache */,
+			);
+			path = build;
+			sourceTree = "<group>";
+		};
+		D533F82B18B671FD00A7FFC3 /* nimcache */ = {
+			isa = PBXGroup;
+			children = (
+				D533F82C18B671FD00A7FFC3 /* impure_db_sqlite.m */,
+				D533F82D18B671FD00A7FFC3 /* logic_l_db.m */,
+				D533F82E18B671FD00A7FFC3 /* logic_l_log.m */,
+				D533F82F18B671FD00A7FFC3 /* logic_l_main.m */,
+				D533F83018B671FD00A7FFC3 /* logic_l_types.m */,
+				D533F83118B671FD00A7FFC3 /* n_global.h */,
+				D533F83218B671FD00A7FFC3 /* nim_n_global.m */,
+				D533F83318B671FD00A7FFC3 /* nimbase.h */,
+				D533F83418B671FD00A7FFC3 /* posix_posix.m */,
+				D533F83518B671FD00A7FFC3 /* pure_lexbase.m */,
+				D533F83618B671FD00A7FFC3 /* pure_os.m */,
+				D533F83718B671FD00A7FFC3 /* pure_parsecsv.m */,
+				D533F83818B671FD00A7FFC3 /* pure_parseutils.m */,
+				D533F83918B671FD00A7FFC3 /* pure_streams.m */,
+				D533F83A18B671FD00A7FFC3 /* pure_strutils.m */,
+				D533F83B18B671FD00A7FFC3 /* pure_times.m */,
+				D533F83C18B671FD00A7FFC3 /* root_system.m */,
+				D533F83D18B671FD00A7FFC3 /* wrappers_sqlite3.m */,
+			);
+			path = nimcache;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		D533F82418B6719800A7FFC3 /* compile nimrod */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = D533F82718B6719900A7FFC3 /* Build configuration list for PBXLegacyTarget "compile nimrod" */;
+			buildPhases = (
+			);
+			buildToolPath = scripts/nimbuild.sh;
+			buildWorkingDirectory = "$(SRCDIR)";
+			dependencies = (
+			);
+			name = "compile nimrod";
+			passBuildSettingsInEnvironment = 1;
+			productName = "compile nimrod";
+		};
+/* End PBXLegacyTarget section */
 
 /* Begin PBXNativeTarget section */
 		D533F7E118B662CB00A7FFC3 /* seohtracker-devel */ = {
@@ -133,6 +228,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				D533F82918B671AF00A7FFC3 /* PBXTargetDependency */,
 			);
 			name = "seohtracker-devel";
 			productName = Seohtracker;
@@ -162,6 +258,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				D533F82418B6719800A7FFC3 /* compile nimrod */,
 				D533F7E118B662CB00A7FFC3 /* seohtracker-devel */,
 			);
 		};
@@ -186,12 +283,36 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D533F84718B671FD00A7FFC3 /* pure_parsecsv.m in Sources */,
 				D533F81E18B6650200A7FFC3 /* EHAppDelegate.m in Sources */,
+				D533F84018B671FD00A7FFC3 /* logic_l_log.m in Sources */,
+				D533F84918B671FD00A7FFC3 /* pure_streams.m in Sources */,
+				D533F84B18B671FD00A7FFC3 /* pure_times.m in Sources */,
+				D533F84C18B671FD00A7FFC3 /* root_system.m in Sources */,
+				D533F84318B671FD00A7FFC3 /* nim_n_global.m in Sources */,
+				D533F84418B671FD00A7FFC3 /* posix_posix.m in Sources */,
+				D533F83F18B671FD00A7FFC3 /* logic_l_db.m in Sources */,
+				D533F84818B671FD00A7FFC3 /* pure_parseutils.m in Sources */,
 				D533F81F18B6650200A7FFC3 /* main.m in Sources */,
+				D533F84518B671FD00A7FFC3 /* pure_lexbase.m in Sources */,
+				D533F84218B671FD00A7FFC3 /* logic_l_types.m in Sources */,
+				D533F84D18B671FD00A7FFC3 /* wrappers_sqlite3.m in Sources */,
+				D533F84118B671FD00A7FFC3 /* logic_l_main.m in Sources */,
+				D533F84618B671FD00A7FFC3 /* pure_os.m in Sources */,
+				D533F84A18B671FD00A7FFC3 /* pure_strutils.m in Sources */,
+				D533F83E18B671FD00A7FFC3 /* impure_db_sqlite.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D533F82918B671AF00A7FFC3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D533F82418B6719800A7FFC3 /* compile nimrod */;
+			targetProxy = D533F82818B671AF00A7FFC3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		D533F7EE18B662CB00A7FFC3 /* InfoPlist.strings */ = {
@@ -320,6 +441,31 @@
 			};
 			name = Release;
 		};
+		D533F82518B6719900A7FFC3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUGGING_SYMBOLS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D533F82618B6719900A7FFC3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -337,6 +483,15 @@
 			buildConfigurations = (
 				D533F81418B662CB00A7FFC3 /* Debug */,
 				D533F81518B662CB00A7FFC3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D533F82718B6719900A7FFC3 /* Build configuration list for PBXLegacyTarget "compile nimrod" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D533F82518B6719900A7FFC3 /* Debug */,
+				D533F82618B6719900A7FFC3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
