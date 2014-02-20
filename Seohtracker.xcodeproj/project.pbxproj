@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D532974218B68C2D0028F3AA /* NSString+seohyun.m in Sources */ = {isa = PBXBuildFile; fileRef = D532974118B68C2D0028F3AA /* NSString+seohyun.m */; };
+		D532974318B68CBE0028F3AA /* ELHASO.m in Sources */ = {isa = PBXBuildFile; fileRef = D532973C18B68B1C0028F3AA /* ELHASO.m */; };
+		D532974418B68CBE0028F3AA /* NSArray+ELHASO.m in Sources */ = {isa = PBXBuildFile; fileRef = D532973E18B68B1C0028F3AA /* NSArray+ELHASO.m */; };
 		D533F7E618B662CB00A7FFC3 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D533F7E518B662CB00A7FFC3 /* Cocoa.framework */; };
 		D533F7F018B662CB00A7FFC3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D533F7EE18B662CB00A7FFC3 /* InfoPlist.strings */; };
 		D533F7F618B662CB00A7FFC3 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = D533F7F418B662CB00A7FFC3 /* Credits.rtf */; };
@@ -43,6 +46,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D532973A18B68B1C0028F3AA /* ELHASO-types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ELHASO-types.h"; sourceTree = "<group>"; };
+		D532973B18B68B1C0028F3AA /* ELHASO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELHASO.h; sourceTree = "<group>"; };
+		D532973C18B68B1C0028F3AA /* ELHASO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELHASO.m; sourceTree = "<group>"; };
+		D532973D18B68B1C0028F3AA /* NSArray+ELHASO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+ELHASO.h"; sourceTree = "<group>"; };
+		D532973E18B68B1C0028F3AA /* NSArray+ELHASO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+ELHASO.m"; sourceTree = "<group>"; };
+		D532974018B68C2D0028F3AA /* NSString+seohyun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+seohyun.h"; sourceTree = "<group>"; };
+		D532974118B68C2D0028F3AA /* NSString+seohyun.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+seohyun.m"; sourceTree = "<group>"; };
 		D533F7E218B662CB00A7FFC3 /* seohtracker-devel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "seohtracker-devel.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D533F7E518B662CB00A7FFC3 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		D533F7E818B662CB00A7FFC3 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -88,10 +98,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D532973818B68B0A0028F3AA /* external */ = {
+			isa = PBXGroup;
+			children = (
+				D532973918B68B1C0028F3AA /* ELHASO-mac-snippets */,
+			);
+			name = external;
+			sourceTree = "<group>";
+		};
+		D532973918B68B1C0028F3AA /* ELHASO-mac-snippets */ = {
+			isa = PBXGroup;
+			children = (
+				D532973A18B68B1C0028F3AA /* ELHASO-types.h */,
+				D532973B18B68B1C0028F3AA /* ELHASO.h */,
+				D532973C18B68B1C0028F3AA /* ELHASO.m */,
+				D532973D18B68B1C0028F3AA /* NSArray+ELHASO.h */,
+				D532973E18B68B1C0028F3AA /* NSArray+ELHASO.m */,
+			);
+			name = "ELHASO-mac-snippets";
+			path = "external/ELHASO-mac-snippets";
+			sourceTree = "<group>";
+		};
+		D532973F18B68C2D0028F3AA /* categories */ = {
+			isa = PBXGroup;
+			children = (
+				D532974018B68C2D0028F3AA /* NSString+seohyun.h */,
+				D532974118B68C2D0028F3AA /* NSString+seohyun.m */,
+			);
+			path = categories;
+			sourceTree = "<group>";
+		};
 		D533F7D918B662CB00A7FFC3 = {
 			isa = PBXGroup;
 			children = (
 				D533F82A18B671FD00A7FFC3 /* build */,
+				D532973818B68B0A0028F3AA /* external */,
 				D533F82018B6653900A7FFC3 /* resources */,
 				D533F81918B6650200A7FFC3 /* src */,
 				D533F7E418B662CB00A7FFC3 /* Frameworks */,
@@ -120,6 +161,7 @@
 		D533F81918B6650200A7FFC3 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				D532973F18B68C2D0028F3AA /* categories */,
 				D533F81A18B6650200A7FFC3 /* EHAppDelegate.h */,
 				D533F81B18B6650200A7FFC3 /* EHAppDelegate.m */,
 				D533F81C18B6650200A7FFC3 /* main.m */,
@@ -290,12 +332,15 @@
 				D533F84B18B671FD00A7FFC3 /* pure_times.m in Sources */,
 				D533F84C18B671FD00A7FFC3 /* root_system.m in Sources */,
 				D533F84318B671FD00A7FFC3 /* nim_n_global.m in Sources */,
+				D532974418B68CBE0028F3AA /* NSArray+ELHASO.m in Sources */,
 				D533F84418B671FD00A7FFC3 /* posix_posix.m in Sources */,
 				D533F83F18B671FD00A7FFC3 /* logic_l_db.m in Sources */,
 				D533F84818B671FD00A7FFC3 /* pure_parseutils.m in Sources */,
 				D533F81F18B6650200A7FFC3 /* main.m in Sources */,
+				D532974318B68CBE0028F3AA /* ELHASO.m in Sources */,
 				D533F84518B671FD00A7FFC3 /* pure_lexbase.m in Sources */,
 				D533F84218B671FD00A7FFC3 /* logic_l_types.m in Sources */,
+				D532974218B68C2D0028F3AA /* NSString+seohyun.m in Sources */,
 				D533F84D18B671FD00A7FFC3 /* wrappers_sqlite3.m in Sources */,
 				D533F84118B671FD00A7FFC3 /* logic_l_main.m in Sources */,
 				D533F84618B671FD00A7FFC3 /* pure_os.m in Sources */,
@@ -402,6 +447,11 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					NS_BLOCK_ASSERTIONS,
+					RELEASE,
+					NDEBUG,
+				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
