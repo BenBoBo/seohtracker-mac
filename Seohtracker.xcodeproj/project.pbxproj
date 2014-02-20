@@ -17,17 +17,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		D533F7E218B662CB00A7FFC3 /* Seohtracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Seohtracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D533F7E218B662CB00A7FFC3 /* seohtracker-devel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "seohtracker-devel.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D533F7E518B662CB00A7FFC3 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		D533F7E818B662CB00A7FFC3 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
-		D533F7E918B662CB00A7FFC3 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		D533F7EA18B662CB00A7FFC3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D533F7ED18B662CB00A7FFC3 /* Seohtracker-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Seohtracker-Info.plist"; path = "resources/plist/Seohtracker-Info.plist"; sourceTree = "<group>"; };
 		D533F7EF18B662CB00A7FFC3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D533F7F518B662CB00A7FFC3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		D533F7FB18B662CB00A7FFC3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		D533F7FD18B662CB00A7FFC3 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = resources/Images.xcassets; sourceTree = "<group>"; };
-		D533F80418B662CB00A7FFC3 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		D533F81A18B6650200A7FFC3 /* EHAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EHAppDelegate.h; sourceTree = "<group>"; };
 		D533F81B18B6650200A7FFC3 /* EHAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EHAppDelegate.m; sourceTree = "<group>"; };
 		D533F81C18B6650200A7FFC3 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -59,7 +57,7 @@
 		D533F7E318B662CB00A7FFC3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D533F7E218B662CB00A7FFC3 /* Seohtracker.app */,
+				D533F7E218B662CB00A7FFC3 /* seohtracker-devel.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -67,21 +65,11 @@
 		D533F7E418B662CB00A7FFC3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D533F7E818B662CB00A7FFC3 /* AppKit.framework */,
+				D533F7EA18B662CB00A7FFC3 /* Foundation.framework */,
 				D533F7E518B662CB00A7FFC3 /* Cocoa.framework */,
-				D533F80418B662CB00A7FFC3 /* XCTest.framework */,
-				D533F7E718B662CB00A7FFC3 /* Other Frameworks */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		D533F7E718B662CB00A7FFC3 /* Other Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				D533F7E818B662CB00A7FFC3 /* AppKit.framework */,
-				D533F7E918B662CB00A7FFC3 /* CoreData.framework */,
-				D533F7EA18B662CB00A7FFC3 /* Foundation.framework */,
-			);
-			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
 		D533F81918B6650200A7FFC3 /* src */ = {
@@ -134,9 +122,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D533F7E118B662CB00A7FFC3 /* Seohtracker */ = {
+		D533F7E118B662CB00A7FFC3 /* seohtracker-devel */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D533F81318B662CB00A7FFC3 /* Build configuration list for PBXNativeTarget "Seohtracker" */;
+			buildConfigurationList = D533F81318B662CB00A7FFC3 /* Build configuration list for PBXNativeTarget "seohtracker-devel" */;
 			buildPhases = (
 				D533F7DE18B662CB00A7FFC3 /* Sources */,
 				D533F7DF18B662CB00A7FFC3 /* Frameworks */,
@@ -146,9 +134,9 @@
 			);
 			dependencies = (
 			);
-			name = Seohtracker;
+			name = "seohtracker-devel";
 			productName = Seohtracker;
-			productReference = D533F7E218B662CB00A7FFC3 /* Seohtracker.app */;
+			productReference = D533F7E218B662CB00A7FFC3 /* seohtracker-devel.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -174,7 +162,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D533F7E118B662CB00A7FFC3 /* Seohtracker */,
+				D533F7E118B662CB00A7FFC3 /* seohtracker-devel */,
 			);
 		};
 /* End PBXProject section */
@@ -311,7 +299,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "src/Seohtracker-Prefix.pch";
-				INFOPLIST_FILE = "resources/plist/Seohtracker-Info.plist";
+				INFOPLIST_FILE = "resources/plist/devel-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -325,7 +313,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "src/Seohtracker-Prefix.pch";
-				INFOPLIST_FILE = "resources/plist/Seohtracker-Info.plist";
+				INFOPLIST_FILE = "resources/plist/devel-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -344,7 +332,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D533F81318B662CB00A7FFC3 /* Build configuration list for PBXNativeTarget "Seohtracker" */ = {
+		D533F81318B662CB00A7FFC3 /* Build configuration list for PBXNativeTarget "seohtracker-devel" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D533F81418B662CB00A7FFC3 /* Debug */,
