@@ -53,6 +53,7 @@
 		D532973E18B68B1C0028F3AA /* NSArray+ELHASO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+ELHASO.m"; sourceTree = "<group>"; };
 		D532974018B68C2D0028F3AA /* NSString+seohyun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+seohyun.h"; sourceTree = "<group>"; };
 		D532974118B68C2D0028F3AA /* NSString+seohyun.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+seohyun.m"; sourceTree = "<group>"; };
+		D532974518B68E790028F3AA /* seohtracker-devel.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "seohtracker-devel.entitlements"; sourceTree = "<group>"; };
 		D533F7E218B662CB00A7FFC3 /* seohtracker-devel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "seohtracker-devel.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D533F7E518B662CB00A7FFC3 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		D533F7E818B662CB00A7FFC3 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -131,6 +132,7 @@
 		D533F7D918B662CB00A7FFC3 = {
 			isa = PBXGroup;
 			children = (
+				D532974518B68E790028F3AA /* seohtracker-devel.entitlements */,
 				D533F82A18B671FD00A7FFC3 /* build */,
 				D532973818B68B0A0028F3AA /* external */,
 				D533F82018B6653900A7FFC3 /* resources */,
@@ -286,6 +288,15 @@
 				CLASSPREFIX = EH;
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Electric Hands Software";
+				TargetAttributes = {
+					D533F7E118B662CB00A7FFC3 = {
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 1;
+							};
+						};
+					};
+				};
 			};
 			buildConfigurationList = D533F7DD18B662CB00A7FFC3 /* Build configuration list for PBXProject "Seohtracker" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -467,6 +478,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "seohtracker-devel.entitlements";
+				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "src/Seohtracker-Prefix.pch";
@@ -481,6 +494,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "seohtracker-devel.entitlements";
+				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "src/Seohtracker-Prefix.pch";
