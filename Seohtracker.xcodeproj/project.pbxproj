@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D5318A5E18BBB745001FD6C0 /* EHHistory_vc.m in Sources */ = {isa = PBXBuildFile; fileRef = D5318A5D18BBB745001FD6C0 /* EHHistory_vc.m */; };
+		D5318A6118BBBEBE001FD6C0 /* EHHistory_vc.xib in Resources */ = {isa = PBXBuildFile; fileRef = D5318A6018BBBEBE001FD6C0 /* EHHistory_vc.xib */; };
+		D5318A6918BBE2BD001FD6C0 /* user_config.m in Sources */ = {isa = PBXBuildFile; fileRef = D5318A6818BBE2BD001FD6C0 /* user_config.m */; };
 		D532974218B68C2D0028F3AA /* NSString+seohyun.m in Sources */ = {isa = PBXBuildFile; fileRef = D532974118B68C2D0028F3AA /* NSString+seohyun.m */; };
 		D532974318B68CBE0028F3AA /* ELHASO.m in Sources */ = {isa = PBXBuildFile; fileRef = D532973C18B68B1C0028F3AA /* ELHASO.m */; };
 		D532974418B68CBE0028F3AA /* NSArray+ELHASO.m in Sources */ = {isa = PBXBuildFile; fileRef = D532973E18B68B1C0028F3AA /* NSArray+ELHASO.m */; };
@@ -15,7 +18,7 @@
 		D533F7F618B662CB00A7FFC3 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = D533F7F418B662CB00A7FFC3 /* Credits.rtf */; };
 		D533F7FC18B662CB00A7FFC3 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D533F7FA18B662CB00A7FFC3 /* MainMenu.xib */; };
 		D533F7FE18B662CB00A7FFC3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D533F7FD18B662CB00A7FFC3 /* Images.xcassets */; };
-		D533F81E18B6650200A7FFC3 /* EHAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F81B18B6650200A7FFC3 /* EHAppDelegate.m */; };
+		D533F81E18B6650200A7FFC3 /* EHApp_delegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F81B18B6650200A7FFC3 /* EHApp_delegate.m */; };
 		D533F81F18B6650200A7FFC3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F81C18B6650200A7FFC3 /* main.m */; };
 		D533F83E18B671FD00A7FFC3 /* impure_db_sqlite.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F82C18B671FD00A7FFC3 /* impure_db_sqlite.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		D533F83F18B671FD00A7FFC3 /* logic_l_db.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F82D18B671FD00A7FFC3 /* logic_l_db.m */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -46,6 +49,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D5318A5C18BBB745001FD6C0 /* EHHistory_vc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EHHistory_vc.h; path = vcs/EHHistory_vc.h; sourceTree = "<group>"; };
+		D5318A5D18BBB745001FD6C0 /* EHHistory_vc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EHHistory_vc.m; path = vcs/EHHistory_vc.m; sourceTree = "<group>"; };
+		D5318A6018BBBEBE001FD6C0 /* EHHistory_vc.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EHHistory_vc.xib; path = resources/ui/EHHistory_vc.xib; sourceTree = "<group>"; };
+		D5318A6718BBE2BD001FD6C0 /* user_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = user_config.h; sourceTree = "<group>"; };
+		D5318A6818BBE2BD001FD6C0 /* user_config.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = user_config.m; sourceTree = "<group>"; };
 		D532973A18B68B1C0028F3AA /* ELHASO-types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ELHASO-types.h"; sourceTree = "<group>"; };
 		D532973B18B68B1C0028F3AA /* ELHASO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELHASO.h; sourceTree = "<group>"; };
 		D532973C18B68B1C0028F3AA /* ELHASO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELHASO.m; sourceTree = "<group>"; };
@@ -63,8 +71,8 @@
 		D533F7F518B662CB00A7FFC3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		D533F7FB18B662CB00A7FFC3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		D533F7FD18B662CB00A7FFC3 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = resources/Images.xcassets; sourceTree = "<group>"; };
-		D533F81A18B6650200A7FFC3 /* EHAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EHAppDelegate.h; sourceTree = "<group>"; };
-		D533F81B18B6650200A7FFC3 /* EHAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EHAppDelegate.m; sourceTree = "<group>"; };
+		D533F81A18B6650200A7FFC3 /* EHApp_delegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EHApp_delegate.h; sourceTree = "<group>"; };
+		D533F81B18B6650200A7FFC3 /* EHApp_delegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EHApp_delegate.m; sourceTree = "<group>"; };
 		D533F81C18B6650200A7FFC3 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		D533F81D18B6650200A7FFC3 /* Seohtracker-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Seohtracker-Prefix.pch"; sourceTree = "<group>"; };
 		D533F82C18B671FD00A7FFC3 /* impure_db_sqlite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = impure_db_sqlite.m; sourceTree = "<group>"; };
@@ -99,6 +107,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D5318A5F18BBB74A001FD6C0 /* vcs */ = {
+			isa = PBXGroup;
+			children = (
+				D5318A5C18BBB745001FD6C0 /* EHHistory_vc.h */,
+				D5318A5D18BBB745001FD6C0 /* EHHistory_vc.m */,
+			);
+			name = vcs;
+			sourceTree = "<group>";
+		};
 		D532973818B68B0A0028F3AA /* external */ = {
 			isa = PBXGroup;
 			children = (
@@ -163,10 +180,13 @@
 			isa = PBXGroup;
 			children = (
 				D532973F18B68C2D0028F3AA /* categories */,
-				D533F81A18B6650200A7FFC3 /* EHAppDelegate.h */,
-				D533F81B18B6650200A7FFC3 /* EHAppDelegate.m */,
+				D5318A5F18BBB74A001FD6C0 /* vcs */,
+				D533F81A18B6650200A7FFC3 /* EHApp_delegate.h */,
+				D533F81B18B6650200A7FFC3 /* EHApp_delegate.m */,
 				D533F81C18B6650200A7FFC3 /* main.m */,
 				D533F81D18B6650200A7FFC3 /* Seohtracker-Prefix.pch */,
+				D5318A6718BBE2BD001FD6C0 /* user_config.h */,
+				D5318A6818BBE2BD001FD6C0 /* user_config.m */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -185,6 +205,7 @@
 		D533F82118B6653E00A7FFC3 /* ui */ = {
 			isa = PBXGroup;
 			children = (
+				D5318A6018BBBEBE001FD6C0 /* EHHistory_vc.xib */,
 				D533F7FA18B662CB00A7FFC3 /* MainMenu.xib */,
 			);
 			name = ui;
@@ -323,6 +344,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D533F7F018B662CB00A7FFC3 /* InfoPlist.strings in Resources */,
+				D5318A6118BBBEBE001FD6C0 /* EHHistory_vc.xib in Resources */,
 				D533F7FE18B662CB00A7FFC3 /* Images.xcassets in Resources */,
 				D533F7F618B662CB00A7FFC3 /* Credits.rtf in Resources */,
 				D533F7FC18B662CB00A7FFC3 /* MainMenu.xib in Resources */,
@@ -337,7 +359,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D533F84718B671FD00A7FFC3 /* pure_parsecsv.m in Sources */,
-				D533F81E18B6650200A7FFC3 /* EHAppDelegate.m in Sources */,
+				D533F81E18B6650200A7FFC3 /* EHApp_delegate.m in Sources */,
 				D533F84018B671FD00A7FFC3 /* logic_l_log.m in Sources */,
 				D533F84918B671FD00A7FFC3 /* pure_streams.m in Sources */,
 				D533F84B18B671FD00A7FFC3 /* pure_times.m in Sources */,
@@ -346,8 +368,10 @@
 				D532974418B68CBE0028F3AA /* NSArray+ELHASO.m in Sources */,
 				D533F84418B671FD00A7FFC3 /* posix_posix.m in Sources */,
 				D533F83F18B671FD00A7FFC3 /* logic_l_db.m in Sources */,
+				D5318A5E18BBB745001FD6C0 /* EHHistory_vc.m in Sources */,
 				D533F84818B671FD00A7FFC3 /* pure_parseutils.m in Sources */,
 				D533F81F18B6650200A7FFC3 /* main.m in Sources */,
+				D5318A6918BBE2BD001FD6C0 /* user_config.m in Sources */,
 				D532974318B68CBE0028F3AA /* ELHASO.m in Sources */,
 				D533F84518B671FD00A7FFC3 /* pure_lexbase.m in Sources */,
 				D533F84218B671FD00A7FFC3 /* logic_l_types.m in Sources */,
@@ -478,7 +502,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "resources/plist/devel.entitlements";
+				CODE_SIGN_ENTITLEMENTS = resources/plist/devel.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -494,7 +518,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "resources/plist/devel.entitlements";
+				CODE_SIGN_ENTITLEMENTS = resources/plist/devel.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
