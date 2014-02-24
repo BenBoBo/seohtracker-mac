@@ -11,3 +11,5 @@ v1, ????-??-??
 
 * `Started the project
   <https://github.com/gradha/seohtracker-mac/issues/1>`_.
+* `Implemented basic UI to list entries
+  <https://github.com/gradha/seohtracker-mac/issues/2>`_.
