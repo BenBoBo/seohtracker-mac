@@ -659,7 +659,7 @@
                 <autoresizingMask key="autoresizingMask"/>
             </view>
         </window>
-        <customObject id="494" customClass="EHAppDelegate">
+        <customObject id="494" customClass="EHApp_delegate">
             <connections>
                 <outlet property="window" destination="371" id="532"/>
             </connections>

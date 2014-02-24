@@ -1,4 +1,4 @@
-#import "EHAppDelegate.h"
+#import "EHApp_delegate.h"
 
 #import "EHHistory_vc.h"
 #import "categories/NSString+seohyun.h"
@@ -20,14 +20,14 @@ NSString *did_update_last_row = @"NSNotificationDidUpdateLastRow";
 NSString *user_metric_prefereces_changed = @"user_metric_preferences_changed";
 
 
-@interface EHAppDelegate ()
+@interface EHApp_delegate ()
 
 /// Keeps a strong reference to the history vc.
 @property (nonatomic, strong) EHHistory_vc *history_vc;
 
 @end
 
-@implementation EHAppDelegate
+@implementation EHApp_delegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {

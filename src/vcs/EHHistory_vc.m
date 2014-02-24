@@ -1,6 +1,6 @@
 #import "EHHistory_vc.h"
 
-#import "EHAppDelegate.h"
+#import "EHApp_delegate.h"
 
 #import "ELHASO.h"
 

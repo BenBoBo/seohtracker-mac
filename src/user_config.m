@@ -1,6 +1,6 @@
 #import "user_config.h"
 
-#import "EHAppdelegate.h"
+#import "EHApp_delegate.h"
 
 
 #import "ELHASO.h"

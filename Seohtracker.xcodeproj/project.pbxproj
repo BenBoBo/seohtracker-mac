@@ -18,7 +18,7 @@
 		D533F7F618B662CB00A7FFC3 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = D533F7F418B662CB00A7FFC3 /* Credits.rtf */; };
 		D533F7FC18B662CB00A7FFC3 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D533F7FA18B662CB00A7FFC3 /* MainMenu.xib */; };
 		D533F7FE18B662CB00A7FFC3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D533F7FD18B662CB00A7FFC3 /* Images.xcassets */; };
-		D533F81E18B6650200A7FFC3 /* EHAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F81B18B6650200A7FFC3 /* EHAppDelegate.m */; };
+		D533F81E18B6650200A7FFC3 /* EHApp_delegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F81B18B6650200A7FFC3 /* EHApp_delegate.m */; };
 		D533F81F18B6650200A7FFC3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F81C18B6650200A7FFC3 /* main.m */; };
 		D533F83E18B671FD00A7FFC3 /* impure_db_sqlite.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F82C18B671FD00A7FFC3 /* impure_db_sqlite.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		D533F83F18B671FD00A7FFC3 /* logic_l_db.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F82D18B671FD00A7FFC3 /* logic_l_db.m */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -71,8 +71,8 @@
 		D533F7F518B662CB00A7FFC3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		D533F7FB18B662CB00A7FFC3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		D533F7FD18B662CB00A7FFC3 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = resources/Images.xcassets; sourceTree = "<group>"; };
-		D533F81A18B6650200A7FFC3 /* EHAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EHAppDelegate.h; sourceTree = "<group>"; };
-		D533F81B18B6650200A7FFC3 /* EHAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EHAppDelegate.m; sourceTree = "<group>"; };
+		D533F81A18B6650200A7FFC3 /* EHApp_delegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EHApp_delegate.h; sourceTree = "<group>"; };
+		D533F81B18B6650200A7FFC3 /* EHApp_delegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EHApp_delegate.m; sourceTree = "<group>"; };
 		D533F81C18B6650200A7FFC3 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		D533F81D18B6650200A7FFC3 /* Seohtracker-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Seohtracker-Prefix.pch"; sourceTree = "<group>"; };
 		D533F82C18B671FD00A7FFC3 /* impure_db_sqlite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = impure_db_sqlite.m; sourceTree = "<group>"; };
@@ -181,8 +181,8 @@
 			children = (
 				D532973F18B68C2D0028F3AA /* categories */,
 				D5318A5F18BBB74A001FD6C0 /* vcs */,
-				D533F81A18B6650200A7FFC3 /* EHAppDelegate.h */,
-				D533F81B18B6650200A7FFC3 /* EHAppDelegate.m */,
+				D533F81A18B6650200A7FFC3 /* EHApp_delegate.h */,
+				D533F81B18B6650200A7FFC3 /* EHApp_delegate.m */,
 				D533F81C18B6650200A7FFC3 /* main.m */,
 				D533F81D18B6650200A7FFC3 /* Seohtracker-Prefix.pch */,
 				D5318A6718BBE2BD001FD6C0 /* user_config.h */,
@@ -359,7 +359,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D533F84718B671FD00A7FFC3 /* pure_parsecsv.m in Sources */,
-				D533F81E18B6650200A7FFC3 /* EHAppDelegate.m in Sources */,
+				D533F81E18B6650200A7FFC3 /* EHApp_delegate.m in Sources */,
 				D533F84018B671FD00A7FFC3 /* logic_l_log.m in Sources */,
 				D533F84918B671FD00A7FFC3 /* pure_streams.m in Sources */,
 				D533F84B18B671FD00A7FFC3 /* pure_times.m in Sources */,
