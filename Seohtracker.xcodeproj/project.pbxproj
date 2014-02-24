@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		D5318A5E18BBB745001FD6C0 /* EHHistory_vc.m in Sources */ = {isa = PBXBuildFile; fileRef = D5318A5D18BBB745001FD6C0 /* EHHistory_vc.m */; };
 		D5318A6118BBBEBE001FD6C0 /* EHHistory_vc.xib in Resources */ = {isa = PBXBuildFile; fileRef = D5318A6018BBBEBE001FD6C0 /* EHHistory_vc.xib */; };
+		D5318A6918BBE2BD001FD6C0 /* user_config.m in Sources */ = {isa = PBXBuildFile; fileRef = D5318A6818BBE2BD001FD6C0 /* user_config.m */; };
 		D532974218B68C2D0028F3AA /* NSString+seohyun.m in Sources */ = {isa = PBXBuildFile; fileRef = D532974118B68C2D0028F3AA /* NSString+seohyun.m */; };
 		D532974318B68CBE0028F3AA /* ELHASO.m in Sources */ = {isa = PBXBuildFile; fileRef = D532973C18B68B1C0028F3AA /* ELHASO.m */; };
 		D532974418B68CBE0028F3AA /* NSArray+ELHASO.m in Sources */ = {isa = PBXBuildFile; fileRef = D532973E18B68B1C0028F3AA /* NSArray+ELHASO.m */; };
@@ -51,6 +52,8 @@
 		D5318A5C18BBB745001FD6C0 /* EHHistory_vc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EHHistory_vc.h; path = vcs/EHHistory_vc.h; sourceTree = "<group>"; };
 		D5318A5D18BBB745001FD6C0 /* EHHistory_vc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EHHistory_vc.m; path = vcs/EHHistory_vc.m; sourceTree = "<group>"; };
 		D5318A6018BBBEBE001FD6C0 /* EHHistory_vc.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EHHistory_vc.xib; path = resources/ui/EHHistory_vc.xib; sourceTree = "<group>"; };
+		D5318A6718BBE2BD001FD6C0 /* user_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = user_config.h; sourceTree = "<group>"; };
+		D5318A6818BBE2BD001FD6C0 /* user_config.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = user_config.m; sourceTree = "<group>"; };
 		D532973A18B68B1C0028F3AA /* ELHASO-types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ELHASO-types.h"; sourceTree = "<group>"; };
 		D532973B18B68B1C0028F3AA /* ELHASO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELHASO.h; sourceTree = "<group>"; };
 		D532973C18B68B1C0028F3AA /* ELHASO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELHASO.m; sourceTree = "<group>"; };
@@ -182,6 +185,8 @@
 				D533F81B18B6650200A7FFC3 /* EHAppDelegate.m */,
 				D533F81C18B6650200A7FFC3 /* main.m */,
 				D533F81D18B6650200A7FFC3 /* Seohtracker-Prefix.pch */,
+				D5318A6718BBE2BD001FD6C0 /* user_config.h */,
+				D5318A6818BBE2BD001FD6C0 /* user_config.m */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -366,6 +371,7 @@
 				D5318A5E18BBB745001FD6C0 /* EHHistory_vc.m in Sources */,
 				D533F84818B671FD00A7FFC3 /* pure_parseutils.m in Sources */,
 				D533F81F18B6650200A7FFC3 /* main.m in Sources */,
+				D5318A6918BBE2BD001FD6C0 /* user_config.m in Sources */,
 				D532974318B68CBE0028F3AA /* ELHASO.m in Sources */,
 				D533F84518B671FD00A7FFC3 /* pure_lexbase.m in Sources */,
 				D533F84218B671FD00A7FFC3 /* logic_l_types.m in Sources */,
