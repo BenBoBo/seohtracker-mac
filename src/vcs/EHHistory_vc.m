@@ -7,10 +7,17 @@
 @interface EHHistory_vc ()
 
 @property (weak) IBOutlet NSTableView *table_view;
+/// Holds a read only text for the selected date.
+@property (weak) IBOutlet NSTextField *read_date_textfield;
+/// Holds a read only text for the selected weight.
+@property (weak) IBOutlet NSTextField *read_weight_textfield;
 
 @end
 
 @implementation EHHistory_vc
+
+#pragma mark -
+#pragma mark Life
 
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil
 {
@@ -20,6 +27,54 @@
     }
     return self;
 }
+
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+    DLOG(@"Awakening!");
+    [self refresh_ui];
+}
+
+#pragma mark -
+#pragma mark Methods
+
+/// Returns the currently selected weight or nil.
+- (TWeight*)selected_weight;
+{
+    const NSInteger pos = [self.table_view selectedRow];
+    if (pos >= 0)
+        return get_weight(pos);
+    else
+        return nil;
+}
+
+/// Refreshes the labels using the current state.
+- (void)refresh_ui
+{
+    TWeight *w = [self selected_weight];
+    if (w) {
+        self.read_date_textfield.stringValue = [NSString
+            stringWithFormat:@"Date: %@", format_date(w)];
+        self.read_weight_textfield.stringValue = [NSString
+            stringWithFormat:@"Weight: %s %s",
+            format_weight_with_current_unit(w), get_weight_string()];
+    } else {
+        self.read_date_textfield.stringValue = @"";
+        self.read_weight_textfield.stringValue = @"";
+    }
+}
+
+#pragma mark -
+#pragma mark NSTableViewDataSource protocol
+
+- (NSInteger)numberOfRowsInTableView:(NSTableView*)tableView
+{
+    DLOG(@"Got %lld weights in table", get_num_weights());
+    return get_num_weights();
+}
+
+#pragma mark -
+#pragma mark NSTableViewDelegate protocol
 
 - (NSView*)tableView:(NSTableView*)tableView
     viewForTableColumn:(NSTableColumn*)tableColumn row:(NSInteger)row
@@ -42,10 +97,10 @@
     return cellView;
 }
 
-- (NSInteger)numberOfRowsInTableView:(NSTableView*)tableView
+/// User clicked or moved the cursor, update the UI.
+- (void)tableViewSelectionDidChange:(NSNotification *)aNotification
 {
-    DLOG(@"Got %lld weights in table", get_num_weights());
-    return get_num_weights();
+    [self refresh_ui];
 }
 
 @end

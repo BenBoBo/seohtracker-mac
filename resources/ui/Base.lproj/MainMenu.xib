@@ -650,12 +650,12 @@
         <window title="Seohtracker" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="371">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="557" y="299" width="320" height="480"/>
+            <rect key="contentRect" x="557" y="278" width="628" height="480"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
-            <value key="minSize" type="size" width="320" height="480"/>
-            <value key="maxSize" type="size" width="320" height="9999"/>
+            <value key="minSize" type="size" width="628" height="480"/>
+            <value key="maxSize" type="size" width="628" height="9999"/>
             <view key="contentView" id="372">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                <rect key="frame" x="0.0" y="0.0" width="628" height="480"/>
                 <autoresizingMask key="autoresizingMask"/>
             </view>
         </window>
