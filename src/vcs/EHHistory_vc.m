@@ -6,11 +6,17 @@
 
 @interface EHHistory_vc ()
 
-@property (weak) IBOutlet NSTableView *table_view;
+@property (nonatomic, weak) IBOutlet NSTableView *table_view;
 /// Holds a read only text for the selected date.
-@property (weak) IBOutlet NSTextField *read_date_textfield;
+@property (nonatomic, weak) IBOutlet NSTextField *read_date_textfield;
 /// Holds a read only text for the selected weight.
-@property (weak) IBOutlet NSTextField *read_weight_textfield;
+@property (nonatomic, weak) IBOutlet NSTextField *read_weight_textfield;
+/// Needed to hide the button when nothing is selected.
+@property (nonatomic, weak) IBOutlet NSButton *modify_button;
+/// Avoids refreshing the UI during multiple awakeFromNib calls.
+@property (nonatomic, assign) BOOL did_awake;
+
+- (IBAction)did_touch_modify_button:(id)sender;
 
 @end
 
@@ -31,8 +37,11 @@
 - (void)awakeFromNib
 {
     [super awakeFromNib];
-    DLOG(@"Awakening!");
-    [self refresh_ui];
+    if (!self.did_awake) {
+        DLOG(@"Awakening!");
+        self.did_awake = YES;
+        [self refresh_ui];
+    }
 }
 
 #pragma mark -
@@ -58,10 +67,18 @@
         self.read_weight_textfield.stringValue = [NSString
             stringWithFormat:@"Weight: %s %s",
             format_weight_with_current_unit(w), get_weight_string()];
+        self.modify_button.enabled = YES;
     } else {
         self.read_date_textfield.stringValue = @"";
         self.read_weight_textfield.stringValue = @"";
+        self.modify_button.enabled = NO;
     }
+}
+
+/// Called when the user wants to modify an existing value.
+- (IBAction)did_touch_modify_button:(id)sender
+{
+    DLOG(@"Going to modify %p", [self selected_weight]);
 }
 
 #pragma mark -

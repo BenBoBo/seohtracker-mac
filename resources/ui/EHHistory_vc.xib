@@ -7,6 +7,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="EHHistory_vc">
             <connections>
+                <outlet property="modify_button" destination="ifr-Hg-q6z" id="cFP-iy-1jv"/>
                 <outlet property="read_date_textfield" destination="VLA-fc-52m" id="8th-cl-6Mw"/>
                 <outlet property="read_weight_textfield" destination="jer-W6-c7X" id="r0a-EL-c7i"/>
                 <outlet property="table_view" destination="o9K-og-2FI" id="0gL-dD-d6O"/>
@@ -155,6 +156,17 @@
                     <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <font key="titleFont" metaFont="system"/>
                 </box>
+                <button verticalHuggingPriority="750" id="ifr-Hg-q6z">
+                    <rect key="frame" x="358" y="357" width="256" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="push" title="Modify" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="erK-T1-NOs">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="did_touch_modify_button:" target="-2" id="zrk-q0-Z4r"/>
+                    </connections>
+                </button>
             </subviews>
         </customView>
     </objects>
