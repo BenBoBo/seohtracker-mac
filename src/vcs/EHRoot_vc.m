@@ -1,11 +1,11 @@
-#import "EHHistory_vc.h"
+#import "EHRoot_vc.h"
 
 #import "EHApp_delegate.h"
 #import "EHModify_vc.h"
 
 #import "ELHASO.h"
 
-@interface EHHistory_vc ()
+@interface EHRoot_vc ()
 
 @property (nonatomic, weak) IBOutlet NSTableView *table_view;
 /// Holds a read only text for the selected date.
@@ -21,7 +21,7 @@
 
 @end
 
-@implementation EHHistory_vc
+@implementation EHRoot_vc
 
 #pragma mark -
 #pragma mark Life
