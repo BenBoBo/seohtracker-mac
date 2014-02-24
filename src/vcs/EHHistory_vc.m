@@ -21,11 +21,6 @@
     return self;
 }
 
-- (void)awakeFromNib
-{
-    DLOG(@"Awakening…");
-}
-
 - (NSView*)tableView:(NSTableView*)tableView
     viewForTableColumn:(NSTableColumn*)tableColumn row:(NSInteger)row
 {
