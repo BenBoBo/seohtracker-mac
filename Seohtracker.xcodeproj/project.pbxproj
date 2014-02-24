@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D5318A5E18BBB745001FD6C0 /* EHHistory_vc.m in Sources */ = {isa = PBXBuildFile; fileRef = D5318A5D18BBB745001FD6C0 /* EHHistory_vc.m */; };
+		D5318A6118BBBEBE001FD6C0 /* EHHistory_vc.xib in Resources */ = {isa = PBXBuildFile; fileRef = D5318A6018BBBEBE001FD6C0 /* EHHistory_vc.xib */; };
 		D532974218B68C2D0028F3AA /* NSString+seohyun.m in Sources */ = {isa = PBXBuildFile; fileRef = D532974118B68C2D0028F3AA /* NSString+seohyun.m */; };
 		D532974318B68CBE0028F3AA /* ELHASO.m in Sources */ = {isa = PBXBuildFile; fileRef = D532973C18B68B1C0028F3AA /* ELHASO.m */; };
 		D532974418B68CBE0028F3AA /* NSArray+ELHASO.m in Sources */ = {isa = PBXBuildFile; fileRef = D532973E18B68B1C0028F3AA /* NSArray+ELHASO.m */; };
@@ -49,6 +50,7 @@
 /* Begin PBXFileReference section */
 		D5318A5C18BBB745001FD6C0 /* EHHistory_vc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EHHistory_vc.h; path = vcs/EHHistory_vc.h; sourceTree = "<group>"; };
 		D5318A5D18BBB745001FD6C0 /* EHHistory_vc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EHHistory_vc.m; path = vcs/EHHistory_vc.m; sourceTree = "<group>"; };
+		D5318A6018BBBEBE001FD6C0 /* EHHistory_vc.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EHHistory_vc.xib; path = resources/ui/EHHistory_vc.xib; sourceTree = "<group>"; };
 		D532973A18B68B1C0028F3AA /* ELHASO-types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ELHASO-types.h"; sourceTree = "<group>"; };
 		D532973B18B68B1C0028F3AA /* ELHASO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELHASO.h; sourceTree = "<group>"; };
 		D532973C18B68B1C0028F3AA /* ELHASO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELHASO.m; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 		D533F82118B6653E00A7FFC3 /* ui */ = {
 			isa = PBXGroup;
 			children = (
+				D5318A6018BBBEBE001FD6C0 /* EHHistory_vc.xib */,
 				D533F7FA18B662CB00A7FFC3 /* MainMenu.xib */,
 			);
 			name = ui;
@@ -336,6 +339,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D533F7F018B662CB00A7FFC3 /* InfoPlist.strings in Resources */,
+				D5318A6118BBBEBE001FD6C0 /* EHHistory_vc.xib in Resources */,
 				D533F7FE18B662CB00A7FFC3 /* Images.xcassets in Resources */,
 				D533F7F618B662CB00A7FFC3 /* Credits.rtf in Resources */,
 				D533F7FC18B662CB00A7FFC3 /* MainMenu.xib in Resources */,
