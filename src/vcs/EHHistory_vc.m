@@ -1,6 +1,6 @@
 #import "EHHistory_vc.h"
 
-#import "n_global.h"
+#import "EHAppDelegate.h"
 
 #import "ELHASO.h"
 
@@ -27,9 +27,15 @@
     // Get a new ViewCell
     NSTableCellView *cellView = [tableView
         makeViewWithIdentifier:tableColumn.identifier owner:self];
+    TWeight *w = get_weight(row);
+    RASSERT(w, @"No weight for position?", return cellView);
 
     if ([tableColumn.identifier isEqualToString:@"EHHistory_date"]) {
+        cellView.textField.stringValue = format_date(w);
     } else if ([tableColumn.identifier isEqualToString:@"EHHistory_weight"]) {
+        cellView.textField.stringValue = [NSString
+            stringWithFormat:@"%s %s", format_weight_with_current_unit(w),
+            get_weight_string()];
     } else {
         LASSERT(0, @"Bad column");
     }
