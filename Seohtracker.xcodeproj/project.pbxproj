@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D5318A5E18BBB745001FD6C0 /* EHHistory_vc.m in Sources */ = {isa = PBXBuildFile; fileRef = D5318A5D18BBB745001FD6C0 /* EHHistory_vc.m */; };
 		D532974218B68C2D0028F3AA /* NSString+seohyun.m in Sources */ = {isa = PBXBuildFile; fileRef = D532974118B68C2D0028F3AA /* NSString+seohyun.m */; };
 		D532974318B68CBE0028F3AA /* ELHASO.m in Sources */ = {isa = PBXBuildFile; fileRef = D532973C18B68B1C0028F3AA /* ELHASO.m */; };
 		D532974418B68CBE0028F3AA /* NSArray+ELHASO.m in Sources */ = {isa = PBXBuildFile; fileRef = D532973E18B68B1C0028F3AA /* NSArray+ELHASO.m */; };
@@ -46,6 +47,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D5318A5C18BBB745001FD6C0 /* EHHistory_vc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EHHistory_vc.h; path = vcs/EHHistory_vc.h; sourceTree = "<group>"; };
+		D5318A5D18BBB745001FD6C0 /* EHHistory_vc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EHHistory_vc.m; path = vcs/EHHistory_vc.m; sourceTree = "<group>"; };
 		D532973A18B68B1C0028F3AA /* ELHASO-types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ELHASO-types.h"; sourceTree = "<group>"; };
 		D532973B18B68B1C0028F3AA /* ELHASO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ELHASO.h; sourceTree = "<group>"; };
 		D532973C18B68B1C0028F3AA /* ELHASO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ELHASO.m; sourceTree = "<group>"; };
@@ -99,6 +102,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D5318A5F18BBB74A001FD6C0 /* vcs */ = {
+			isa = PBXGroup;
+			children = (
+				D5318A5C18BBB745001FD6C0 /* EHHistory_vc.h */,
+				D5318A5D18BBB745001FD6C0 /* EHHistory_vc.m */,
+			);
+			name = vcs;
+			sourceTree = "<group>";
+		};
 		D532973818B68B0A0028F3AA /* external */ = {
 			isa = PBXGroup;
 			children = (
@@ -163,6 +175,7 @@
 			isa = PBXGroup;
 			children = (
 				D532973F18B68C2D0028F3AA /* categories */,
+				D5318A5F18BBB74A001FD6C0 /* vcs */,
 				D533F81A18B6650200A7FFC3 /* EHAppDelegate.h */,
 				D533F81B18B6650200A7FFC3 /* EHAppDelegate.m */,
 				D533F81C18B6650200A7FFC3 /* main.m */,
@@ -346,6 +359,7 @@
 				D532974418B68CBE0028F3AA /* NSArray+ELHASO.m in Sources */,
 				D533F84418B671FD00A7FFC3 /* posix_posix.m in Sources */,
 				D533F83F18B671FD00A7FFC3 /* logic_l_db.m in Sources */,
+				D5318A5E18BBB745001FD6C0 /* EHHistory_vc.m in Sources */,
 				D533F84818B671FD00A7FFC3 /* pure_parseutils.m in Sources */,
 				D533F81F18B6650200A7FFC3 /* main.m in Sources */,
 				D532974318B68CBE0028F3AA /* ELHASO.m in Sources */,
@@ -478,7 +492,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "resources/plist/devel.entitlements";
+				CODE_SIGN_ENTITLEMENTS = resources/plist/devel.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -494,7 +508,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "resources/plist/devel.entitlements";
+				CODE_SIGN_ENTITLEMENTS = resources/plist/devel.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
