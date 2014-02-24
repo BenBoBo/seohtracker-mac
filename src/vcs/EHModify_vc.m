@@ -6,6 +6,7 @@
 @interface EHModify_vc ()
 
 - (IBAction)did_touch_cancel_button:(id)sender;
+- (IBAction)did_touch_accept_button:(id)sender;
 
 @end
 

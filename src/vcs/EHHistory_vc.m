@@ -82,8 +82,13 @@
     DLOG(@"Going to modify %p", [self selected_weight]);
     EHModify_vc *vc = [[EHModify_vc alloc]
         initWithWindowNibName:NSStringFromClass([EHModify_vc class])];
-    const NSInteger ret = [[NSApplication sharedApplication]
-        runModalForWindow:vc.window];
+
+    // Display modal sheet.
+    [NSApp beginSheet:vc.window modalForWindow:[self.view window]
+        modalDelegate:self didEndSelector:nil contextInfo:nil];
+    const NSInteger ret = [NSApp runModalForWindow: vc.window];
+    [NSApp endSheet:vc.window];
+    [vc.window orderOut:self];
 
     if (NSModalResponseAbort == ret) {
         DLOG(@"User aborted modification");
