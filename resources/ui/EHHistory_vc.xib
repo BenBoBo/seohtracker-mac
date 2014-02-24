@@ -31,7 +31,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                 <tableColumns>
-                                    <tableColumn identifier="EHHistory_date" width="200" minWidth="40" maxWidth="2000" id="vrb-Ug-yBI">
+                                    <tableColumn identifier="EHHistory_date" editable="NO" width="200" minWidth="40" maxWidth="2000" id="vrb-Ug-yBI">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Date">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -64,8 +64,8 @@
                                             </tableCellView>
                                         </prototypeCellViews>
                                     </tableColumn>
-                                    <tableColumn identifier="EHHistory_weight" width="100" minWidth="40" maxWidth="2000" id="4Di-EO-ceu">
-                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Weight">
+                                    <tableColumn identifier="EHHistory_weight" editable="NO" width="100" minWidth="100" maxWidth="100" id="4Di-EO-ceu">
+                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="right" title="Weight">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
@@ -84,7 +84,7 @@
                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="knO-ki-gbN">
                                                         <rect key="frame" x="0.0" y="0.0" width="100" height="17"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                        <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="5DG-n5-IlC">
+                                                        <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="right" title="100kg" id="5DG-n5-IlC">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
