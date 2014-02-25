@@ -1,5 +1,7 @@
 #import "EHModify_vc.h"
 
+#import "NSString+seohyun.h"
+
 #import "ELHASO.h"
 
 
@@ -12,6 +14,8 @@
 /// Remembers if the caller is modifying an existing weight.
 @property (nonatomic, assign) BOOL modification;
 
+/// Used to notify the user that something is wrong.
+@property (weak) IBOutlet NSTextField *warning_textfield;
 /// Can display modification or creation
 @property (weak) IBOutlet NSTextField *title_textfield;
 /// Selects the day date graphically.
@@ -54,6 +58,7 @@
         self.weight];
     self.date_picker.dateValue = self.date;
     self.hour_picker.dateValue = self.date;
+    [self.warning_textfield setHidden:YES];
 
     self.title_textfield.stringValue = (self.modification ?
         @"Modifying previous value" : @"Enter values for new measurement");
@@ -127,6 +132,38 @@
     DLOG(@"Setting logical date to %@", self.date);
 
     [[NSApplication sharedApplication] stopModal];
+}
+
+#pragma mark -
+#pragma mark NSControlTextEditingDelegate protocol
+
+/** Validates the text field.
+ *
+ * The false returned here is respected for keyboard users, they can't tab away
+ * from the field until it is correct. But they could still press the accept
+ * button…
+ */
+- (BOOL)control:(NSControl *)control isValidObject:(id)object
+{
+    const BOOL ret = is_weight_input_valid([object cstring]);
+    DLOG(@"Is valid? %d", ret);
+    return ret;
+}
+
+/** Called after changes to float weight, validates it and changes the UI.
+ *
+ * If the text is invalid, a bad label will be displayed below the text field
+ * and the accept button disabled. Otherwise everything is fine.
+ */
+- (void)controlTextDidChange:(NSNotification *)aNotification
+{
+    NSTextView *fieldEditor = [[aNotification userInfo]
+        objectForKey:@"NSFieldEditor"];
+    NSString *theString = [[fieldEditor textStorage] string];
+    const BOOL valid = theString.length &&
+        is_weight_input_valid([theString cstring]);
+    self.accept_button.enabled = valid;
+    [self.warning_textfield setHidden:valid];
 }
 
 @end
