@@ -28,6 +28,8 @@
 @property (weak) IBOutlet NSTextField *weight_textfield;
 /// Used to display the mass unit currently in use.
 @property (weak) IBOutlet NSTextField *unit_textfield;
+/// Keeps the number formatter for the input weight.
+@property (nonatomic, strong) NSNumberFormatter *formatter;
 
 - (IBAction)did_touch_cancel_button:(id)sender;
 - (IBAction)did_touch_accept_button:(id)sender;
@@ -46,6 +48,13 @@
 
     self.date = [NSDate date];
     self.weight = get_localized_weight(0);
+
+    self.formatter = [[NSNumberFormatter alloc] init];
+    self.formatter.locale = [NSLocale currentLocale];
+    self.formatter.numberStyle = NSNumberFormatterDecimalStyle;
+    self.formatter.usesGroupingSeparator = NO;
+    [self.formatter setMinimumSignificantDigits:1];
+    [self.formatter setMaximumSignificantDigits:1];
     return self;
 }
 
@@ -54,8 +63,7 @@
     [super windowDidLoad];
 
     // TODO: Use NSNumberFormatter
-    self.weight_textfield.stringValue = [NSString stringWithFormat:@"%0.1f",
-        self.weight];
+    [self format_weight];
     self.date_picker.dateValue = self.date;
     self.hour_picker.dateValue = self.date;
     [self.warning_textfield setHidden:YES];
@@ -67,6 +75,13 @@
 
 #pragma mark -
 #pragma mark Methods
+
+/// Resets the input text field with the logical weight value.
+- (void)format_weight
+{
+    self.weight_textfield.stringValue = [self.formatter
+        stringFromNumber:@(self.weight)];
+}
 
 /** Sets the values for weight modification.
  *
@@ -164,6 +179,11 @@
         is_weight_input_valid([theString cstring]);
     self.accept_button.enabled = valid;
     [self.warning_textfield setHidden:valid];
+
+    if (valid) {
+        self.weight = [[self.formatter numberFromString:theString] floatValue];
+        DLOG(@"Logic weight set to %0.1f", self.weight);
+    }
 }
 
 @end
