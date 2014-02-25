@@ -16,8 +16,12 @@
 @property (nonatomic, weak) IBOutlet NSButton *modify_button;
 /// Avoids refreshing the UI during multiple awakeFromNib calls.
 @property (nonatomic, assign) BOOL did_awake;
+/// Needs to be disabled if nothing is selected.
+@property (weak) IBOutlet NSButton *minus_button;
 
 - (IBAction)did_touch_modify_button:(id)sender;
+- (IBAction)did_touch_minus_button:(id)sender;
+- (IBAction)did_touch_plus_button:(id)sender;
 
 @end
 
@@ -71,10 +75,12 @@
             stringWithFormat:@"Weight: %s %s",
             format_weight_with_current_unit(w), get_weight_string()];
         self.modify_button.enabled = YES;
+        self.minus_button.enabled = YES;
     } else {
         self.read_date_textfield.stringValue = @"";
         self.read_weight_textfield.stringValue = @"";
         self.modify_button.enabled = NO;
+        self.minus_button.enabled = NO;
     }
 }
 
@@ -84,7 +90,7 @@
     TWeight *weight = [self selected_weight];
     EHModify_vc *vc = [[EHModify_vc alloc]
         initWithWindowNibName:NSStringFromClass([EHModify_vc class])];
-    [vc set_values_from:weight];
+    [vc set_values_from:weight for_new_value:NO];
 
     // Display modal sheet, disable our table view.
     self.table_view.enabled = NO;
@@ -128,6 +134,104 @@
     [rows addIndex:new_pos];
     [self.table_view deselectAll:self];
     [self.table_view selectRowIndexes:rows byExtendingSelection:NO];
+}
+
+/// Removes the selected weight, but first asks if really should be done.
+- (IBAction)did_touch_minus_button:(id)sender
+{
+    TWeight *weight = [self selected_weight];
+    RASSERT(weight, @"No weight selected? What should I remove?", return);
+
+    NSAlert *alert = [NSAlert new];
+    alert.alertStyle = NSWarningAlertStyle;
+    alert.showsHelp = NO;
+    alert.messageText = @"Are you sure you want to remove the entry?";
+    alert.informativeText = [NSString stringWithFormat:@"%s %s - %@",
+        format_weight_with_current_unit(weight), get_weight_string(),
+        format_date(weight)];
+    [alert addButtonWithTitle:@"Cancel"];
+    [alert addButtonWithTitle:@"Accept"];
+    const BOOL accept = (NSAlertSecondButtonReturn == [alert runModal]);
+    if (!accept)
+        return;
+
+    const long long pos = remove_weight(weight);
+    if (pos < 0) {
+        LOG(@"Error deleting selected weight");
+        [self.table_view reloadData];
+    } else {
+        [self.table_view deselectAll:self];
+        [self.table_view removeRowsAtIndexes:[NSIndexSet indexSetWithIndex:pos]
+            withAnimation:NSTableViewAnimationSlideLeft];
+    }
+}
+
+/// Adds a new entry, displaying the modification sheet.
+- (IBAction)did_touch_plus_button:(id)sender
+{
+    EHModify_vc *vc = [[EHModify_vc alloc]
+        initWithWindowNibName:NSStringFromClass([EHModify_vc class])];
+    [vc set_values_from:get_last_weight() for_new_value:YES];
+
+    // Display modal sheet, disable our table view.
+    self.table_view.enabled = NO;
+    [NSApp beginSheet:vc.window modalForWindow:[self.view window]
+        modalDelegate:self didEndSelector:nil contextInfo:nil];
+    const NSInteger ret = [NSApp runModalForWindow: vc.window];
+    [NSApp endSheet:vc.window];
+    [vc.window orderOut:self];
+    self.table_view.enabled = YES;
+
+    if (NSModalResponseAbort == ret) {
+        DLOG(@"User aborted modification");
+        return;
+    }
+
+    // Add the value.
+    const long long initial_weight_pos = add_weight(vc.accepted_weight);
+    TWeight *weight = get_weight(initial_weight_pos);
+    if (!weight) {
+        LOG(@"Error adding weight with %0.1f", vc.accepted_weight);
+        return;
+    }
+
+    // Now we have to modify the date, which might reposition it too.
+    long long old_pos, new_pos;
+    modify_weight_date(weight, [vc.accepted_date timeIntervalSince1970],
+        &old_pos, &new_pos);
+    if (old_pos < 0 || new_pos < 0) {
+        LOG(@"Error modifying weight date to %@", vc.accepted_date);
+        [self.table_view reloadData];
+        return;
+    }
+
+    // Refresh the rows.
+    NSIndexSet *row = [NSIndexSet indexSetWithIndex:new_pos];
+    [self.table_view insertRowsAtIndexes:row
+        withAnimation:NSTableViewAnimationSlideRight];
+
+    // Force selection to the new position.
+    [self.table_view deselectAll:self];
+    [self.table_view selectRowIndexes:row byExtendingSelection:NO];
+    [self animate_scroll_to:new_pos];
+}
+
+/** Better animated scrollRowToVisible.
+ *
+ * See http://stackoverflow.com/a/8480325/172690. While scrollRowToVisible
+ * *works*, it works in that if the top pixel of the added row is visible no
+ * more movement is done, or maybe the reason given at
+ * http://stackoverflow.com/q/16313799/172690. In any case, this animates a
+ * scroll, and works for insertions at the end of the table properly.
+ */
+- (void)animate_scroll_to:(NSInteger)pos
+{
+    NSRect rowRect = [self.table_view rectOfRow:pos];
+    NSRect viewRect = [[self.table_view superview] frame];
+    NSPoint scrollOrigin = rowRect.origin;
+    scrollOrigin.y += (rowRect.size.height - viewRect.size.height) / 2;
+    if (scrollOrigin.y < 0) scrollOrigin.y = 0;
+    [[[self.table_view superview] animator] setBoundsOrigin:scrollOrigin];
 }
 
 #pragma mark -
