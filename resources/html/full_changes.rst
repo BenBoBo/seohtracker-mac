@@ -15,3 +15,5 @@ v1, ????-??-??
   <https://github.com/gradha/seohtracker-mac/issues/2>`_.
 * `Expanded window to include modification controls
   <https://github.com/gradha/seohtracker-mac/issues/3>`_.
+* `Implemented addition/removal of entries
+  <https://github.com/gradha/seohtracker-mac/issues/4>`_.
