@@ -17,3 +17,5 @@ v1, ????-??-??
   <https://github.com/gradha/seohtracker-mac/issues/3>`_.
 * `Implemented addition/removal of entries
   <https://github.com/gradha/seohtracker-mac/issues/4>`_.
+* `Made close window finish the app
+  <https://github.com/gradha/seohtracker-mac/issues/6>`_.
