@@ -4,6 +4,8 @@
 #import "EHModify_vc.h"
 
 #import "ELHASO.h"
+#import "NSNotificationCenter+ELHASO.h"
+
 
 @interface EHRoot_vc ()
 
@@ -48,7 +50,18 @@
         [self refresh_ui];
         const long last = get_num_weights();
         if (last > 0) [self.table_view scrollRowToVisible:last - 1];
+
+        NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+        [center refresh_observer:self selector:@selector(refresh_ui_observer:)
+            name:user_metric_prefereces_changed object:nil];
     }
+}
+
+- (void)dealloc
+{
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center removeObserver:self
+        name:user_metric_prefereces_changed object:nil];
 }
 
 #pragma mark -
@@ -83,6 +96,21 @@
         self.minus_button.enabled = NO;
     }
 }
+
+/// Simple wrapper to refresh the UI when changes are done to user settings.
+- (void)refresh_ui_observer:(NSNotification*)notification
+{
+    const NSInteger pos = [self.table_view selectedRow];
+    [self refresh_ui];
+    [self.table_view reloadData];
+    // Attempt to recover previous row selection.
+    if (pos >= 0) {
+        NSIndexSet *rows = [NSIndexSet indexSetWithIndex:pos];
+        [self.table_view selectRowIndexes:rows byExtendingSelection:NO];
+        [self.table_view scrollRowToVisible:pos];
+    }
+}
+
 
 /// Called when the user wants to modify an existing value.
 - (IBAction)did_touch_modify_button:(id)sender
