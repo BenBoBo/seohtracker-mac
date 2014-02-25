@@ -99,7 +99,7 @@
         return;
     }
 
-    DLOG(@"Accepting values!");
+    DLOG(@"Accepting values! %@ %0.1f", vc.accepted_date, vc.accepted_weight);
 }
 
 #pragma mark -
@@ -136,7 +136,7 @@
 }
 
 /// User clicked or moved the cursor, update the UI.
-- (void)tableViewSelectionDidChange:(NSNotification *)aNotification
+- (void)tableViewSelectionDidChange:(NSNotification*)aNotification
 {
     [self refresh_ui];
 }

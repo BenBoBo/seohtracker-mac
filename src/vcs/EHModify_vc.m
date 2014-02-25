@@ -186,4 +186,16 @@
     }
 }
 
+/// Detect if values are ok, and if so, emulate pressing the accept button.
+- (void)controlTextDidEndEditing:(NSNotification*)notification
+{
+    // See if it was due to a return, http://stackoverflow.com/a/11229269/172690
+    if (NSReturnTextMovement ==
+        [notification.userInfo[@"NSTextMovement"] intValue]) {
+        NSLog(@"Return was pressed!");
+        if (self.accept_button.isEnabled)
+            [self did_touch_accept_button:self.accept_button];
+    }
+}
+
 @end
