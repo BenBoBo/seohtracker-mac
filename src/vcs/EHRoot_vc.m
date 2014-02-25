@@ -170,6 +170,8 @@
     TWeight *weight = [self selected_weight];
     RASSERT(weight, @"No weight selected? What should I remove?", return);
 
+    [self.table_view scrollRowToVisible:[self.table_view selectedRow]];
+
     NSAlert *alert = [NSAlert new];
     alert.alertStyle = NSWarningAlertStyle;
     alert.showsHelp = NO;
