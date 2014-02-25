@@ -53,7 +53,7 @@ NSString *user_metric_prefereces_changed = @"user_metric_preferences_changed";
 
     // Insert code here to initialize your application
     self.history_vc = [[EHRoot_vc alloc]
-        initWithNibName:@"EHHistory_vc" bundle:nil];
+        initWithNibName:NSStringFromClass([EHRoot_vc class]) bundle:nil];
 
     [self.window.contentView addSubview:self.history_vc.view];
     self.history_vc.view.frame = ((NSView*)self.window.contentView).bounds;
