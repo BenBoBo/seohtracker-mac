@@ -65,6 +65,8 @@ NSString *user_metric_prefereces_changed = @"user_metric_preferences_changed";
 
     [self.window.contentView addSubview:self.history_vc.view];
     self.history_vc.view.frame = ((NSView*)self.window.contentView).bounds;
+
+    dispatch_async_low(^{ [self build_preferences]; });
 }
 
 /// Quit app if the user closes the main window, which is the last.
@@ -98,18 +100,29 @@ NSString *user_metric_prefereces_changed = @"user_metric_preferences_changed";
     set_config_changelog_version(bundle_version());
 }
 
+/** If needed, rebuilds the preferences vc.
+ *
+ * Since building the preferences is slow, you can invoke this in a background
+ * thread during initialisation. Hopefully it does not crash, or something
+ * worse.
+ */
+- (void)build_preferences
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+            EHSettings_vc *pane1 = [[EHSettings_vc alloc]
+                initWithNibName:NSStringFromClass([EHSettings_vc class])
+                bundle:nil];
+
+            self.preferences_vc = [[RHPreferencesWindowController alloc]
+                initWithViewControllers:@[pane1] andTitle:@"Preferences"];
+        });
+}
+
 /// Displayes the preferences window.
 - (IBAction)show_preferences:(id)sender
 {
-    //if we have not created the window controller yet, create it now
-    if (!self.preferences_vc) {
-        EHSettings_vc *pane1 = [[EHSettings_vc alloc]
-            initWithNibName:NSStringFromClass([EHSettings_vc class]) bundle:nil];
-
-        self.preferences_vc = [[RHPreferencesWindowController alloc]
-            initWithViewControllers:@[pane1] andTitle:@"Preferences"];
-    }
-
+    [self build_preferences];
     [self.preferences_vc showWindow:self];
 }
 
