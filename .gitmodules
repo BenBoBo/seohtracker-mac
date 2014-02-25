@@ -4,3 +4,6 @@
 [submodule "external/seohtracker-logic"]
 	path = external/seohtracker-logic
 	url = https://github.com/gradha/seohtracker-logic.git
+[submodule "external/RHPreferences"]
+	path = external/RHPreferences
+	url = https://github.com/gradha/RHPreferences.git
