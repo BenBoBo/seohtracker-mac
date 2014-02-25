@@ -1,6 +1,6 @@
 #import "EHApp_delegate.h"
 
-#import "EHHistory_vc.h"
+#import "EHRoot_vc.h"
 #import "categories/NSString+seohyun.h"
 #import "user_config.h"
 
@@ -23,7 +23,7 @@ NSString *user_metric_prefereces_changed = @"user_metric_preferences_changed";
 @interface EHApp_delegate ()
 
 /// Keeps a strong reference to the history vc.
-@property (nonatomic, strong) EHHistory_vc *history_vc;
+@property (nonatomic, strong) EHRoot_vc *history_vc;
 
 @end
 
@@ -52,7 +52,7 @@ NSString *user_metric_prefereces_changed = @"user_metric_preferences_changed";
     set_nimrod_metric_use_based_on_user_preferences();
 
     // Insert code here to initialize your application
-    self.history_vc = [[EHHistory_vc alloc]
+    self.history_vc = [[EHRoot_vc alloc]
         initWithNibName:@"EHHistory_vc" bundle:nil];
 
     [self.window.contentView addSubview:self.history_vc.view];
