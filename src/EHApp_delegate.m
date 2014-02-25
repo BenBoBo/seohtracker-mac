@@ -2,9 +2,11 @@
 
 #import "EHRoot_vc.h"
 #import "categories/NSString+seohyun.h"
+#import "EHSettings_vc.h"
 #import "user_config.h"
 
 #import "ELHASO.h"
+#import "RHPreferences.h"
 
 
 NSString *decimal_separator_changed = @"decimal_separator_changed";
@@ -24,6 +26,8 @@ NSString *user_metric_prefereces_changed = @"user_metric_preferences_changed";
 
 /// Keeps a strong reference to the history vc.
 @property (nonatomic, strong) EHRoot_vc *history_vc;
+/// Caches the preferences window for lazy generation.
+@property (nonatomic, strong) RHPreferencesWindowController *preferences_vc;
 
 @end
 
@@ -85,6 +89,21 @@ NSString *user_metric_prefereces_changed = @"user_metric_preferences_changed";
     DLOG(@"DB doesn't exist, setting changelog version to %0.1f",
         bundle_version());
     set_config_changelog_version(bundle_version());
+}
+
+/// Displayes the preferences window.
+- (IBAction)show_preferences:(id)sender
+{
+    //if we have not created the window controller yet, create it now
+    if (!self.preferences_vc) {
+        EHSettings_vc *pane1 = [[EHSettings_vc alloc]
+            initWithNibName:NSStringFromClass([EHSettings_vc class]) bundle:nil];
+
+        self.preferences_vc = [[RHPreferencesWindowController alloc]
+            initWithViewControllers:@[pane1] andTitle:@"Preferences"];
+    }
+
+    [self.preferences_vc showWindow:self];
 }
 
 @end
