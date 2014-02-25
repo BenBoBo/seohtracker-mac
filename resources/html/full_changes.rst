@@ -19,3 +19,5 @@ v1, ????-??-??
   <https://github.com/gradha/seohtracker-mac/issues/4>`_.
 * `Made close window finish the app
   <https://github.com/gradha/seohtracker-mac/issues/6>`_.
+* `Added preferences window
+  <https://github.com/gradha/seohtracker-mac/issues/10>`_.
