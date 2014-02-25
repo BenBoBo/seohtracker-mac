@@ -1,10 +1,25 @@
 #import "EHSettings_vc.h"
 
+#import "EHApp_delegate.h"
+#import "ELHASO.h"
+#import "n_global.h"
+#import "user_config.h"
+
 @interface EHSettings_vc ()
+
+/// Label to update with the current setting.
+@property (weak) IBOutlet NSTextField *weight_textfield;
+/// Matrix of options the user can select.
+@property (weak) IBOutlet NSMatrix *weight_matrix;
+
+- (IBAction)did_touch_weight_matrix:(id)sender;
 
 @end
 
 @implementation EHSettings_vc
+
+#pragma mark -
+#pragma mark - Life
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -13,6 +28,31 @@
         // Initialization code here.
     }
     return self;
+}
+
+- (void)awakeFromNib
+{
+    DLOG(@"Awaking %@", NSStringFromClass(self.class));
+    [self refresh_ui];
+}
+
+#pragma mark -
+#pragma mark Methods
+
+/// Updates the dynamic widgets.
+- (void)refresh_ui
+{
+    self.weight_textfield.stringValue = [NSString
+        stringWithFormat:@"Weight unit: %s", get_weight_string()];
+
+    const int user_pref = user_metric_preference();
+    [self.weight_matrix selectCellAtRow:user_pref column:0];
+}
+
+- (IBAction)did_touch_weight_matrix:(id)sender
+{
+    set_user_metric_preference((int)[self.weight_matrix selectedRow]);
+    // An implicit call to refresh_ui is done through a global notification.
 }
 
 #pragma mark -
@@ -36,6 +76,12 @@
 -(NSView*)initialKeyView
 {
     return nil;
+}
+
+- (void)viewWillAppear
+{
+    DLOG(@"EHSettings_vc viewWillAppear");
+    [self refresh_ui];
 }
 
 @end

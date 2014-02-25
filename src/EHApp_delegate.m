@@ -134,8 +134,7 @@ NSString *user_metric_prefereces_changed = @"user_metric_preferences_changed";
 /// Helper method to update nimrod's global metric defaults.
 void set_nimrod_metric_use_based_on_user_preferences(void)
 {
-    //const int pref = user_metric_preference();
-    const int pref = 0;
+    const int pref = user_metric_preference();
     if (pref > 0)
         specify_metric_use((1 == pref));
     else
