@@ -81,9 +81,10 @@
 /// Called when the user wants to modify an existing value.
 - (IBAction)did_touch_modify_button:(id)sender
 {
+    TWeight *weight = [self selected_weight];
     EHModify_vc *vc = [[EHModify_vc alloc]
         initWithWindowNibName:NSStringFromClass([EHModify_vc class])];
-    [vc set_values_from:[self selected_weight]];
+    [vc set_values_from:weight];
 
     // Display modal sheet, disable our table view.
     self.table_view.enabled = NO;
@@ -99,7 +100,34 @@
         return;
     }
 
+    // Change the data values.
     DLOG(@"Accepting values! %@ %0.1f", vc.accepted_date, vc.accepted_weight);
+    if (modify_weight_value(weight, vc.accepted_weight) < 0) {
+        LOG(@"Error modifying weight value to %0.1f", vc.accepted_weight);
+        [self.table_view reloadData];
+        return;
+    }
+
+    long long old_pos, new_pos;
+    modify_weight_date(weight, [vc.accepted_date timeIntervalSince1970],
+        &old_pos, &new_pos);
+    if (old_pos < 0 || new_pos < 0) {
+        LOG(@"Error modifying weight date to %@", vc.accepted_date);
+        [self.table_view reloadData];
+        return;
+    }
+
+    // Refresh the rows.
+    NSMutableIndexSet *rows = [NSMutableIndexSet indexSetWithIndex:new_pos];
+    if (old_pos != new_pos) [rows addIndex:old_pos];
+    [self.table_view reloadDataForRowIndexes:rows
+        columnIndexes:[NSIndexSet indexSetWithIndexesInRange:(NSRange){0, 2}]];
+
+    // Force selection to the new position.
+    [rows removeAllIndexes];
+    [rows addIndex:new_pos];
+    [self.table_view deselectAll:self];
+    [self.table_view selectRowIndexes:rows byExtendingSelection:NO];
 }
 
 #pragma mark -
