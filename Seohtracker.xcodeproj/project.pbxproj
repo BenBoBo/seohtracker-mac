@@ -42,6 +42,7 @@
 		D5AD7DA518BD14A1005F4865 /* RHPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5AD7DA118BD14A1005F4865 /* RHPreferencesWindowController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		D5AD7DA918BD188B005F4865 /* EHSettings_vc.m in Sources */ = {isa = PBXBuildFile; fileRef = D5AD7DA718BD188B005F4865 /* EHSettings_vc.m */; };
 		D5AD7DAC18BD4021005F4865 /* EHSettings_vc.xib in Resources */ = {isa = PBXBuildFile; fileRef = D5AD7DAB18BD4021005F4865 /* EHSettings_vc.xib */; };
+		D5AD7DAF18BD46FA005F4865 /* NSNotificationCenter+ELHASO.m in Sources */ = {isa = PBXBuildFile; fileRef = D5AD7DAE18BD46FA005F4865 /* NSNotificationCenter+ELHASO.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,6 +110,8 @@
 		D5AD7DA618BD188B005F4865 /* EHSettings_vc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EHSettings_vc.h; path = vcs/EHSettings_vc.h; sourceTree = "<group>"; };
 		D5AD7DA718BD188B005F4865 /* EHSettings_vc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EHSettings_vc.m; path = vcs/EHSettings_vc.m; sourceTree = "<group>"; };
 		D5AD7DAB18BD4021005F4865 /* EHSettings_vc.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EHSettings_vc.xib; path = resources/ui/EHSettings_vc.xib; sourceTree = "<group>"; };
+		D5AD7DAD18BD46FA005F4865 /* NSNotificationCenter+ELHASO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNotificationCenter+ELHASO.h"; sourceTree = "<group>"; };
+		D5AD7DAE18BD46FA005F4865 /* NSNotificationCenter+ELHASO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNotificationCenter+ELHASO.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,6 +156,8 @@
 				D532973C18B68B1C0028F3AA /* ELHASO.m */,
 				D532973D18B68B1C0028F3AA /* NSArray+ELHASO.h */,
 				D532973E18B68B1C0028F3AA /* NSArray+ELHASO.m */,
+				D5AD7DAD18BD46FA005F4865 /* NSNotificationCenter+ELHASO.h */,
+				D5AD7DAE18BD46FA005F4865 /* NSNotificationCenter+ELHASO.m */,
 			);
 			name = "ELHASO-mac-snippets";
 			path = "external/ELHASO-mac-snippets";
@@ -422,6 +427,7 @@
 				D533F84A18B671FD00A7FFC3 /* pure_strutils.m in Sources */,
 				D5AD7DA918BD188B005F4865 /* EHSettings_vc.m in Sources */,
 				D533F83E18B671FD00A7FFC3 /* impure_db_sqlite.m in Sources */,
+				D5AD7DAF18BD46FA005F4865 /* NSNotificationCenter+ELHASO.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

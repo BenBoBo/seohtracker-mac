@@ -1,9 +1,12 @@
 #import "EHSettings_vc.h"
 
 #import "EHApp_delegate.h"
-#import "ELHASO.h"
 #import "n_global.h"
 #import "user_config.h"
+
+#import "ELHASO.h"
+#import "NSNotificationCenter+ELHASO.h"
+
 
 @interface EHSettings_vc ()
 
@@ -32,8 +35,18 @@
 
 - (void)awakeFromNib
 {
-    DLOG(@"Awaking %@", NSStringFromClass(self.class));
     [self refresh_ui];
+
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center refresh_observer:self selector:@selector(refresh_ui_observer:)
+        name:user_metric_prefereces_changed object:nil];
+}
+
+- (void)dealloc
+{
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center removeObserver:self
+        name:user_metric_prefereces_changed object:nil];
 }
 
 #pragma mark -
@@ -49,6 +62,13 @@
     [self.weight_matrix selectCellAtRow:user_pref column:0];
 }
 
+/// Simple wrapper to refresh the UI when changes are done to user settings.
+- (void)refresh_ui_observer:(NSNotification*)notification
+{
+    [self refresh_ui];
+}
+
+/// Changes the user preferences.
 - (IBAction)did_touch_weight_matrix:(id)sender
 {
     set_user_metric_preference((int)[self.weight_matrix selectedRow]);
