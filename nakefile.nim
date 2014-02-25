@@ -4,13 +4,18 @@ import nake, os, times, osproc, htmlparser, xmltree, strtabs, strutils,
 type
   In_out = tuple[src, dest, options: string]
 
+const
+  doc_build_dir = "build"/"html"
+
 template glob_rst(basedir: string): expr =
   ## Shortcut to simplify getting lists of files.
   to_seq(walk_files(basedir/"*.rst"))
 
 let
+  rst_build_files = glob_rst("resources"/"html")
   normal_rst_files = concat(glob_rst("."), glob_rst("docs"),
     glob_rst("resources"/"html"))
+  mac_html_config = readFile("resources"/"html"/"mac.cfg")
   # Use correct path concat, wait for https://github.com/Araq/Nimrod/issues/871.
 
 proc update_timestamp(path: string) =
@@ -66,6 +71,16 @@ iterator all_rst_files(): In_out =
   ## directory rules, it's not as easy as changing just the extension.
   var x: In_out
 
+  for rst_name in rst_build_files:
+    x.src = rst_name
+    x.dest = doc_build_dir/rst_name.extract_filename.changeFileExt("html")
+    x.options = mac_html_config
+    yield x
+    # Now generate another normal version where path is not changed.
+    x.dest = rst_name.changeFileExt("html")
+    x.options = nil
+    yield x
+
   for plain_rst in normal_rst_files:
     x.src = plain_rst
     x.dest = plain_rst.changeFileExt("html")
@@ -82,6 +97,7 @@ proc build_all_rst_files(): seq[In_out] =
 
 
 task "doc", "Generates HTML from the rst files.":
+  doc_build_dir.create_dir
   # Generate html files from the rst docs.
   for f in build_all_rst_files():
     let (rst_file, html_file, options) = f
@@ -92,7 +108,7 @@ task "doc", "Generates HTML from the rst files.":
     else:
       if options.isNil:
         change_rst_links_to_html(html_file)
-      #doc_build_dir.update_timestamp
+      doc_build_dir.update_timestamp
       echo rst_file & " -> " & html_file
 
   echo "All docs generated"
