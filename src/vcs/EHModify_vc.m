@@ -53,8 +53,8 @@
     self.formatter.locale = [NSLocale currentLocale];
     self.formatter.numberStyle = NSNumberFormatterDecimalStyle;
     self.formatter.usesGroupingSeparator = NO;
-    [self.formatter setMinimumSignificantDigits:1];
-    [self.formatter setMaximumSignificantDigits:1];
+    [self.formatter setMinimumFractionDigits:1];
+    [self.formatter setMaximumFractionDigits:1];
     return self;
 }
 
