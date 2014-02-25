@@ -29,6 +29,9 @@ NSString *user_metric_prefereces_changed = @"user_metric_preferences_changed";
 
 @implementation EHApp_delegate
 
+#pragma mark -
+#pragma mark Life
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     NSString *db_path = get_path(@"", DIR_LIB);
@@ -58,6 +61,15 @@ NSString *user_metric_prefereces_changed = @"user_metric_preferences_changed";
     [self.window.contentView addSubview:self.history_vc.view];
     self.history_vc.view.frame = ((NSView*)self.window.contentView).bounds;
 }
+
+/// Quit app if the user closes the main window, which is the last.
+- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication*)sender
+{
+    return YES;
+}
+
+#pragma mark -
+#pragma mark Methods
 
 /** Generates user preferences timestamp for changelog version.
  *
