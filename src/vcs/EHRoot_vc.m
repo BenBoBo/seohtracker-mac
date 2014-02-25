@@ -16,8 +16,12 @@
 @property (nonatomic, weak) IBOutlet NSButton *modify_button;
 /// Avoids refreshing the UI during multiple awakeFromNib calls.
 @property (nonatomic, assign) BOOL did_awake;
+/// Needs to be disabled if nothing is selected.
+@property (weak) IBOutlet NSButton *minus_button;
 
 - (IBAction)did_touch_modify_button:(id)sender;
+- (IBAction)did_touch_minus_button:(id)sender;
+- (IBAction)did_touch_plus_button:(id)sender;
 
 @end
 
@@ -71,10 +75,12 @@
             stringWithFormat:@"Weight: %s %s",
             format_weight_with_current_unit(w), get_weight_string()];
         self.modify_button.enabled = YES;
+        self.minus_button.enabled = YES;
     } else {
         self.read_date_textfield.stringValue = @"";
         self.read_weight_textfield.stringValue = @"";
         self.modify_button.enabled = NO;
+        self.minus_button.enabled = NO;
     }
 }
 
@@ -128,6 +134,41 @@
     [rows addIndex:new_pos];
     [self.table_view deselectAll:self];
     [self.table_view selectRowIndexes:rows byExtendingSelection:NO];
+}
+
+/// Removes the selected weight, but first asks if really should be done.
+- (IBAction)did_touch_minus_button:(id)sender
+{
+    TWeight *weight = [self selected_weight];
+    RASSERT(weight, @"No weight selected? What should I remove?", return);
+
+    NSAlert *alert = [NSAlert new];
+    alert.alertStyle = NSWarningAlertStyle;
+    alert.showsHelp = NO;
+    alert.messageText = @"Are you sure you want to remove the entry?";
+    alert.informativeText = [NSString stringWithFormat:@"%s %s - %@",
+        format_weight_with_current_unit(weight), get_weight_string(),
+        format_date(weight)];
+    [alert addButtonWithTitle:@"Cancel"];
+    [alert addButtonWithTitle:@"Accept"];
+    const BOOL accept = (NSAlertSecondButtonReturn == [alert runModal]);
+    if (!accept)
+        return;
+
+    const long long pos = remove_weight(weight);
+    if (pos < 0) {
+        LOG(@"Error deleting selected weight");
+        [self.table_view reloadData];
+    } else {
+        [self.table_view deselectAll:self];
+        [self.table_view removeRowsAtIndexes:[NSIndexSet indexSetWithIndex:pos]
+            withAnimation:NSTableViewAnimationSlideLeft];
+    }
+}
+
+/// Adds a new entry, displaying the modification sheet.
+- (IBAction)did_touch_plus_button:(id)sender
+{
 }
 
 #pragma mark -
