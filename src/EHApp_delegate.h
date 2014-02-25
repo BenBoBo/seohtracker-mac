@@ -1,6 +1,7 @@
 #import "n_global.h"
 
-@interface EHApp_delegate : NSObject <NSApplicationDelegate>
+@interface EHApp_delegate : NSObject
+    <NSApplicationDelegate, NSWindowDelegate>
 
 @property (assign) IBOutlet NSWindow *window;
 
