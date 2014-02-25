@@ -86,14 +86,21 @@
 /** Sets the values for weight modification.
  *
  * Call this before displaying the sheet. Nil values don't change anything.
+ * Pass YES as for_new_value if the dialog is to be used for a new entry. New
+ * entries pick the current time as the date, and have a different label.
  */
-- (void)set_values_from:(TWeight*)weight
+- (void)set_values_from:(TWeight*)weight for_new_value:(BOOL)for_new_value
 {
     if (!weight)
         return;
     self.weight = get_localized_weight(weight);
-    self.date = [NSDate dateWithTimeIntervalSince1970:date(weight)];
-    self.modification = YES;
+    if (for_new_value) {
+        self.date = [NSDate date];
+        self.modification = NO;
+    } else {
+        self.date = [NSDate dateWithTimeIntervalSince1970:date(weight)];
+        self.modification = YES;
+    }
 }
 
 /** Returns the currenlty set date.
