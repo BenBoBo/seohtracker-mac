@@ -42,6 +42,8 @@
         DLOG(@"Awakening!");
         self.did_awake = YES;
         [self refresh_ui];
+        const long last = get_num_weights();
+        if (last > 0) [self.table_view scrollRowToVisible:last - 1];
     }
 }
 
