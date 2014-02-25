@@ -81,16 +81,18 @@
 /// Called when the user wants to modify an existing value.
 - (IBAction)did_touch_modify_button:(id)sender
 {
-    DLOG(@"Going to modify %p", [self selected_weight]);
     EHModify_vc *vc = [[EHModify_vc alloc]
         initWithWindowNibName:NSStringFromClass([EHModify_vc class])];
+    [vc set_values_from:[self selected_weight]];
 
-    // Display modal sheet.
+    // Display modal sheet, disable our table view.
+    self.table_view.enabled = NO;
     [NSApp beginSheet:vc.window modalForWindow:[self.view window]
         modalDelegate:self didEndSelector:nil contextInfo:nil];
     const NSInteger ret = [NSApp runModalForWindow: vc.window];
     [NSApp endSheet:vc.window];
     [vc.window orderOut:self];
+    self.table_view.enabled = YES;
 
     if (NSModalResponseAbort == ret) {
         DLOG(@"User aborted modification");
