@@ -18,6 +18,8 @@ const
   help_contents_dir = "Contents"
   help_resources_dir = help_contents_dir/"Resources"
   help_generic_cfg = "default.cfg"
+  help_insert_files = mapIt(["appstore_changes", "full_changes"],
+    string, resource_dir/"html"/(it & ".rst"))
 
 template glob_rst(basedir: string): expr =
   ## Shortcut to simplify getting lists of files.
@@ -133,6 +135,31 @@ iterator walk_dirs(dir: string): string =
         yield p[1 + dir.len .. <p.len]
         stack.add(p)
 
+
+iterator walk_help_dir_contents(dir: string): tuple[src, rel_path: string] =
+  ## This is a wrapper over walk_dirs to add special files to all help dirs.
+  ##
+  ## The proc will process the files as usual, then insert the brief and full
+  ## change logs into the returned list. The proc returns two elements, the
+  ## first is the absolute path to the source file. The second element is a
+  ## concatenation of the input `dir` parameter with the *relative* path to
+  ## src. This is required due to the inserted files being from directories
+  ## other than `dir`, which breaks normal path composing.
+  let offset = 1 + dir.len
+  assert offset > 1
+  var x: tuple[src, rel_path: string]
+  for src in dir.walk_dir_rec:
+    x.src = src
+    x.rel_path = src[offset .. <src.len]
+    yield x
+
+  # Now insert the changes logs.
+  for path in help_insert_files:
+    x.src = path
+    x.rel_path = path.extract_filename
+    yield x
+
+
 iterator find_help_directories(): string =
   ## Returns valid help paths for further processing.
   ##
@@ -145,10 +172,14 @@ iterator find_help_directories(): string =
     yield resource_dir/path
 
 
-proc process_help_rst(src, dest_dir: string): bool =
+proc process_help_rst(src, dest_dir, base_dir: string): bool =
   ## Processes `src` and generates an html file in `dest_dir`.
   ##
-  ## Returns true if a file was generated/updated, false otherwise.
+  ## Returns true if a file was generated/updated, false otherwise. For the
+  ## options the proc will look for a .cfg file in the same directory as the
+  ## input src. Failing that, repeats changing the name to help_generic_cfg.
+  ## Failing that too, looks for the default configuration file in base_dir
+  ## (which can be a completely different path from src).
   dest_dir.create_dir
   var rst: In_out
   rst.dest = changeFileExt(dest_dir / src.extract_filename, "html")
@@ -161,6 +192,10 @@ proc process_help_rst(src, dest_dir: string): bool =
     let generic_cfg = src.split_file.dir/help_generic_cfg
     if generic_cfg.exists_file:
       rst.options = generic_cfg
+    else:
+      let base_cfg = base_dir/help_generic_cfg
+      if base_cfg.exists_file:
+        rst.options = base_cfg
 
   if not rst.needs_refresh: return
   discard change_rst_options(rst.options.load_config)
@@ -200,14 +235,15 @@ task "doc", "Generates documentation in HTML and applehelp formats":
 
     # Now copy/process the resources.
     let r_dir = build_dir/basename/help_resources_dir
-    for src in help_dir.walk_dir_rec:
-      # Build destination directory.
-      let (src_dir, src_name, src_ext) = src.split_file
+    for file_tuple in to_seq(help_dir.walk_help_dir_contents):
+      let
+        (src, rel_path) = file_tuple
+        (src_dir, src_name, src_ext) = src.split_file
       # Ignore emtpy filenames or unix hidden files.
       if src_name.len < 1 or src_name[0] == '.': continue
 
+      # Build destination directory.
       let
-        rel_path = src[1 + help_dir.len .. <src.len]
         dest_file = r_dir/rel_path
         dest_dir = dest_file.split_file.dir
 
@@ -217,7 +253,7 @@ task "doc", "Generates documentation in HTML and applehelp formats":
         ## Config files are not copied to the help bundle.
         discard
       of ".rst":
-        if process_help_rst(src, dest_dir):
+        if process_help_rst(src, dest_dir, help_dir):
           did_change = true
       else:
         # Normal file, just copy.
