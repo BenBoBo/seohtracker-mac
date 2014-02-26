@@ -1,17 +1,23 @@
 import nake, os, times, osproc, htmlparser, xmltree, strtabs, strutils,
-  rester, sequtils, packages/docutils/rst, packages/docutils/rstast, posix
+  rester, sequtils, packages/docutils/rst, packages/docutils/rstast, posix,
+  xmlparser
 
 type
   In_out = tuple[src, dest, options: string]
     ## The tuple only contains file paths.
 
 const
-  doc_build_dir = "build"/"html"
-  gfx_build_dir = "build"/"graphics"
+  build_dir = "build"
+  doc_build_dir = build_dir/"html"
+  gfx_build_dir = build_dir/"graphics"
   resource_dir = "resources"
   icons_dir = resource_dir/"icons"
   mac_html_config = resource_dir/"html"/"mac.cfg"
   credits_html_config = resource_dir/"html"/"credits.cfg"
+  info_plist = "Info.plist"
+  help_contents_dir = "Contents"
+  help_resources_dir = help_contents_dir/"Resources"
+  help_generic_cfg = "default.cfg"
 
 template glob_rst(basedir: string): expr =
   ## Shortcut to simplify getting lists of files.
@@ -127,7 +133,45 @@ iterator walk_dirs(dir: string): string =
         yield p[1 + dir.len .. <p.len]
         stack.add(p)
 
-task "doc", "Generates HTML from the rst files.":
+iterator find_help_directories(): string =
+  ## Returns valid help paths for further processing.
+  ##
+  ## A valid path is a directory ending in '.help' and containing an XML
+  ## info.plist file.
+  for path in resource_dir.walk_dirs:
+    if not (path.split_file.ext == ".help"): continue
+    let info_path = resource_dir/path/info_plist
+    discard info_path.load_xml
+    yield resource_dir/path
+
+
+proc process_help_rst(src, dest_dir: string): bool =
+  ## Processes `src` and generates an html file in `dest_dir`.
+  ##
+  ## Returns true if a file was generated/updated, false otherwise.
+  dest_dir.create_dir
+  var rst: In_out
+  rst.dest = changeFileExt(dest_dir / src.extract_filename, "html")
+  rst.src = src
+  # Find out if this file uses some sort of configuration file, global or local.
+  let specific_cfg = src.changeFileExt("cfg")
+  if specific_cfg.exists_file:
+    rst.options = specific_cfg
+  else:
+    let generic_cfg = src.split_file.dir/help_generic_cfg
+    if generic_cfg.exists_file:
+      rst.options = generic_cfg
+
+  if not rst.needs_refresh: return
+  discard change_rst_options(rst.options.load_config)
+  if not rst2html(rst.src, rst.dest):
+    quit("Could not generate html doc for " & rst.src)
+  else:
+    echo rst.src & " -> " & rst.dest
+    result = true
+
+
+task "doc", "Generates documentation in HTML and applehelp formats":
   doc_build_dir.create_dir
   # Generate html files from the rst docs.
   for f in build_all_rst_files():
@@ -141,6 +185,49 @@ task "doc", "Generates HTML from the rst files.":
         change_rst_links_to_html(html_file)
       doc_build_dir.update_timestamp
       echo rst_file & " -> " & html_file
+
+  # Generate Apple .help directories.
+  for help_dir in find_help_directories():
+    let basename = help_dir.extract_filename
+    var
+      dest = build_dir/basename/help_contents_dir/info_plist
+      src = help_dir/info_plist
+      did_change = false
+    dest.create_dir
+    if dest.needs_refresh(src):
+      src.copyFileWithPermissions(dest)
+      did_change = true
+
+    # Now copy/process the resources.
+    let r_dir = build_dir/basename/help_resources_dir
+    for src in help_dir.walk_dir_rec:
+      # Build destination directory.
+      let (src_dir, src_name, src_ext) = src.split_file
+      # Ignore emtpy filenames or unix hidden files.
+      if src_name.len < 1 or src_name[0] == '.': continue
+
+      let
+        rel_path = src[1 + help_dir.len .. <src.len]
+        dest_file = r_dir/rel_path
+        dest_dir = dest_file.split_file.dir
+
+      # Process extension and handle appropriately.
+      case src_ext.to_lower
+      of ".cfg", ".plist":
+        ## Config files are not copied to the help bundle.
+        discard
+      of ".rst":
+        if process_help_rst(src, dest_dir):
+          did_change = true
+      else:
+        # Normal file, just copy.
+        if dest_file.needs_refresh(src):
+          src.copyFileWithPermissions(dest_file)
+          echo src, " -> ", dest_file
+          did_change = true
+
+    # Refresh the base directory for Xcode to update files.
+    if did_change: update_timestamp(build_dir/basename)
 
   echo "All docs generated"
 
