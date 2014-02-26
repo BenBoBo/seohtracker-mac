@@ -3,18 +3,37 @@ import nake, os, times, osproc, htmlparser, xmltree, strtabs, strutils,
 
 type
   In_out = tuple[src, dest, options: string]
+    ## The tuple only contains file paths.
+
+const
+  doc_build_dir = "build"/"html"
+  mac_html_config = "resources"/"html"/"mac.cfg"
+  credits_html_config = "resources"/"html"/"credits.cfg"
 
 template glob_rst(basedir: string): expr =
   ## Shortcut to simplify getting lists of files.
   to_seq(walk_files(basedir/"*.rst"))
 
 let
+  rst_build_files = glob_rst("resources"/"html")
   normal_rst_files = concat(glob_rst("."), glob_rst("docs"),
     glob_rst("resources"/"html"))
-  # Use correct path concat, wait for https://github.com/Araq/Nimrod/issues/871.
+
+var
+  CONFIGS = newStringTable(modeCaseInsensitive)
+    ## Stores previously read configuration files.
 
 proc update_timestamp(path: string) =
   discard utimes(path, nil)
+
+proc load_config(path: string): string =
+  ## Loads the config at path and returns it.
+  ##
+  ## Uses the CONFIGS variable to cache contents. Returns nil if path is nil.
+  if path.isNil: return
+  if CONFIGS.hasKey(path): return CONFIGS[path]
+  CONFIGS[path] = path.readFile
+  result = CONFIGS[path]
 
 proc rst2html(src: string, out_path = ""): bool =
   ## Converts the filename `src` into `out_path` or src with extension changed.
@@ -56,7 +75,10 @@ proc needs_refresh(target: string, src: varargs[string]): bool =
 
 proc needs_refresh(target: In_out): bool =
   ## Wrapper around the normal needs_refresh for In_out types.
-  result = target.dest.needs_refresh(target.src)
+  if target.options.isNil:
+    result = target.dest.needs_refresh(target.src)
+  else:
+    result = target.dest.needs_refresh(target.src, target.options)
 
 
 iterator all_rst_files(): In_out =
@@ -65,6 +87,22 @@ iterator all_rst_files(): In_out =
   ## Returns In_out tuples, since different rst files have special output
   ## directory rules, it's not as easy as changing just the extension.
   var x: In_out
+
+  for rst_path in rst_build_files:
+    let filename = rst_path.extract_filename
+    x.src = rst_path
+    # Special case for the Credits file, put it one level up.
+    if filename == "Credits.rst":
+      x.dest = doc_build_dir/".."/filename.changeFileExt("html")
+      x.options = credits_html_config
+    else:
+      x.dest = doc_build_dir/filename.changeFileExt("html")
+      x.options = mac_html_config
+    yield x
+    # Now generate another normal version where path is not changed.
+    x.dest = rst_path.changeFileExt("html")
+    x.options = nil
+    yield x
 
   for plain_rst in normal_rst_files:
     x.src = plain_rst
@@ -82,24 +120,25 @@ proc build_all_rst_files(): seq[In_out] =
 
 
 task "doc", "Generates HTML from the rst files.":
+  doc_build_dir.create_dir
   # Generate html files from the rst docs.
   for f in build_all_rst_files():
     let (rst_file, html_file, options) = f
-    if not html_file.needs_refresh(rst_file): continue
-    discard change_rst_options(options)
+    if not f.needs_refresh: continue
+    discard change_rst_options(options.load_config)
     if not rst2html(rst_file, html_file):
       quit("Could not generate html doc for " & rst_file)
     else:
       if options.isNil:
         change_rst_links_to_html(html_file)
-      #doc_build_dir.update_timestamp
+      doc_build_dir.update_timestamp
       echo rst_file & " -> " & html_file
 
   echo "All docs generated"
 
 task "check_doc", "Validates rst format for a subset of documentation":
   for f in build_all_rst_files():
-    let (rst_file, html_file, options) = f
+    let rst_file = f.src
     echo "Testing ", rst_file
     let (output, exit) = execCmdEx("rst2html.py " & rst_file & " /dev/null")
     if output.len > 0 or exit != 0:

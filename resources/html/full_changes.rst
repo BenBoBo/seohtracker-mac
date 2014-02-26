@@ -21,3 +21,5 @@ v1, ????-??-??
   <https://github.com/gradha/seohtracker-mac/issues/6>`_.
 * `Added preferences window
   <https://github.com/gradha/seohtracker-mac/issues/10>`_.
+* `Implemented about dialog
+  <https://github.com/gradha/seohtracker-mac/issues/14>`_.
