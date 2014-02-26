@@ -228,7 +228,7 @@ task "doc", "Generates documentation in HTML and applehelp formats":
       dest = build_dir/basename/help_contents_dir/info_plist
       src = help_dir/info_plist
       did_change = false
-    dest.create_dir
+    dest.split_file.dir.create_dir
     if dest.needs_refresh(src):
       src.copyFileWithPermissions(dest)
       did_change = true
