@@ -38,7 +38,7 @@
 		D533F84C18B671FD00A7FFC3 /* root_system.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83C18B671FD00A7FFC3 /* root_system.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		D533F84D18B671FD00A7FFC3 /* wrappers_sqlite3.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83D18B671FD00A7FFC3 /* wrappers_sqlite3.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		D58A7A3E18BDECC20005752B /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = D58A7A3D18BDECC20005752B /* Credits.html */; };
-		D58A7A4218BDFD390005752B /* seohtracker.icns in Resources */ = {isa = PBXBuildFile; fileRef = D58A7A4118BDFD390005752B /* seohtracker.icns */; };
+		D58A7A4518BE06050005752B /* seohtracker.icns in Resources */ = {isa = PBXBuildFile; fileRef = D58A7A4418BE06050005752B /* seohtracker.icns */; };
 		D5AD7DA418BD14A1005F4865 /* RHPreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = D5AD7D9F18BD14A1005F4865 /* RHPreferencesWindow.xib */; };
 		D5AD7DA518BD14A1005F4865 /* RHPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5AD7DA118BD14A1005F4865 /* RHPreferencesWindowController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		D5AD7DA918BD188B005F4865 /* EHSettings_vc.m in Sources */ = {isa = PBXBuildFile; fileRef = D5AD7DA718BD188B005F4865 /* EHSettings_vc.m */; };
@@ -106,6 +106,7 @@
 		D533F83D18B671FD00A7FFC3 /* wrappers_sqlite3.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = wrappers_sqlite3.m; sourceTree = "<group>"; };
 		D58A7A3D18BDECC20005752B /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Credits.html; sourceTree = "<group>"; };
 		D58A7A4118BDFD390005752B /* seohtracker.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = seohtracker.icns; sourceTree = "<group>"; };
+		D58A7A4418BE06050005752B /* seohtracker.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = seohtracker.icns; sourceTree = "<group>"; };
 		D5AD7D9E18BD14A1005F4865 /* RHPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RHPreferences.h; sourceTree = "<group>"; };
 		D5AD7D9F18BD14A1005F4865 /* RHPreferencesWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RHPreferencesWindow.xib; sourceTree = "<group>"; };
 		D5AD7DA018BD14A1005F4865 /* RHPreferencesWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RHPreferencesWindowController.h; sourceTree = "<group>"; };
@@ -299,9 +300,18 @@
 		D58A7A4018BDFD390005752B /* graphics */ = {
 			isa = PBXGroup;
 			children = (
+				D58A7A4318BE06050005752B /* devel */,
 				D58A7A4118BDFD390005752B /* seohtracker.icns */,
 			);
 			path = graphics;
+			sourceTree = "<group>";
+		};
+		D58A7A4318BE06050005752B /* devel */ = {
+			isa = PBXGroup;
+			children = (
+				D58A7A4418BE06050005752B /* seohtracker.icns */,
+			);
+			path = devel;
 			sourceTree = "<group>";
 		};
 		D5AD7D9918BD14A1005F4865 /* RHPreferences */ = {
@@ -397,13 +407,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D58A7A4518BE06050005752B /* seohtracker.icns in Resources */,
 				D5AD7DAC18BD4021005F4865 /* EHSettings_vc.xib in Resources */,
 				D5AD7DBC18BD5300005F4865 /* html in Resources */,
 				D5AD7DA418BD14A1005F4865 /* RHPreferencesWindow.xib in Resources */,
 				D533F7F018B662CB00A7FFC3 /* InfoPlist.strings in Resources */,
 				D58A7A3E18BDECC20005752B /* Credits.html in Resources */,
 				D5318A6118BBBEBE001FD6C0 /* EHRoot_vc.xib in Resources */,
-				D58A7A4218BDFD390005752B /* seohtracker.icns in Resources */,
 				D533F7FE18B662CB00A7FFC3 /* Images.xcassets in Resources */,
 				D5318A7518BC0798001FD6C0 /* EHModify_vc.xib in Resources */,
 				D533F7FC18B662CB00A7FFC3 /* MainMenu.xib in Resources */,

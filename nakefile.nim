@@ -114,6 +114,19 @@ proc build_all_rst_files(): seq[In_out] =
   result = to_seq(all_rst_files())
 
 
+iterator walk_dirs(dir: string): string =
+  ## Similar to walkDirRec but returns directory paths, not file paths.
+  ##
+  ## Also, the returned paths are relative to `dir`.
+  var stack = @[dir]
+  while stack.len > 0:
+    for k,p in walkDir(stack.pop()):
+      case k
+      of pcFile, pcLinkToFile: discard
+      of pcDir, pcLinkToDir:
+        yield p[1 + dir.len .. <p.len]
+        stack.add(p)
+
 task "doc", "Generates HTML from the rst files.":
   doc_build_dir.create_dir
   # Generate html files from the rst docs.
@@ -149,8 +162,13 @@ task "clean", "Removes temporal files, mainly":
 
 task "icons", "Generates icons from the source png files":
   gfx_build_dir.create_dir
-  for src in walk_files(icons_dir/"*.iconset"):
-    let dest = gfx_build_dir/src.extract_filename.changeFileExt("icns")
+  for path in walk_dirs(icons_dir):
+    if not (path.split_file.ext == ".iconset"): continue
+    let
+      src = icons_dir/path
+      dest = gfx_build_dir/path.changeFileExt("icns")
+      dir = dest.split_file.dir
+    dir.create_dir
     if not dest.icon_needs_refresh(src): continue
     if not shell("iconutil --convert icns --output", dest, src):
       quit("Error generating icon from " & src)
