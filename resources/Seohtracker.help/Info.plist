@@ -21,7 +21,7 @@
 	<key>HPDBookAccessPath</key>
 	<string>index.html</string>
 	<key>HPDBookIconPath</key>
-	<string>test.png</string>
+	<string>shrd/help.png</string>
 	<key>HPDBookIndexPath</key>
 	<string>Seohtracker.index</string>
 	<key>HPDBookKBProduct</key>

@@ -258,6 +258,7 @@ task "doc", "Generates documentation in HTML and applehelp formats":
       else:
         # Normal file, just copy.
         if dest_file.needs_refresh(src):
+          dest_dir.create_dir
           src.copyFileWithPermissions(dest_file)
           echo src, " -> ", dest_file
           did_change = true
