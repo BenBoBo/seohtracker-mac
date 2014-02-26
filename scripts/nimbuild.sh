@@ -62,6 +62,9 @@ then
         ./nakefile doc
     fi
 
+    # Generate icons.
+    ./nakefile icons
+
     if [[ "${CONFIGURATION}" == "Release" ]]; then
         FLAGS="-d:mac -d:release"
     else

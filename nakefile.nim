@@ -7,6 +7,7 @@ type
 
 const
   doc_build_dir = "build"/"html"
+  gfx_build_dir = "build"/"graphics"
   mac_html_config = "resources"/"html"/"mac.cfg"
   credits_html_config = "resources"/"html"/"credits.cfg"
 
@@ -151,3 +152,8 @@ task "clean", "Removes temporal files, mainly":
     if ext == ".html":
       echo "Removing ", path
       path.removeFile()
+
+task "icons", "Generates icons from the source png files":
+  gfx_build_dir.create_dir
+  direShell "iconutil --convert icns --output",
+    gfx_build_dir/"seohtracker.icns", "resources"/"icons"/"seohtracker.iconset"
