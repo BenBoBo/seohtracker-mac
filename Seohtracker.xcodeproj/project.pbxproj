@@ -40,6 +40,7 @@
 		D58A7A4518BE06050005752B /* seohtracker.icns in Resources */ = {isa = PBXBuildFile; fileRef = D58A7A4418BE06050005752B /* seohtracker.icns */; };
 		D58A7A4918BE07D30005752B /* contact_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = D58A7A4718BE07D30005752B /* contact_logo.png */; };
 		D58A7A4A18BE07D30005752B /* contact_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D58A7A4818BE07D30005752B /* contact_logo@2x.png */; };
+		D58A7A4C18BE4A280005752B /* Seohtracker.help in Resources */ = {isa = PBXBuildFile; fileRef = D58A7A4B18BE4A280005752B /* Seohtracker.help */; };
 		D5AD7DA418BD14A1005F4865 /* RHPreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = D5AD7D9F18BD14A1005F4865 /* RHPreferencesWindow.xib */; };
 		D5AD7DA518BD14A1005F4865 /* RHPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5AD7DA118BD14A1005F4865 /* RHPreferencesWindowController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		D5AD7DA918BD188B005F4865 /* EHSettings_vc.m in Sources */ = {isa = PBXBuildFile; fileRef = D5AD7DA718BD188B005F4865 /* EHSettings_vc.m */; };
@@ -109,6 +110,7 @@
 		D58A7A4418BE06050005752B /* seohtracker.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = seohtracker.icns; sourceTree = "<group>"; };
 		D58A7A4718BE07D30005752B /* contact_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = contact_logo.png; sourceTree = "<group>"; };
 		D58A7A4818BE07D30005752B /* contact_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "contact_logo@2x.png"; sourceTree = "<group>"; };
+		D58A7A4B18BE4A280005752B /* Seohtracker.help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Seohtracker.help; sourceTree = "<group>"; };
 		D5AD7D9E18BD14A1005F4865 /* RHPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RHPreferences.h; sourceTree = "<group>"; };
 		D5AD7D9F18BD14A1005F4865 /* RHPreferencesWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RHPreferencesWindow.xib; sourceTree = "<group>"; };
 		D5AD7DA018BD14A1005F4865 /* RHPreferencesWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RHPreferencesWindowController.h; sourceTree = "<group>"; };
@@ -266,6 +268,7 @@
 		D533F82A18B671FD00A7FFC3 /* build */ = {
 			isa = PBXGroup;
 			children = (
+				D58A7A4B18BE4A280005752B /* Seohtracker.help */,
 				D58A7A4018BDFD390005752B /* graphics */,
 				D5AD7DBB18BD5300005F4865 /* html */,
 				D533F82B18B671FD00A7FFC3 /* nimcache */,
@@ -429,6 +432,7 @@
 				D5318A6118BBBEBE001FD6C0 /* EHRoot_vc.xib in Resources */,
 				D58A7A4918BE07D30005752B /* contact_logo.png in Resources */,
 				D5318A7518BC0798001FD6C0 /* EHModify_vc.xib in Resources */,
+				D58A7A4C18BE4A280005752B /* Seohtracker.help in Resources */,
 				D533F7FC18B662CB00A7FFC3 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
