@@ -23,3 +23,5 @@ v1, ????-??-??
   <https://github.com/gradha/seohtracker-mac/issues/10>`_.
 * `Implemented about dialog
   <https://github.com/gradha/seohtracker-mac/issues/14>`_.
+* `Added graphical resources
+  <https://github.com/gradha/seohtracker-mac/issues/5>`_.
