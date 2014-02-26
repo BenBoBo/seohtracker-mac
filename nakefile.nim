@@ -8,17 +8,19 @@ type
 const
   doc_build_dir = "build"/"html"
   gfx_build_dir = "build"/"graphics"
-  mac_html_config = "resources"/"html"/"mac.cfg"
-  credits_html_config = "resources"/"html"/"credits.cfg"
+  resource_dir = "resources"
+  icons_dir = resource_dir/"icons"
+  mac_html_config = resource_dir/"html"/"mac.cfg"
+  credits_html_config = resource_dir/"html"/"credits.cfg"
 
 template glob_rst(basedir: string): expr =
   ## Shortcut to simplify getting lists of files.
   to_seq(walk_files(basedir/"*.rst"))
 
 let
-  rst_build_files = glob_rst("resources"/"html")
+  rst_build_files = glob_rst(resource_dir/"html")
   normal_rst_files = concat(glob_rst("."), glob_rst("docs"),
-    glob_rst("resources"/"html"))
+    glob_rst(resource_dir/"html"))
 
 var
   CONFIGS = newStringTable(modeCaseInsensitive)
@@ -60,19 +62,6 @@ proc change_rst_links_to_html(html_file: string) =
   if DID_CHANGE:
     writeFile(html_file, $html)
 
-proc needs_refresh(target: string, src: varargs[string]): bool =
-  # Returns true if any of `src` has an older timestamp than `target`.
-  assert len(src) > 0, "Pass some parameters to check for"
-  var targetTime: float
-  try:
-    targetTime = toSeconds(getLastModificationTime(target))
-  except EOS:
-    return true
-
-  for s in src:
-    let srcTime = toSeconds(getLastModificationTime(s))
-    if srcTime > targetTime:
-      return true
 
 proc needs_refresh(target: In_out): bool =
   ## Wrapper around the normal needs_refresh for In_out types.
@@ -80,6 +69,11 @@ proc needs_refresh(target: In_out): bool =
     result = target.dest.needs_refresh(target.src)
   else:
     result = target.dest.needs_refresh(target.src, target.options)
+
+
+proc icon_needs_refresh(dest, src_dir: string): bool =
+  ## Wrapper around the normal needs_refresh expanding the src directory.
+  result = dest.needs_refresh(to_seq(walk_files(src_dir/"icon*png")))
 
 
 iterator all_rst_files(): In_out =
@@ -155,5 +149,11 @@ task "clean", "Removes temporal files, mainly":
 
 task "icons", "Generates icons from the source png files":
   gfx_build_dir.create_dir
-  direShell "iconutil --convert icns --output",
-    gfx_build_dir/"seohtracker.icns", "resources"/"icons"/"seohtracker.iconset"
+  for src in walk_files(icons_dir/"*.iconset"):
+    let dest = gfx_build_dir/src.extract_filename.changeFileExt("icns")
+    if not dest.icon_needs_refresh(src): continue
+    if not shell("iconutil --convert icns --output", dest, src):
+      quit("Error generating icon from " & src)
+    else:
+      echo src, " -> ", dest
+  echo "All icons generated"
