@@ -18,8 +18,6 @@ const
   help_contents_dir = "Contents"
   help_resources_dir = help_contents_dir/"Resources"
   help_generic_cfg = "default.cfg"
-  help_insert_files = mapIt(["appstore_changes", "full_changes"],
-    string, resource_dir/"html"/(it & ".rst"))
 
 template glob_rst(basedir: string): expr =
   ## Shortcut to simplify getting lists of files.
@@ -29,6 +27,8 @@ let
   rst_build_files = glob_rst(resource_dir/"html")
   normal_rst_files = concat(glob_rst("."), glob_rst("docs"),
     glob_rst(resource_dir/"html"))
+  help_insert_files = concat(mapIt(["appstore_changes", "full_changes"],
+    string, resource_dir/"html"/(it & ".rst")), @["LICENSE.rst"])
 
 var
   CONFIGS = newStringTable(modeCaseInsensitive)
