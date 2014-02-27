@@ -23,7 +23,7 @@
 	<key>HPDBookIconPath</key>
 	<string>shrd/help.png</string>
 	<key>HPDBookIndexPath</key>
-	<string>Seohtracker.index</string>
+	<string>search.helpindex</string>
 	<key>HPDBookKBProduct</key>
 	<string>seohtracker4</string>
 	<key>HPDBookKBURL</key>

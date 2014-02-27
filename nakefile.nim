@@ -263,8 +263,15 @@ task "doc", "Generates documentation in HTML and applehelp formats":
           echo src, " -> ", dest_file
           did_change = true
 
-    # Refresh the base directory for Xcode to update files.
-    if did_change: update_timestamp(build_dir/basename)
+    # Refresh the index search and base directory for Xcode to update files.
+    if did_change:
+      let
+        index_dir = build_dir/basename/help_resources_dir
+        out_index = index_dir/"search.helpindex"
+      if not shell("hiutil -C -a -f", out_index, index_dir):
+        quit("Could not run Apple's hiutil help indexing tool!")
+      echo "Updated ", out_index
+      update_timestamp(build_dir/basename)
 
   echo "All docs generated"
 
