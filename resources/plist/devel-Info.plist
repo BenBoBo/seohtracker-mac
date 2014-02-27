@@ -32,5 +32,9 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>CFBundleHelpBookFolder</key>
+	<string>Seohtracker.help</string>
+	<key>CFBundleHelpBookName</key>
+	<string>es.elhaso.nimrod.mac.seohhelp</string>
 </dict>
 </plist>

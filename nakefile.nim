@@ -1,17 +1,24 @@
 import nake, os, times, osproc, htmlparser, xmltree, strtabs, strutils,
-  rester, sequtils, packages/docutils/rst, packages/docutils/rstast, posix
+  rester, sequtils, packages/docutils/rst, packages/docutils/rstast, posix,
+  xmlparser
 
 type
   In_out = tuple[src, dest, options: string]
     ## The tuple only contains file paths.
 
 const
-  doc_build_dir = "build"/"html"
-  gfx_build_dir = "build"/"graphics"
+  build_dir = "build"
+  doc_build_dir = build_dir/"html"
+  gfx_build_dir = build_dir/"graphics"
   resource_dir = "resources"
   icons_dir = resource_dir/"icons"
   mac_html_config = resource_dir/"html"/"mac.cfg"
   credits_html_config = resource_dir/"html"/"credits.cfg"
+  info_plist = "Info.plist"
+  help_contents_dir = "Contents"
+  help_resources_dir = help_contents_dir/"Resources"
+  help_generic_cfg = "default.cfg"
+  help_caches = "Library"/"Caches"/"com.apple.help*"
 
 template glob_rst(basedir: string): expr =
   ## Shortcut to simplify getting lists of files.
@@ -21,6 +28,8 @@ let
   rst_build_files = glob_rst(resource_dir/"html")
   normal_rst_files = concat(glob_rst("."), glob_rst("docs"),
     glob_rst(resource_dir/"html"))
+  help_insert_files = concat(mapIt(["appstore_changes", "full_changes"],
+    string, resource_dir/"html"/(it & ".rst")), @["LICENSE.rst"])
 
 var
   CONFIGS = newStringTable(modeCaseInsensitive)
@@ -127,7 +136,87 @@ iterator walk_dirs(dir: string): string =
         yield p[1 + dir.len .. <p.len]
         stack.add(p)
 
-task "doc", "Generates HTML from the rst files.":
+
+iterator walk_help_dir_contents(dir: string): tuple[src, rel_path: string] =
+  ## This is a wrapper over walk_dirs to add special files to all help dirs.
+  ##
+  ## The proc will process the files as usual, then insert the brief and full
+  ## change logs into the returned list. The proc returns two elements, the
+  ## first is the absolute path to the source file. The second element is a
+  ## concatenation of the input `dir` parameter with the *relative* path to
+  ## src. This is required due to the inserted files being from directories
+  ## other than `dir`, which breaks normal path composing.
+  let offset = 1 + dir.len
+  assert offset > 1
+  var x: tuple[src, rel_path: string]
+  for src in dir.walk_dir_rec:
+    x.src = src
+    x.rel_path = src[offset .. <src.len]
+    yield x
+
+  # Now insert the changes logs.
+  for path in help_insert_files:
+    x.src = path
+    x.rel_path = path.extract_filename
+    yield x
+
+
+iterator find_help_directories(): string =
+  ## Returns valid help paths for further processing.
+  ##
+  ## A valid path is a directory ending in '.help' and containing an XML
+  ## info.plist file.
+  for path in resource_dir.walk_dirs:
+    if not (path.split_file.ext == ".help"): continue
+    let info_path = resource_dir/path/info_plist
+    discard info_path.load_xml
+    yield resource_dir/path
+
+
+proc process_help_rst(src, dest_dir, base_dir: string): bool =
+  ## Processes `src` and generates an html file in `dest_dir`.
+  ##
+  ## Returns true if a file was generated/updated, false otherwise. For the
+  ## options the proc will look for a .cfg file in the same directory as the
+  ## input src. Failing that, repeats changing the name to help_generic_cfg.
+  ## Failing that too, looks for the default configuration file in base_dir
+  ## (which can be a completely different path from src).
+  dest_dir.create_dir
+  var rst: In_out
+  rst.dest = changeFileExt(dest_dir / src.extract_filename, "html")
+  rst.src = src
+  # Find out if this file uses some sort of configuration file, global or local.
+  let specific_cfg = src.changeFileExt("cfg")
+  if specific_cfg.exists_file:
+    rst.options = specific_cfg
+  else:
+    let generic_cfg = src.split_file.dir/help_generic_cfg
+    if generic_cfg.exists_file:
+      rst.options = generic_cfg
+    else:
+      let base_cfg = base_dir/help_generic_cfg
+      if base_cfg.exists_file:
+        rst.options = base_cfg
+
+  if not rst.needs_refresh: return
+  discard change_rst_options(rst.options.load_config)
+  if not rst2html(rst.src, rst.dest):
+    quit("Could not generate html doc for " & rst.src)
+  else:
+    echo rst.src & " -> " & rst.dest
+    result = true
+
+
+proc trash_apple_help_cache_directories() =
+  ## Removes all directories with pattern help_caches.
+  ##
+  ## See http://stackoverflow.com/a/13547810/172690, looks like the OS only
+  ## ackhowledges new versions if the previous ones are uninstalled or you
+  ## remove the caches. So we remove the caches here.
+  for path in walk_files(get_home_dir()/help_caches): path.remove_dir
+
+
+task "doc", "Generates documentation in HTML and applehelp formats":
   doc_build_dir.create_dir
   # Generate html files from the rst docs.
   for f in build_all_rst_files():
@@ -141,6 +230,59 @@ task "doc", "Generates HTML from the rst files.":
         change_rst_links_to_html(html_file)
       doc_build_dir.update_timestamp
       echo rst_file & " -> " & html_file
+
+  # Generate Apple .help directories.
+  for help_dir in find_help_directories():
+    let basename = help_dir.extract_filename
+    var
+      dest = build_dir/basename/help_contents_dir/info_plist
+      src = help_dir/info_plist
+      did_change = false
+    dest.split_file.dir.create_dir
+    if dest.needs_refresh(src):
+      src.copyFileWithPermissions(dest)
+      did_change = true
+
+    # Now copy/process the resources.
+    let r_dir = build_dir/basename/help_resources_dir
+    for file_tuple in to_seq(help_dir.walk_help_dir_contents):
+      let
+        (src, rel_path) = file_tuple
+        (src_dir, src_name, src_ext) = src.split_file
+      # Ignore emtpy filenames or unix hidden files.
+      if src_name.len < 1 or src_name[0] == '.': continue
+
+      # Build destination directory.
+      let
+        dest_file = r_dir/rel_path
+        dest_dir = dest_file.split_file.dir
+
+      # Process extension and handle appropriately.
+      case src_ext.to_lower
+      of ".cfg", ".plist":
+        ## Config files are not copied to the help bundle.
+        discard
+      of ".rst":
+        if process_help_rst(src, dest_dir, help_dir):
+          did_change = true
+      else:
+        # Normal file, just copy.
+        if dest_file.needs_refresh(src):
+          dest_dir.create_dir
+          src.copyFileWithPermissions(dest_file)
+          echo src, " -> ", dest_file
+          did_change = true
+
+    # Refresh the index search and base directory for Xcode to update files.
+    if did_change:
+      let
+        index_dir = build_dir/basename/help_resources_dir
+        out_index = index_dir/"search.helpindex"
+      if not shell("hiutil -C -a -f", out_index, index_dir):
+        quit("Could not run Apple's hiutil help indexing tool!")
+      trash_apple_help_cache_directories()
+      echo "Updated ", out_index
+      update_timestamp(build_dir/basename)
 
   echo "All docs generated"
 
