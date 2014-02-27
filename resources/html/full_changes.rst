@@ -25,3 +25,5 @@ v4, ????-??-??
   <https://github.com/gradha/seohtracker-mac/issues/14>`_.
 * `Added graphical resources
   <https://github.com/gradha/seohtracker-mac/issues/5>`_.
+* `Added help in HTML
+  <https://github.com/gradha/seohtracker-mac/issues/12>`_.
