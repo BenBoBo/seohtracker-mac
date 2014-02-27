@@ -27,3 +27,5 @@ v4, ????-??-??
   <https://github.com/gradha/seohtracker-mac/issues/5>`_.
 * `Added help in HTML
   <https://github.com/gradha/seohtracker-mac/issues/12>`_.
+* `Cleaned default menu options
+  <https://github.com/gradha/seohtracker-mac/issues/11>`_.
