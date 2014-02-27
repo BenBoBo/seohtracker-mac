@@ -121,6 +121,7 @@
 		D5AD7DAD18BD46FA005F4865 /* NSNotificationCenter+ELHASO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNotificationCenter+ELHASO.h"; sourceTree = "<group>"; };
 		D5AD7DAE18BD46FA005F4865 /* NSNotificationCenter+ELHASO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNotificationCenter+ELHASO.m"; sourceTree = "<group>"; };
 		D5AD7DBB18BD5300005F4865 /* html */ = {isa = PBXFileReference; lastKnownFileType = folder; path = html; sourceTree = "<group>"; };
+		D5C94B2D18BFA0EC00EF34A8 /* help_defines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = help_defines.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -268,11 +269,12 @@
 		D533F82A18B671FD00A7FFC3 /* build */ = {
 			isa = PBXGroup;
 			children = (
-				D58A7A4B18BE4A280005752B /* Seohtracker.help */,
 				D58A7A4018BDFD390005752B /* graphics */,
 				D5AD7DBB18BD5300005F4865 /* html */,
 				D533F82B18B671FD00A7FFC3 /* nimcache */,
 				D58A7A3D18BDECC20005752B /* Credits.html */,
+				D5C94B2D18BFA0EC00EF34A8 /* help_defines.h */,
+				D58A7A4B18BE4A280005752B /* Seohtracker.help */,
 			);
 			path = build;
 			sourceTree = "<group>";

@@ -1,6 +1,6 @@
 import nake, os, times, osproc, htmlparser, xmltree, strtabs, strutils,
   rester, sequtils, packages/docutils/rst, packages/docutils/rstast, posix,
-  xmlparser
+  xmlparser, streams
 
 type
   In_out = tuple[src, dest, options: string]
@@ -19,6 +19,7 @@ const
   help_resources_dir = help_contents_dir/"Resources"
   help_generic_cfg = "default.cfg"
   help_caches = "Library"/"Caches"/"com.apple.help*"
+  help_include = build_dir/"help_defines.h"
 
 template glob_rst(basedir: string): expr =
   ## Shortcut to simplify getting lists of files.
@@ -216,6 +217,48 @@ proc trash_apple_help_cache_directories() =
   for path in walk_files(get_home_dir()/help_caches): path.remove_dir
 
 
+proc anchor_encode(s: string): string =
+  ## Like cgi.URL_encode but spaces are also encoded in hex.
+  result = newStringOfCap(s.len + s.len shr 2) # assume 12% non-alnum-chars
+  for i in 0..s.len-1:
+    case s[i]
+    of 'a'..'z', 'A'..'Z', '0'..'9', '_', '/', ':': add(result, s[i])
+    else:
+      add(result, '%')
+      add(result, toHex(ord(s[i]), 2))
+
+
+proc build_define(key, value: string): string =
+  ## Returns a C #define for the key/value, mangling them.
+  let value = value.change_file_ext("").anchor_encode
+  result = "#define help_anchor_" & value & " @\"" & key.anchor_encode & "\"\n"
+
+
+proc generate_include_from_help_search_index(input: string): string =
+  var s = newStringStream(input)
+  finally: s.close
+  let
+    xml = s.parse_xml
+    root_dict = xml[0]
+
+  result = """#ifndef __HELP_SEARCH_DEFINES__
+#define __HELP_SEARCH_DEFINES__
+"""
+  var key, value = ""
+  for i in items(root_dict):
+    case i.tag
+    of "key": key = i.innerText
+    of "array":
+      assert i[0].tag == "string"
+      value = i[0].innerText
+      if value[0] == '/': value = value[1..high(value)]
+
+      result.add(build_define(key, value))
+    else: discard
+
+  result.add("""#endif""")
+
+
 task "doc", "Generates documentation in HTML and applehelp formats":
   doc_build_dir.create_dir
   # Generate html files from the rst docs.
@@ -239,7 +282,7 @@ task "doc", "Generates documentation in HTML and applehelp formats":
       src = help_dir/info_plist
       did_change = false
     dest.split_file.dir.create_dir
-    if dest.needs_refresh(src):
+    if dest.needs_refresh(src) or help_include.needs_refresh(src):
       src.copyFileWithPermissions(dest)
       did_change = true
 
@@ -282,6 +325,13 @@ task "doc", "Generates documentation in HTML and applehelp formats":
         quit("Could not run Apple's hiutil help indexing tool!")
       trash_apple_help_cache_directories()
       echo "Updated ", out_index
+
+      # Generate C defines from the search terms to avoid broken links.
+      let (xml, list_error) = execCmdEx("hiutil -D -f " & out_index)
+      assert list_error == 0
+      write_file(help_include, generate_include_from_help_search_index(xml))
+      echo "Generated ", help_include
+
       update_timestamp(build_dir/basename)
 
   echo "All docs generated"

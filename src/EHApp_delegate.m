@@ -3,6 +3,7 @@
 #import "EHRoot_vc.h"
 #import "categories/NSString+seohyun.h"
 #import "EHSettings_vc.h"
+#import "help_defines.h"
 #import "user_config.h"
 
 #import "ELHASO.h"
@@ -132,16 +133,16 @@ NSString *user_metric_prefereces_changed = @"user_metric_preferences_changed";
     NSString *locBookName = [[NSBundle mainBundle]
         objectForInfoDictionaryKey:@"CFBundleHelpBookName"];
     [[NSHelpManager sharedHelpManager]
-        openHelpAnchor:@"Brief%20changes%20log" inBook:locBookName];
+        openHelpAnchor:help_anchor_appstore_changes inBook:locBookName];
 }
 
 /// Linked from the help menu, shows the license index page.
 - (IBAction)show_licenses:(id)sender
 {
     NSString *locBookName = [[NSBundle mainBundle]
-                             objectForInfoDictionaryKey:@"CFBundleHelpBookName"];
+        objectForInfoDictionaryKey:@"CFBundleHelpBookName"];
     [[NSHelpManager sharedHelpManager]
-     openHelpAnchor:@"Licenses%20and%20tools" inBook:locBookName];
+     openHelpAnchor:help_anchor_licenses inBook:locBookName];
 }
 
 @end
