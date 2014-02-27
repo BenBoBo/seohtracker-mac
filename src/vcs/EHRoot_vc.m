@@ -264,6 +264,68 @@
     [[[self.table_view superview] animator] setBoundsOrigin:scrollOrigin];
 }
 
+/// Starts the importation by asking the user for a CSV file.
+- (void)import_csv
+{
+    NSOpenPanel *panel = [NSOpenPanel openPanel];
+    [panel setCanChooseDirectories:NO];
+    [panel setAllowsMultipleSelection:NO];
+    [panel setShowsHiddenFiles:NO];
+    [panel setTitle:@"Select a .csv file to import"];
+    [panel setPrompt:@"Import"];
+    [panel setAllowedFileTypes:@[@"csv"]];
+    [panel setAllowsOtherFileTypes:NO];
+
+    [panel beginSheetModalForWindow:[self.view window]
+        completionHandler:^(NSInteger result) {
+
+            if (NSFileHandlingPanelOKButton == result)
+                [self import_csv_file:panel.URLs[0]];
+
+            [panel orderOut:nil];
+        }];
+}
+
+/** Callback when the user clicks OK on the open panel.
+ *
+ * Receives the filenames to be imported. Will be just one.
+ */
+- (void)import_csv_file:(NSURL*)url
+{
+    NSString *path = [url path];
+    DLOG(@"Would be reading %@", path);
+}
+
+/// Starts the exportation by asking the user where to place the CSV file.
+- (void)export_csv
+{
+    NSSavePanel *panel = [NSSavePanel savePanel];
+    [panel setShowsHiddenFiles:NO];
+    [panel setTitle:@"Select where to export the .csv file"];
+    [panel setPrompt:@"Export"];
+    [panel setAllowedFileTypes:@[@"csv"]];
+    [panel setAllowsOtherFileTypes:NO];
+    [panel setNameFieldStringValue:@"Seohtracker export.csv"];
+
+    [panel beginSheetModalForWindow:[self.view window]
+        completionHandler:^(NSInteger result) {
+
+            if (NSFileHandlingPanelOKButton == result)
+                [self export_csv_file:[panel.URL path]];
+
+            [panel orderOut:nil];
+        }];
+}
+
+/** Callback when the user clicks OK on the save panel.
+ *
+ * Receives where should the file be exported to.
+ */
+- (void)export_csv_file:(NSString*)path
+{
+    DLOG(@"Would be saving to %@", path);
+}
+
 #pragma mark -
 #pragma mark NSTableViewDataSource protocol
 

@@ -25,8 +25,8 @@ NSString *user_metric_prefereces_changed = @"user_metric_preferences_changed";
 
 @interface EHApp_delegate ()
 
-/// Keeps a strong reference to the history vc.
-@property (nonatomic, strong) EHRoot_vc *history_vc;
+/// Keeps a strong reference to the root vc.
+@property (nonatomic, strong) EHRoot_vc *root_vc;
 /// Caches the preferences window for lazy generation.
 @property (nonatomic, strong) RHPreferencesWindowController *preferences_vc;
 
@@ -60,12 +60,12 @@ NSString *user_metric_prefereces_changed = @"user_metric_preferences_changed";
     set_nimrod_metric_use_based_on_user_preferences();
 
     // Insert code here to initialize your application
-    self.history_vc = [[EHRoot_vc alloc]
+    self.root_vc = [[EHRoot_vc alloc]
         initWithNibName:NSStringFromClass([EHRoot_vc class]) bundle:nil];
     self.window.delegate = self;
 
-    [self.window.contentView addSubview:self.history_vc.view];
-    self.history_vc.view.frame = ((NSView*)self.window.contentView).bounds;
+    [self.window.contentView addSubview:self.root_vc.view];
+    self.root_vc.view.frame = ((NSView*)self.window.contentView).bounds;
 
     dispatch_async_low(^{ [self build_preferences]; });
 }
@@ -143,6 +143,18 @@ NSString *user_metric_prefereces_changed = @"user_metric_preferences_changed";
         objectForInfoDictionaryKey:@"CFBundleHelpBookName"];
     [[NSHelpManager sharedHelpManager]
      openHelpAnchor:help_anchor_licenses inBook:locBookName];
+}
+
+/// Linked from the main menu, starts the importation process.
+- (IBAction)import_csv:(id)sender
+{
+    [self.root_vc import_csv];
+}
+
+/// Linked from the main menu, starts the exportation process.
+- (IBAction)export_csv:(id)sender
+{
+    [self.root_vc export_csv];
 }
 
 @end
