@@ -18,6 +18,7 @@ const
   help_contents_dir = "Contents"
   help_resources_dir = help_contents_dir/"Resources"
   help_generic_cfg = "default.cfg"
+  help_caches = "Library"/"Caches"/"com.apple.help*"
 
 template glob_rst(basedir: string): expr =
   ## Shortcut to simplify getting lists of files.
@@ -206,6 +207,15 @@ proc process_help_rst(src, dest_dir, base_dir: string): bool =
     result = true
 
 
+proc trash_apple_help_cache_directories() =
+  ## Removes all directories with pattern help_caches.
+  ##
+  ## See http://stackoverflow.com/a/13547810/172690, looks like the OS only
+  ## ackhowledges new versions if the previous ones are uninstalled or you
+  ## remove the caches. So we remove the caches here.
+  for path in walk_files(get_home_dir()/help_caches): path.remove_dir
+
+
 task "doc", "Generates documentation in HTML and applehelp formats":
   doc_build_dir.create_dir
   # Generate html files from the rst docs.
@@ -270,6 +280,7 @@ task "doc", "Generates documentation in HTML and applehelp formats":
         out_index = index_dir/"search.helpindex"
       if not shell("hiutil -C -a -f", out_index, index_dir):
         quit("Could not run Apple's hiutil help indexing tool!")
+      trash_apple_help_cache_directories()
       echo "Updated ", out_index
       update_timestamp(build_dir/basename)
 
