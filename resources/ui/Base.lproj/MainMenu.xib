@@ -646,6 +646,13 @@
                                     <action selector="showHelp:" target="-1" id="493"/>
                                 </connections>
                             </menuItem>
+                            <menuItem isSeparatorItem="YES" id="1Zi-eK-re8"/>
+                            <menuItem title="What's new?" id="oi8-fP-gbZ">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="show_whats_new:" target="494" id="Ju3-dI-1rT"/>
+                                </connections>
+                            </menuItem>
                         </items>
                     </menu>
                 </menuItem>
