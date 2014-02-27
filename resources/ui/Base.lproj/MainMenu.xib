@@ -653,6 +653,12 @@
                                     <action selector="show_whats_new:" target="494" id="Ju3-dI-1rT"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="Licenses" id="PKB-oO-zkc">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="show_licenses:" target="494" id="MRD-cf-mcW"/>
+                                </connections>
+                            </menuItem>
                         </items>
                     </menu>
                 </menuItem>

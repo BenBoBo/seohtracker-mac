@@ -126,13 +126,22 @@ NSString *user_metric_prefereces_changed = @"user_metric_preferences_changed";
     [self.preferences_vc showWindow:self];
 }
 
-/// Linked from the app menu, shows directly the appstore changes file.
+/// Linked from the help menu, shows directly the appstore changes file.
 - (IBAction)show_whats_new:(id)sender
 {
     NSString *locBookName = [[NSBundle mainBundle]
         objectForInfoDictionaryKey:@"CFBundleHelpBookName"];
     [[NSHelpManager sharedHelpManager]
         openHelpAnchor:@"Brief%20changes%20log" inBook:locBookName];
+}
+
+/// Linked from the help menu, shows the license index page.
+- (IBAction)show_licenses:(id)sender
+{
+    NSString *locBookName = [[NSBundle mainBundle]
+                             objectForInfoDictionaryKey:@"CFBundleHelpBookName"];
+    [[NSHelpManager sharedHelpManager]
+     openHelpAnchor:@"Licenses%20and%20tools" inBook:locBookName];
 }
 
 @end
