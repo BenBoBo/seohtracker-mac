@@ -303,6 +303,7 @@
     self.csv_to_import = [url path];
     DLOG(@"Would be reading %@", self.csv_to_import);
 
+    // First scan how many entries there are.
     self.table_view.enabled = NO;
     EHProgress_vc *progress = [EHProgress_vc start_in:self];
 
@@ -323,12 +324,32 @@
     [alert addButtonWithTitle:@"Only add"];
     [alert addButtonWithTitle:@"Replace database"];
 
-    const long ret = [alert runModal];
-    if (ret == NSAlertFirstButtonReturn)
+    const long selected_button = [alert runModal];
+    if (selected_button == NSAlertFirstButtonReturn)
         return;
 
-    const BOOL replace = (ret != NSAlertSecondButtonReturn);
+    // Cool, replace or add the entries.
+    self.table_view.enabled = NO;
+    progress = [EHProgress_vc start_in:self];
+
+    const BOOL replace = (selected_button != NSAlertSecondButtonReturn);
     DLOG(@"Importing, replace set to %d", replace);
+    const BOOL ret = import_csv_into_db([self.csv_to_import cstring], replace);
+    DLOG(@"Importation reported %d, with replace as %d", ret, replace);
+
+    [self.table_view reloadData];
+    [self refresh_ui];
+
+    [progress dismiss];
+    self.table_view.enabled = YES;
+
+    alert = [NSAlert new];
+    alert.alertStyle = NSInformationalAlertStyle;
+    alert.showsHelp = NO;
+    alert.messageText = (ret ?
+        @"Success importing file" : @"Could not import file!");
+    [alert addButtonWithTitle:@"Close"];
+    [alert runModal];
 }
 
 /// Starts the exportation by asking the user where to place the CSV file.
