@@ -2,6 +2,7 @@
 
 #import "EHApp_delegate.h"
 #import "EHModify_vc.h"
+#import "EHProgress_vc.h"
 
 #import "ELHASO.h"
 #import "NSNotificationCenter+ELHASO.h"
@@ -298,14 +299,8 @@
     NSString *path = [url path];
     DLOG(@"Would be reading %@", path);
 
-    NSWindowController *wc = [[NSWindowController alloc]
-        initWithWindowNibName:@"EHProgress_sheet"];
-    NSWindow *sheet = wc.window;
-
-    [NSApp beginSheet:sheet modalForWindow:[self.view window]
-        modalDelegate:nil didEndSelector:NULL contextInfo:NULL];
-
-    [sheet makeKeyAndOrderFront:self];
+    self.table_view.enabled = NO;
+    EHProgress_vc *progress = [EHProgress_vc start_in:self];
 
     // Start computation using GCD...
     const int maxloop = 200;
@@ -315,8 +310,8 @@
         DLOG(@"step %d", i);
     }
 
-    [NSApp endSheet:sheet];
-    [sheet orderOut:self];
+    [progress dismiss];
+    self.table_view.enabled = YES;
 }
 
 /// Starts the exportation by asking the user where to place the CSV file.
