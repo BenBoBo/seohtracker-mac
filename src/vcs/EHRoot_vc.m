@@ -3,6 +3,7 @@
 #import "EHApp_delegate.h"
 #import "EHModify_vc.h"
 #import "EHProgress_vc.h"
+#import "NSString+seohyun.h"
 
 #import "ELHASO.h"
 #import "NSNotificationCenter+ELHASO.h"
@@ -25,6 +26,9 @@
 - (IBAction)did_touch_modify_button:(id)sender;
 - (IBAction)did_touch_minus_button:(id)sender;
 - (IBAction)did_touch_plus_button:(id)sender;
+
+/// Keeps the name of the input file being imported.
+@property (nonatomic, strong) NSString *csv_to_import;
 
 @end
 
@@ -296,22 +300,35 @@
  */
 - (void)import_csv_file:(NSURL*)url
 {
-    NSString *path = [url path];
-    DLOG(@"Would be reading %@", path);
+    self.csv_to_import = [url path];
+    DLOG(@"Would be reading %@", self.csv_to_import);
 
     self.table_view.enabled = NO;
     EHProgress_vc *progress = [EHProgress_vc start_in:self];
 
-    // Start computation using GCD...
-    const int maxloop = 200;
-    for (int i = 0; i < maxloop; i++) {
-
-        [NSThread sleepForTimeInterval:0.01];
-        DLOG(@"step %d", i);
-    }
+    const long long csv_entries =
+        scan_csv_for_entries([self.csv_to_import cstring]);
 
     [progress dismiss];
     self.table_view.enabled = YES;
+
+    // Ask the user what kind of importation is to be performed.
+    NSAlert *alert = [NSAlert new];
+    alert.alertStyle = NSInformationalAlertStyle;
+    alert.showsHelp = NO;
+    alert.messageText = [NSString stringWithFormat:@"Found %lld records in %@. "
+            @"Replace your current database or only add new entries not "
+            @"yet present?", csv_entries, self.csv_to_import];
+    [alert addButtonWithTitle:@"Cancel importation"];
+    [alert addButtonWithTitle:@"Only add"];
+    [alert addButtonWithTitle:@"Replace database"];
+
+    const long ret = [alert runModal];
+    if (ret == NSAlertFirstButtonReturn)
+        return;
+
+    const BOOL replace = (ret != NSAlertSecondButtonReturn);
+    DLOG(@"Importing, replace set to %d", replace);
 }
 
 /// Starts the exportation by asking the user where to place the CSV file.
