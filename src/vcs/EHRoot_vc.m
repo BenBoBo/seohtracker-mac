@@ -288,12 +288,35 @@
 
 /** Callback when the user clicks OK on the open panel.
  *
- * Receives the filenames to be imported. Will be just one.
+ * Receives the filenames to be imported. Will be just one. The progress is
+ * displayed in a sheet based on code from
+ * http://stackoverflow.com/a/8144181/172690 while nimrod code processes the
+ * stuff.
  */
 - (void)import_csv_file:(NSURL*)url
 {
     NSString *path = [url path];
     DLOG(@"Would be reading %@", path);
+
+    NSWindowController *wc = [[NSWindowController alloc]
+        initWithWindowNibName:@"EHProgress_sheet"];
+    NSWindow *sheet = wc.window;
+
+    [NSApp beginSheet:sheet modalForWindow:[self.view window]
+        modalDelegate:nil didEndSelector:NULL contextInfo:NULL];
+
+    [sheet makeKeyAndOrderFront:self];
+
+    // Start computation using GCD...
+    const int maxloop = 200;
+    for (int i = 0; i < maxloop; i++) {
+
+        [NSThread sleepForTimeInterval:0.01];
+        DLOG(@"step %d", i);
+    }
+
+    [NSApp endSheet:sheet];
+    [sheet orderOut:self];
 }
 
 /// Starts the exportation by asking the user where to place the CSV file.
