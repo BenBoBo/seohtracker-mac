@@ -380,6 +380,22 @@
 - (void)export_csv_file:(NSString*)path
 {
     DLOG(@"Would be saving to %@", path);
+
+    self.table_view.enabled = NO;
+    EHProgress_vc *progress = [EHProgress_vc start_in:self];
+
+    const bool ret = export_database_to_csv([path cstring]);
+
+    [progress dismiss];
+    self.table_view.enabled = YES;
+
+    NSAlert *alert = [NSAlert new];
+    alert.alertStyle = NSInformationalAlertStyle;
+    alert.showsHelp = NO;
+    alert.messageText = (ret ?
+        @"Success exporting file" : @"Could not export file!");
+    [alert addButtonWithTitle:@"Close"];
+    [alert runModal];
 }
 
 #pragma mark -
