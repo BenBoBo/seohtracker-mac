@@ -67,6 +67,8 @@ NSString *user_metric_prefereces_changed = @"user_metric_preferences_changed";
     [self.window.contentView addSubview:self.root_vc.view];
     self.root_vc.view.frame = ((NSView*)self.window.contentView).bounds;
 
+    [self.window registerForDraggedTypes:@[NSURLPboardType]];
+
     dispatch_async_low(^{ [self build_preferences]; });
 }
 
@@ -155,6 +157,43 @@ NSString *user_metric_prefereces_changed = @"user_metric_preferences_changed";
 - (IBAction)export_csv:(id)sender
 {
     [self.root_vc export_csv];
+}
+
+#pragma mark -
+#pragma mark NSDraggingDestination protocol
+
+// Accepts the drag operation if it is a csv file being dragged in.
+- (NSDragOperation)draggingEntered:(id<NSDraggingInfo>)sender
+{
+    NSPasteboard *pboard = [sender draggingPasteboard];
+
+    if (![[pboard types] containsObject:NSURLPboardType])
+        return NSDragOperationNone;
+
+    NSURL *file_url = [NSURL URLFromPasteboard:pboard];
+    NSString *ext = [[file_url pathExtension] lowercaseString];
+    if (![ext isEqualToString:@"csv"])
+        return NSDragOperationNone;
+
+    return NSDragOperationCopy;
+}
+
+/// Handles the drag operation, calls the importation method.
+- (BOOL)performDragOperation:(id <NSDraggingInfo>)sender
+{
+    NSPasteboard *pboard = [sender draggingPasteboard];
+    if (![[pboard types] containsObject:NSURLPboardType])
+        return NO;
+
+    NSURL *file_url = [NSURL URLFromPasteboard:pboard];
+    NSString *ext = [[file_url pathExtension] lowercaseString];
+    if (![ext isEqualToString:@"csv"])
+        return NO;
+
+    [self.root_vc performSelector:@selector(import_csv_file:)
+        withObject:file_url afterDelay:0];
+
+    return YES;
 }
 
 @end
