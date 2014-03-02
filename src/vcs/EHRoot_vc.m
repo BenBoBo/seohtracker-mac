@@ -362,6 +362,7 @@
     [panel setAllowedFileTypes:@[@"csv"]];
     [panel setAllowsOtherFileTypes:NO];
     [panel setNameFieldStringValue:@"Seohtracker export.csv"];
+    [panel setNameFieldStringValue:[self generate_csv_export_filename]];
 
     [panel beginSheetModalForWindow:[self.view window]
         completionHandler:^(NSInteger result) {
@@ -396,6 +397,25 @@
         @"Success exporting file" : @"Could not export file!");
     [alert addButtonWithTitle:@"Close"];
     [alert runModal];
+}
+
+/// Returns a potential filename for csv exportation using the current date.
+- (NSString*)generate_csv_export_filename
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    NSString *dateComponents = @"yyMMdd";
+    [dateFormatter setDateFormat:[NSDateFormatter
+        dateFormatFromTemplate:dateComponents
+        options:0 locale:[NSLocale currentLocale]]];
+    NSString *filename = [NSString stringWithFormat:@"Seohtracker %@.csv",
+        [dateFormatter stringFromDate:[NSDate date]]];
+    // Remove troublesome characters from generated path.
+    for (NSString *invalid in @[@"/", @":", @"\\", @"?", @"*", @"\""]) {
+        filename = [filename stringByReplacingOccurrencesOfString:invalid
+            withString:@"-"];
+    }
+
+    return filename;
 }
 
 #pragma mark -
