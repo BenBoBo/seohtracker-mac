@@ -173,7 +173,11 @@ NSString *user_metric_prefereces_changed = @"user_metric_preferences_changed";
     for (NSString *file in filenames) {
         NSString *ext = [[file pathExtension] lowercaseString];
         if ([ext isEqualToString:@"csv"]) {
-            [self.root_vc import_csv_file:[NSURL fileURLWithPath:file]];
+            [NSApp abortModal];
+            // Run the importation in the next runloop, so that abortModal has
+            // a chance to notify/close modal sheets/windows.
+            [self.root_vc performSelector:@selector(import_csv_file:)
+                withObject:[NSURL fileURLWithPath:file] afterDelay:0];
             return;
         }
     }

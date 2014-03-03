@@ -30,6 +30,9 @@
 /// Keeps the name of the input file being imported.
 @property (nonatomic, strong) NSString *csv_to_import;
 
+/// Points to the current pseudo modal sheet.
+@property (nonatomic, weak) NSWindow *modal_sheet_window;
+
 @end
 
 @implementation EHRoot_vc
@@ -125,14 +128,8 @@
         initWithWindowNibName:NSStringFromClass([EHModify_vc class])];
     [vc set_values_from:weight for_new_value:NO];
 
-    // Display modal sheet, disable our table view.
-    self.table_view.enabled = NO;
-    [NSApp beginSheet:vc.window modalForWindow:[self.view window]
-        modalDelegate:self didEndSelector:nil contextInfo:nil];
-    const NSInteger ret = [NSApp runModalForWindow: vc.window];
-    [NSApp endSheet:vc.window];
-    [vc.window orderOut:self];
-    self.table_view.enabled = YES;
+    const NSInteger ret = [self begin_modal_sheet:vc.window];
+    [self end_modal_sheet];
 
     if (NSModalResponseAbort == ret) {
         DLOG(@"User aborted modification");
@@ -208,14 +205,8 @@
         initWithWindowNibName:NSStringFromClass([EHModify_vc class])];
     [vc set_values_from:get_last_weight() for_new_value:YES];
 
-    // Display modal sheet, disable our table view.
-    self.table_view.enabled = NO;
-    [NSApp beginSheet:vc.window modalForWindow:[self.view window]
-        modalDelegate:self didEndSelector:nil contextInfo:nil];
-    const NSInteger ret = [NSApp runModalForWindow: vc.window];
-    [NSApp endSheet:vc.window];
-    [vc.window orderOut:self];
-    self.table_view.enabled = YES;
+    const NSInteger ret = [self begin_modal_sheet:vc.window];
+    [self end_modal_sheet];
 
     if (NSModalResponseAbort == ret) {
         DLOG(@"User aborted modification");
@@ -300,6 +291,7 @@
  */
 - (void)import_csv_file:(NSURL*)url
 {
+    [self end_modal_sheet];
     self.csv_to_import = [url path];
     DLOG(@"Would be reading %@", self.csv_to_import);
 
@@ -416,6 +408,41 @@
     }
 
     return filename;
+}
+
+/** Starts a pseudo modal sheet and keeps track of it.
+ *
+ * The pointers are kept to be able to cancel the modal sheet should an
+ * external event happen (like file importation). If there already was a modal
+ * sheet, it is dismissed first. Opening a modal sheet disables the table view
+ * to avoid scrolling.
+ *
+ * Returns the result of calling [NSApp runModalForWindow:].
+ */
+- (NSInteger)begin_modal_sheet:(NSWindow*)sheet_window
+{
+    [self end_modal_sheet];
+
+    self.modal_sheet_window = sheet_window;
+    self.table_view.enabled = NO;
+    [NSApp beginSheet:sheet_window modalForWindow:[self.view window]
+        modalDelegate:self didEndSelector:nil contextInfo:nil];
+    return [NSApp runModalForWindow:sheet_window];
+}
+
+/** Dismisses a modal sheet previously opened with begin_modal_sheet.
+ *
+ * You can call this at any time, it will do nothing if there is no modal
+ * sheet.
+ */
+- (void)end_modal_sheet
+{
+    self.table_view.enabled = YES;
+    if (!self.modal_sheet_window)
+        return;
+    [NSApp endSheet:self.modal_sheet_window];
+    [self.modal_sheet_window orderOut:self];
+    self.modal_sheet_window = nil;
 }
 
 #pragma mark -
