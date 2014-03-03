@@ -33,3 +33,5 @@ v4, ????-??-??
   <https://github.com/gradha/seohtracker-mac/issues/15>`_.
 * `Mentioned mobile client in help
   <https://github.com/gradha/seohtracker-mac/issues/21>`_.
+* `Configured app sandbox
+  <https://github.com/gradha/seohtracker-mac/issues/19>`_.
