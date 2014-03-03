@@ -4,10 +4,10 @@ Importation and exportation as CSV file
 
 All the measurements you register inside Seohtracker are stored in its internal
 database. But the data is yours, you should have access to it to back it up,
-put it into another program, share it with friends, copy the data to the mobile
-client, etc… Or maybe you already have measurements and would like to import
-them into Seohtracker? You can import and export the database using the
-appropriate options in the **File** menu.
+put it into another program, share it with friends, copy the data to the
+`mobile client <mobile_client.html>`_, etc… Or maybe you already have
+measurements and would like to import them into Seohtracker? You can import and
+export the database using the appropriate options in the **File** menu.
 
 Exportation of the database will generate a CSV (comma separated values) file
 in plain text format. CSV files are easy to handle, modify, or import into

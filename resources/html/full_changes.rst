@@ -31,3 +31,5 @@ v4, ????-??-??
   <https://github.com/gradha/seohtracker-mac/issues/11>`_.
 * `Added import/export csv capability
   <https://github.com/gradha/seohtracker-mac/issues/15>`_.
+* `Mentioned mobile client in help
+  <https://github.com/gradha/seohtracker-mac/issues/21>`_.
