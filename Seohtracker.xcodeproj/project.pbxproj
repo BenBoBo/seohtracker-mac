@@ -7,6 +7,48 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D52E74CC18C50F6E00A8B6F1 /* pure_parsecsv.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83718B671FD00A7FFC3 /* pure_parsecsv.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D52E74CD18C50F6E00A8B6F1 /* EHApp_delegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F81B18B6650200A7FFC3 /* EHApp_delegate.m */; };
+		D52E74CE18C50F6E00A8B6F1 /* logic_l_log.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F82E18B671FD00A7FFC3 /* logic_l_log.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D52E74CF18C50F6E00A8B6F1 /* pure_streams.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83918B671FD00A7FFC3 /* pure_streams.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D52E74D018C50F6E00A8B6F1 /* pure_times.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83B18B671FD00A7FFC3 /* pure_times.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D52E74D118C50F6E00A8B6F1 /* root_system.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83C18B671FD00A7FFC3 /* root_system.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D52E74D218C50F6E00A8B6F1 /* nim_n_global.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83218B671FD00A7FFC3 /* nim_n_global.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D52E74D318C50F6E00A8B6F1 /* NSArray+ELHASO.m in Sources */ = {isa = PBXBuildFile; fileRef = D532973E18B68B1C0028F3AA /* NSArray+ELHASO.m */; };
+		D52E74D418C50F6E00A8B6F1 /* RHPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5AD7DA118BD14A1005F4865 /* RHPreferencesWindowController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		D52E74D518C50F6E00A8B6F1 /* posix_posix.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83418B671FD00A7FFC3 /* posix_posix.m */; };
+		D52E74D618C50F6E00A8B6F1 /* logic_l_db.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F82D18B671FD00A7FFC3 /* logic_l_db.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D52E74D718C50F6E00A8B6F1 /* EHRoot_vc.m in Sources */ = {isa = PBXBuildFile; fileRef = D5318A5D18BBB745001FD6C0 /* EHRoot_vc.m */; };
+		D52E74D818C50F6E00A8B6F1 /* pure_parseutils.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83818B671FD00A7FFC3 /* pure_parseutils.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D52E74D918C50F6E00A8B6F1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F81C18B6650200A7FFC3 /* main.m */; };
+		D52E74DA18C50F6E00A8B6F1 /* user_config.m in Sources */ = {isa = PBXBuildFile; fileRef = D5318A6818BBE2BD001FD6C0 /* user_config.m */; };
+		D52E74DB18C50F6E00A8B6F1 /* ELHASO.m in Sources */ = {isa = PBXBuildFile; fileRef = D532973C18B68B1C0028F3AA /* ELHASO.m */; };
+		D52E74DC18C50F6E00A8B6F1 /* EHProgress_vc.m in Sources */ = {isa = PBXBuildFile; fileRef = D5FCD4A218C1401600D7783B /* EHProgress_vc.m */; };
+		D52E74DD18C50F6E00A8B6F1 /* pure_lexbase.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83518B671FD00A7FFC3 /* pure_lexbase.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D52E74DE18C50F6E00A8B6F1 /* logic_l_types.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83018B671FD00A7FFC3 /* logic_l_types.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D52E74DF18C50F6E00A8B6F1 /* NSString+seohyun.m in Sources */ = {isa = PBXBuildFile; fileRef = D532974118B68C2D0028F3AA /* NSString+seohyun.m */; };
+		D52E74E018C50F6E00A8B6F1 /* wrappers_sqlite3.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83D18B671FD00A7FFC3 /* wrappers_sqlite3.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D52E74E118C50F6E00A8B6F1 /* logic_l_main.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F82F18B671FD00A7FFC3 /* logic_l_main.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D52E74E218C50F6E00A8B6F1 /* pure_os.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83618B671FD00A7FFC3 /* pure_os.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D52E74E318C50F6E00A8B6F1 /* EHModify_vc.m in Sources */ = {isa = PBXBuildFile; fileRef = D5318A7018BC03DC001FD6C0 /* EHModify_vc.m */; };
+		D52E74E418C50F6E00A8B6F1 /* pure_strutils.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83A18B671FD00A7FFC3 /* pure_strutils.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D52E74E518C50F6E00A8B6F1 /* EHSettings_vc.m in Sources */ = {isa = PBXBuildFile; fileRef = D5AD7DA718BD188B005F4865 /* EHSettings_vc.m */; };
+		D52E74E618C50F6E00A8B6F1 /* impure_db_sqlite.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F82C18B671FD00A7FFC3 /* impure_db_sqlite.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D52E74E718C50F6E00A8B6F1 /* NSNotificationCenter+ELHASO.m in Sources */ = {isa = PBXBuildFile; fileRef = D5AD7DAE18BD46FA005F4865 /* NSNotificationCenter+ELHASO.m */; };
+		D52E74E918C50F6E00A8B6F1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D533F7E518B662CB00A7FFC3 /* Cocoa.framework */; };
+		D52E74EC18C50F6E00A8B6F1 /* EHSettings_vc.xib in Resources */ = {isa = PBXBuildFile; fileRef = D5AD7DAB18BD4021005F4865 /* EHSettings_vc.xib */; };
+		D52E74ED18C50F6E00A8B6F1 /* html in Resources */ = {isa = PBXBuildFile; fileRef = D5AD7DBB18BD5300005F4865 /* html */; };
+		D52E74EE18C50F6E00A8B6F1 /* RHPreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = D5AD7D9F18BD14A1005F4865 /* RHPreferencesWindow.xib */; };
+		D52E74EF18C50F6E00A8B6F1 /* contact_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D58A7A4818BE07D30005752B /* contact_logo@2x.png */; };
+		D52E74F018C50F6E00A8B6F1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D533F7EE18B662CB00A7FFC3 /* InfoPlist.strings */; };
+		D52E74F118C50F6E00A8B6F1 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = D58A7A3D18BDECC20005752B /* Credits.html */; };
+		D52E74F218C50F6E00A8B6F1 /* EHRoot_vc.xib in Resources */ = {isa = PBXBuildFile; fileRef = D5318A6018BBBEBE001FD6C0 /* EHRoot_vc.xib */; };
+		D52E74F318C50F6E00A8B6F1 /* contact_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = D58A7A4718BE07D30005752B /* contact_logo.png */; };
+		D52E74F418C50F6E00A8B6F1 /* EHModify_vc.xib in Resources */ = {isa = PBXBuildFile; fileRef = D5318A7418BC0798001FD6C0 /* EHModify_vc.xib */; };
+		D52E74F518C50F6E00A8B6F1 /* Seohtracker.help in Resources */ = {isa = PBXBuildFile; fileRef = D58A7A4B18BE4A280005752B /* Seohtracker.help */; };
+		D52E74F618C50F6E00A8B6F1 /* EHProgress_vc.xib in Resources */ = {isa = PBXBuildFile; fileRef = D5FCD49F18C13CA600D7783B /* EHProgress_vc.xib */; };
+		D52E74F718C50F6E00A8B6F1 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D533F7FA18B662CB00A7FFC3 /* MainMenu.xib */; };
+		D52E74FE18C512A200A8B6F1 /* seohtracker.icns in Resources */ = {isa = PBXBuildFile; fileRef = D58A7A4118BDFD390005752B /* seohtracker.icns */; };
 		D5318A5E18BBB745001FD6C0 /* EHRoot_vc.m in Sources */ = {isa = PBXBuildFile; fileRef = D5318A5D18BBB745001FD6C0 /* EHRoot_vc.m */; };
 		D5318A6118BBBEBE001FD6C0 /* EHRoot_vc.xib in Resources */ = {isa = PBXBuildFile; fileRef = D5318A6018BBBEBE001FD6C0 /* EHRoot_vc.xib */; };
 		D5318A6918BBE2BD001FD6C0 /* user_config.m in Sources */ = {isa = PBXBuildFile; fileRef = D5318A6818BBE2BD001FD6C0 /* user_config.m */; };
@@ -52,6 +94,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		D52E74CA18C50F6E00A8B6F1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D533F7DA18B662CB00A7FFC3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D533F82418B6719800A7FFC3;
+			remoteInfo = "compile nimrod";
+		};
 		D533F82818B671AF00A7FFC3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D533F7DA18B662CB00A7FFC3 /* Project object */;
@@ -62,6 +111,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D52E74FB18C50F6E00A8B6F1 /* Seohtracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Seohtracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D52E74FC18C50F6E00A8B6F1 /* appstore-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "appstore-Info.plist"; path = "/Users/gradha/project/nimrod/seohyun/mac/resources/plist/appstore-Info.plist"; sourceTree = "<absolute>"; };
+		D52E74FD18C5108300A8B6F1 /* appstore.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = appstore.entitlements; path = resources/plist/appstore.entitlements; sourceTree = "<group>"; };
 		D5318A5C18BBB745001FD6C0 /* EHRoot_vc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EHRoot_vc.h; path = vcs/EHRoot_vc.h; sourceTree = "<group>"; };
 		D5318A5D18BBB745001FD6C0 /* EHRoot_vc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EHRoot_vc.m; path = vcs/EHRoot_vc.m; sourceTree = "<group>"; };
 		D5318A6018BBBEBE001FD6C0 /* EHRoot_vc.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EHRoot_vc.xib; path = resources/ui/EHRoot_vc.xib; sourceTree = "<group>"; };
@@ -130,6 +182,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		D52E74E818C50F6E00A8B6F1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D52E74E918C50F6E00A8B6F1 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D533F7DF18B662CB00A7FFC3 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -205,6 +265,7 @@
 			isa = PBXGroup;
 			children = (
 				D533F7E218B662CB00A7FFC3 /* Seohtracker devel.app */,
+				D52E74FB18C50F6E00A8B6F1 /* Seohtracker.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -268,6 +329,8 @@
 		D533F82318B665AC00A7FFC3 /* plist */ = {
 			isa = PBXGroup;
 			children = (
+				D52E74FC18C50F6E00A8B6F1 /* appstore-Info.plist */,
+				D52E74FD18C5108300A8B6F1 /* appstore.entitlements */,
 				D532974618B6AB330028F3AA /* devel-Info.plist */,
 				D532974718B6AB330028F3AA /* devel.entitlements */,
 			);
@@ -371,6 +434,24 @@
 /* End PBXLegacyTarget section */
 
 /* Begin PBXNativeTarget section */
+		D52E74C818C50F6E00A8B6F1 /* seohtracker-appstore */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D52E74F818C50F6E00A8B6F1 /* Build configuration list for PBXNativeTarget "seohtracker-appstore" */;
+			buildPhases = (
+				D52E74CB18C50F6E00A8B6F1 /* Sources */,
+				D52E74E818C50F6E00A8B6F1 /* Frameworks */,
+				D52E74EA18C50F6E00A8B6F1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D52E74C918C50F6E00A8B6F1 /* PBXTargetDependency */,
+			);
+			name = "seohtracker-appstore";
+			productName = Seohtracker;
+			productReference = D52E74FB18C50F6E00A8B6F1 /* Seohtracker.app */;
+			productType = "com.apple.product-type.application";
+		};
 		D533F7E118B662CB00A7FFC3 /* seohtracker-devel */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D533F81318B662CB00A7FFC3 /* Build configuration list for PBXNativeTarget "seohtracker-devel" */;
@@ -423,11 +504,32 @@
 			targets = (
 				D533F82418B6719800A7FFC3 /* compile nimrod */,
 				D533F7E118B662CB00A7FFC3 /* seohtracker-devel */,
+				D52E74C818C50F6E00A8B6F1 /* seohtracker-appstore */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		D52E74EA18C50F6E00A8B6F1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D52E74EC18C50F6E00A8B6F1 /* EHSettings_vc.xib in Resources */,
+				D52E74ED18C50F6E00A8B6F1 /* html in Resources */,
+				D52E74EE18C50F6E00A8B6F1 /* RHPreferencesWindow.xib in Resources */,
+				D52E74EF18C50F6E00A8B6F1 /* contact_logo@2x.png in Resources */,
+				D52E74F018C50F6E00A8B6F1 /* InfoPlist.strings in Resources */,
+				D52E74F118C50F6E00A8B6F1 /* Credits.html in Resources */,
+				D52E74F218C50F6E00A8B6F1 /* EHRoot_vc.xib in Resources */,
+				D52E74FE18C512A200A8B6F1 /* seohtracker.icns in Resources */,
+				D52E74F318C50F6E00A8B6F1 /* contact_logo.png in Resources */,
+				D52E74F418C50F6E00A8B6F1 /* EHModify_vc.xib in Resources */,
+				D52E74F518C50F6E00A8B6F1 /* Seohtracker.help in Resources */,
+				D52E74F618C50F6E00A8B6F1 /* EHProgress_vc.xib in Resources */,
+				D52E74F718C50F6E00A8B6F1 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D533F7E018B662CB00A7FFC3 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -451,6 +553,41 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		D52E74CB18C50F6E00A8B6F1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D52E74CC18C50F6E00A8B6F1 /* pure_parsecsv.m in Sources */,
+				D52E74CD18C50F6E00A8B6F1 /* EHApp_delegate.m in Sources */,
+				D52E74CE18C50F6E00A8B6F1 /* logic_l_log.m in Sources */,
+				D52E74CF18C50F6E00A8B6F1 /* pure_streams.m in Sources */,
+				D52E74D018C50F6E00A8B6F1 /* pure_times.m in Sources */,
+				D52E74D118C50F6E00A8B6F1 /* root_system.m in Sources */,
+				D52E74D218C50F6E00A8B6F1 /* nim_n_global.m in Sources */,
+				D52E74D318C50F6E00A8B6F1 /* NSArray+ELHASO.m in Sources */,
+				D52E74D418C50F6E00A8B6F1 /* RHPreferencesWindowController.m in Sources */,
+				D52E74D518C50F6E00A8B6F1 /* posix_posix.m in Sources */,
+				D52E74D618C50F6E00A8B6F1 /* logic_l_db.m in Sources */,
+				D52E74D718C50F6E00A8B6F1 /* EHRoot_vc.m in Sources */,
+				D52E74D818C50F6E00A8B6F1 /* pure_parseutils.m in Sources */,
+				D52E74D918C50F6E00A8B6F1 /* main.m in Sources */,
+				D52E74DA18C50F6E00A8B6F1 /* user_config.m in Sources */,
+				D52E74DB18C50F6E00A8B6F1 /* ELHASO.m in Sources */,
+				D52E74DC18C50F6E00A8B6F1 /* EHProgress_vc.m in Sources */,
+				D52E74DD18C50F6E00A8B6F1 /* pure_lexbase.m in Sources */,
+				D52E74DE18C50F6E00A8B6F1 /* logic_l_types.m in Sources */,
+				D52E74DF18C50F6E00A8B6F1 /* NSString+seohyun.m in Sources */,
+				D52E74E018C50F6E00A8B6F1 /* wrappers_sqlite3.m in Sources */,
+				D52E74E118C50F6E00A8B6F1 /* logic_l_main.m in Sources */,
+				D52E74E218C50F6E00A8B6F1 /* pure_os.m in Sources */,
+				D52E74E318C50F6E00A8B6F1 /* EHModify_vc.m in Sources */,
+				D52E74E418C50F6E00A8B6F1 /* pure_strutils.m in Sources */,
+				D52E74E518C50F6E00A8B6F1 /* EHSettings_vc.m in Sources */,
+				D52E74E618C50F6E00A8B6F1 /* impure_db_sqlite.m in Sources */,
+				D52E74E718C50F6E00A8B6F1 /* NSNotificationCenter+ELHASO.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D533F7DE18B662CB00A7FFC3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -489,6 +626,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		D52E74C918C50F6E00A8B6F1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D533F82418B6719800A7FFC3 /* compile nimrod */;
+			targetProxy = D52E74CA18C50F6E00A8B6F1 /* PBXContainerItemProxy */;
+		};
 		D533F82918B671AF00A7FFC3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = D533F82418B6719800A7FFC3 /* compile nimrod */;
@@ -518,6 +660,36 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		D52E74F918C50F6E00A8B6F1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = resources/plist/devel.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "src/Seohtracker-Prefix.pch";
+				INFOPLIST_FILE = "resources/plist/appstore-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = Seohtracker;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		D52E74FA18C50F6E00A8B6F1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = resources/plist/devel.entitlements;
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "src/Seohtracker-Prefix.pch";
+				INFOPLIST_FILE = "resources/plist/appstore-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = Seohtracker;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
 		D533F81118B662CB00A7FFC3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -649,6 +821,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		D52E74F818C50F6E00A8B6F1 /* Build configuration list for PBXNativeTarget "seohtracker-appstore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D52E74F918C50F6E00A8B6F1 /* Debug */,
+				D52E74FA18C50F6E00A8B6F1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		D533F7DD18B662CB00A7FFC3 /* Build configuration list for PBXProject "Seohtracker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
