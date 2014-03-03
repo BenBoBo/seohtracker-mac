@@ -24,6 +24,7 @@ NSString *user_metric_prefereces_changed = @"user_metric_preferences_changed";
 
 
 @interface EHApp_delegate ()
+    <NSApplicationDelegate>
 
 /// Keeps a strong reference to the root vc.
 @property (nonatomic, strong) EHRoot_vc *root_vc;
@@ -68,6 +69,7 @@ NSString *user_metric_prefereces_changed = @"user_metric_preferences_changed";
     self.root_vc.view.frame = ((NSView*)self.window.contentView).bounds;
 
     [self.window registerForDraggedTypes:@[NSURLPboardType]];
+    [[NSApplication sharedApplication] setDelegate:self];
 
     dispatch_async_low(^{ [self build_preferences]; });
 }
@@ -157,6 +159,24 @@ NSString *user_metric_prefereces_changed = @"user_metric_preferences_changed";
 - (IBAction)export_csv:(id)sender
 {
     [self.root_vc export_csv];
+}
+
+#pragma mark -
+#pragma mark NSApplicationDelegate protocol
+
+/** Hook to react to multiple files dropped on the icon.
+ *
+ * We simply pick the first with a csv file extension.
+ */
+- (void)application:(NSApplication *)sender openFiles:(NSArray *)filenames
+{
+    for (NSString *file in filenames) {
+        NSString *ext = [[file pathExtension] lowercaseString];
+        if ([ext isEqualToString:@"csv"]) {
+            [self.root_vc import_csv_file:[NSURL fileURLWithPath:file]];
+            return;
+        }
+    }
 }
 
 #pragma mark -
