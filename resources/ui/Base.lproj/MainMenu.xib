@@ -72,9 +72,15 @@
                         <items>
                             <menuItem title="Import CSV…" id="JV3-zL-CsA">
                                 <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="import_csv:" target="494" id="K4C-Iu-c4f"/>
+                                </connections>
                             </menuItem>
                             <menuItem title="Export CSV…" id="rP1-Mi-hQO">
                                 <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="export_csv:" target="494" id="fEl-kq-2Ls"/>
+                                </connections>
                             </menuItem>
                         </items>
                     </menu>

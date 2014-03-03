@@ -36,5 +36,22 @@
 	<string>Seohtracker.help</string>
 	<key>CFBundleHelpBookName</key>
 	<string>es.elhaso.nimrod.mac.seohhelp</string>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>CSV File</string>
+			<key>CFBundleTypeIconFile</key>
+			<string>seohtracker.icns</string>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>csv</string>
+			</array>
+			<key>LSHandlerRank</key>
+			<string>Alternate</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+		</dict>
+	</array>
 </dict>
 </plist>

@@ -2,6 +2,8 @@
 
 #import "EHApp_delegate.h"
 #import "EHModify_vc.h"
+#import "EHProgress_vc.h"
+#import "NSString+seohyun.h"
 
 #import "ELHASO.h"
 #import "NSNotificationCenter+ELHASO.h"
@@ -24,6 +26,12 @@
 - (IBAction)did_touch_modify_button:(id)sender;
 - (IBAction)did_touch_minus_button:(id)sender;
 - (IBAction)did_touch_plus_button:(id)sender;
+
+/// Keeps the name of the input file being imported.
+@property (nonatomic, strong) NSString *csv_to_import;
+
+/// Points to the current pseudo modal sheet.
+@property (nonatomic, weak) NSWindow *modal_sheet_window;
 
 @end
 
@@ -120,14 +128,8 @@
         initWithWindowNibName:NSStringFromClass([EHModify_vc class])];
     [vc set_values_from:weight for_new_value:NO];
 
-    // Display modal sheet, disable our table view.
-    self.table_view.enabled = NO;
-    [NSApp beginSheet:vc.window modalForWindow:[self.view window]
-        modalDelegate:self didEndSelector:nil contextInfo:nil];
-    const NSInteger ret = [NSApp runModalForWindow: vc.window];
-    [NSApp endSheet:vc.window];
-    [vc.window orderOut:self];
-    self.table_view.enabled = YES;
+    const NSInteger ret = [self begin_modal_sheet:vc.window];
+    [self end_modal_sheet];
 
     if (NSModalResponseAbort == ret) {
         DLOG(@"User aborted modification");
@@ -203,14 +205,8 @@
         initWithWindowNibName:NSStringFromClass([EHModify_vc class])];
     [vc set_values_from:get_last_weight() for_new_value:YES];
 
-    // Display modal sheet, disable our table view.
-    self.table_view.enabled = NO;
-    [NSApp beginSheet:vc.window modalForWindow:[self.view window]
-        modalDelegate:self didEndSelector:nil contextInfo:nil];
-    const NSInteger ret = [NSApp runModalForWindow: vc.window];
-    [NSApp endSheet:vc.window];
-    [vc.window orderOut:self];
-    self.table_view.enabled = YES;
+    const NSInteger ret = [self begin_modal_sheet:vc.window];
+    [self end_modal_sheet];
 
     if (NSModalResponseAbort == ret) {
         DLOG(@"User aborted modification");
@@ -262,6 +258,191 @@
     scrollOrigin.y += (rowRect.size.height - viewRect.size.height) / 2;
     if (scrollOrigin.y < 0) scrollOrigin.y = 0;
     [[[self.table_view superview] animator] setBoundsOrigin:scrollOrigin];
+}
+
+/// Starts the importation by asking the user for a CSV file.
+- (void)import_csv
+{
+    NSOpenPanel *panel = [NSOpenPanel openPanel];
+    [panel setCanChooseDirectories:NO];
+    [panel setAllowsMultipleSelection:NO];
+    [panel setShowsHiddenFiles:NO];
+    [panel setTitle:@"Select a .csv file to import"];
+    [panel setPrompt:@"Import"];
+    [panel setAllowedFileTypes:@[@"csv"]];
+    [panel setAllowsOtherFileTypes:NO];
+
+    [panel beginSheetModalForWindow:[self.view window]
+        completionHandler:^(NSInteger result) {
+
+            if (NSFileHandlingPanelOKButton == result)
+                [self import_csv_file:panel.URLs[0]];
+
+            [panel orderOut:nil];
+        }];
+}
+
+/** Callback when the user clicks OK on the open panel.
+ *
+ * Receives the filenames to be imported. Will be just one. The progress is
+ * displayed in a sheet based on code from
+ * http://stackoverflow.com/a/8144181/172690 while nimrod code processes the
+ * stuff.
+ */
+- (void)import_csv_file:(NSURL*)url
+{
+    [self end_modal_sheet];
+    self.csv_to_import = [url path];
+    DLOG(@"Would be reading %@", self.csv_to_import);
+
+    // First scan how many entries there are.
+    self.table_view.enabled = NO;
+    EHProgress_vc *progress = [EHProgress_vc start_in:self];
+
+    const long long csv_entries =
+        scan_csv_for_entries([self.csv_to_import cstring]);
+
+    [progress dismiss];
+    self.table_view.enabled = YES;
+
+    // Ask the user what kind of importation is to be performed.
+    NSAlert *alert = [NSAlert new];
+    alert.alertStyle = NSInformationalAlertStyle;
+    alert.showsHelp = NO;
+    alert.messageText = [NSString stringWithFormat:@"Found %lld records in %@. "
+            @"Replace your current database or only add new entries not "
+            @"yet present?", csv_entries, self.csv_to_import];
+    [alert addButtonWithTitle:@"Cancel importation"];
+    [alert addButtonWithTitle:@"Only add"];
+    [alert addButtonWithTitle:@"Replace database"];
+
+    const long selected_button = [alert runModal];
+    if (selected_button == NSAlertFirstButtonReturn)
+        return;
+
+    // Cool, replace or add the entries.
+    self.table_view.enabled = NO;
+    progress = [EHProgress_vc start_in:self];
+
+    const BOOL replace = (selected_button != NSAlertSecondButtonReturn);
+    DLOG(@"Importing, replace set to %d", replace);
+    const BOOL ret = import_csv_into_db([self.csv_to_import cstring], replace);
+    DLOG(@"Importation reported %d, with replace as %d", ret, replace);
+
+    [self.table_view reloadData];
+    [self refresh_ui];
+
+    [progress dismiss];
+    self.table_view.enabled = YES;
+
+    alert = [NSAlert new];
+    alert.alertStyle = NSInformationalAlertStyle;
+    alert.showsHelp = NO;
+    alert.messageText = (ret ?
+        @"Success importing file" : @"Could not import file!");
+    [alert addButtonWithTitle:@"Close"];
+    [alert runModal];
+}
+
+/// Starts the exportation by asking the user where to place the CSV file.
+- (void)export_csv
+{
+    NSSavePanel *panel = [NSSavePanel savePanel];
+    [panel setShowsHiddenFiles:NO];
+    [panel setTitle:@"Select where to export the .csv file"];
+    [panel setPrompt:@"Export"];
+    [panel setAllowedFileTypes:@[@"csv"]];
+    [panel setAllowsOtherFileTypes:NO];
+    [panel setNameFieldStringValue:@"Seohtracker export.csv"];
+    [panel setNameFieldStringValue:[self generate_csv_export_filename]];
+
+    [panel beginSheetModalForWindow:[self.view window]
+        completionHandler:^(NSInteger result) {
+
+            if (NSFileHandlingPanelOKButton == result)
+                [self export_csv_file:[panel.URL path]];
+
+            [panel orderOut:nil];
+        }];
+}
+
+/** Callback when the user clicks OK on the save panel.
+ *
+ * Receives where should the file be exported to.
+ */
+- (void)export_csv_file:(NSString*)path
+{
+    DLOG(@"Would be saving to %@", path);
+
+    self.table_view.enabled = NO;
+    EHProgress_vc *progress = [EHProgress_vc start_in:self];
+
+    const bool ret = export_database_to_csv([path cstring]);
+
+    [progress dismiss];
+    self.table_view.enabled = YES;
+
+    NSAlert *alert = [NSAlert new];
+    alert.alertStyle = NSInformationalAlertStyle;
+    alert.showsHelp = NO;
+    alert.messageText = (ret ?
+        @"Success exporting file" : @"Could not export file!");
+    [alert addButtonWithTitle:@"Close"];
+    [alert runModal];
+}
+
+/// Returns a potential filename for csv exportation using the current date.
+- (NSString*)generate_csv_export_filename
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    NSString *dateComponents = @"yyMMdd";
+    [dateFormatter setDateFormat:[NSDateFormatter
+        dateFormatFromTemplate:dateComponents
+        options:0 locale:[NSLocale currentLocale]]];
+    NSString *filename = [NSString stringWithFormat:@"Seohtracker %@.csv",
+        [dateFormatter stringFromDate:[NSDate date]]];
+    // Remove troublesome characters from generated path.
+    for (NSString *invalid in @[@"/", @":", @"\\", @"?", @"*", @"\""]) {
+        filename = [filename stringByReplacingOccurrencesOfString:invalid
+            withString:@"-"];
+    }
+
+    return filename;
+}
+
+/** Starts a pseudo modal sheet and keeps track of it.
+ *
+ * The pointers are kept to be able to cancel the modal sheet should an
+ * external event happen (like file importation). If there already was a modal
+ * sheet, it is dismissed first. Opening a modal sheet disables the table view
+ * to avoid scrolling.
+ *
+ * Returns the result of calling [NSApp runModalForWindow:].
+ */
+- (NSInteger)begin_modal_sheet:(NSWindow*)sheet_window
+{
+    [self end_modal_sheet];
+
+    self.modal_sheet_window = sheet_window;
+    self.table_view.enabled = NO;
+    [NSApp beginSheet:sheet_window modalForWindow:[self.view window]
+        modalDelegate:self didEndSelector:nil contextInfo:nil];
+    return [NSApp runModalForWindow:sheet_window];
+}
+
+/** Dismisses a modal sheet previously opened with begin_modal_sheet.
+ *
+ * You can call this at any time, it will do nothing if there is no modal
+ * sheet.
+ */
+- (void)end_modal_sheet
+{
+    self.table_view.enabled = YES;
+    if (!self.modal_sheet_window)
+        return;
+    [NSApp endSheet:self.modal_sheet_window];
+    [self.modal_sheet_window orderOut:self];
+    self.modal_sheet_window = nil;
 }
 
 #pragma mark -

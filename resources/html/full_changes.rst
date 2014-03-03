@@ -29,3 +29,5 @@ v4, ????-??-??
   <https://github.com/gradha/seohtracker-mac/issues/12>`_.
 * `Cleaned default menu options
   <https://github.com/gradha/seohtracker-mac/issues/11>`_.
+* `Added import/export csv capability
+  <https://github.com/gradha/seohtracker-mac/issues/15>`_.

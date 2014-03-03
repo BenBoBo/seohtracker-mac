@@ -47,6 +47,8 @@
 		D5AD7DAC18BD4021005F4865 /* EHSettings_vc.xib in Resources */ = {isa = PBXBuildFile; fileRef = D5AD7DAB18BD4021005F4865 /* EHSettings_vc.xib */; };
 		D5AD7DAF18BD46FA005F4865 /* NSNotificationCenter+ELHASO.m in Sources */ = {isa = PBXBuildFile; fileRef = D5AD7DAE18BD46FA005F4865 /* NSNotificationCenter+ELHASO.m */; };
 		D5AD7DBC18BD5300005F4865 /* html in Resources */ = {isa = PBXBuildFile; fileRef = D5AD7DBB18BD5300005F4865 /* html */; };
+		D5FCD4A018C13CA600D7783B /* EHProgress_vc.xib in Resources */ = {isa = PBXBuildFile; fileRef = D5FCD49F18C13CA600D7783B /* EHProgress_vc.xib */; };
+		D5FCD4A318C1401600D7783B /* EHProgress_vc.m in Sources */ = {isa = PBXBuildFile; fileRef = D5FCD4A218C1401600D7783B /* EHProgress_vc.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -122,6 +124,9 @@
 		D5AD7DAE18BD46FA005F4865 /* NSNotificationCenter+ELHASO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNotificationCenter+ELHASO.m"; sourceTree = "<group>"; };
 		D5AD7DBB18BD5300005F4865 /* html */ = {isa = PBXFileReference; lastKnownFileType = folder; path = html; sourceTree = "<group>"; };
 		D5C94B2D18BFA0EC00EF34A8 /* help_defines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = help_defines.h; sourceTree = "<group>"; };
+		D5FCD49F18C13CA600D7783B /* EHProgress_vc.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EHProgress_vc.xib; path = resources/ui/EHProgress_vc.xib; sourceTree = "<group>"; };
+		D5FCD4A118C1401600D7783B /* EHProgress_vc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EHProgress_vc.h; path = vcs/EHProgress_vc.h; sourceTree = "<group>"; };
+		D5FCD4A218C1401600D7783B /* EHProgress_vc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EHProgress_vc.m; path = vcs/EHProgress_vc.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,6 +146,8 @@
 			children = (
 				D5318A6F18BC03DC001FD6C0 /* EHModify_vc.h */,
 				D5318A7018BC03DC001FD6C0 /* EHModify_vc.m */,
+				D5FCD4A118C1401600D7783B /* EHProgress_vc.h */,
+				D5FCD4A218C1401600D7783B /* EHProgress_vc.m */,
 				D5318A5C18BBB745001FD6C0 /* EHRoot_vc.h */,
 				D5318A5D18BBB745001FD6C0 /* EHRoot_vc.m */,
 				D5AD7DA618BD188B005F4865 /* EHSettings_vc.h */,
@@ -242,6 +249,7 @@
 			isa = PBXGroup;
 			children = (
 				D5318A7418BC0798001FD6C0 /* EHModify_vc.xib */,
+				D5FCD49F18C13CA600D7783B /* EHProgress_vc.xib */,
 				D5318A6018BBBEBE001FD6C0 /* EHRoot_vc.xib */,
 				D5AD7DAB18BD4021005F4865 /* EHSettings_vc.xib */,
 				D533F7FA18B662CB00A7FFC3 /* MainMenu.xib */,
@@ -435,6 +443,7 @@
 				D58A7A4918BE07D30005752B /* contact_logo.png in Resources */,
 				D5318A7518BC0798001FD6C0 /* EHModify_vc.xib in Resources */,
 				D58A7A4C18BE4A280005752B /* Seohtracker.help in Resources */,
+				D5FCD4A018C13CA600D7783B /* EHProgress_vc.xib in Resources */,
 				D533F7FC18B662CB00A7FFC3 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -462,6 +471,7 @@
 				D533F81F18B6650200A7FFC3 /* main.m in Sources */,
 				D5318A6918BBE2BD001FD6C0 /* user_config.m in Sources */,
 				D532974318B68CBE0028F3AA /* ELHASO.m in Sources */,
+				D5FCD4A318C1401600D7783B /* EHProgress_vc.m in Sources */,
 				D533F84518B671FD00A7FFC3 /* pure_lexbase.m in Sources */,
 				D533F84218B671FD00A7FFC3 /* logic_l_types.m in Sources */,
 				D532974218B68C2D0028F3AA /* NSString+seohyun.m in Sources */,

@@ -24,9 +24,10 @@ NSString *user_metric_prefereces_changed = @"user_metric_preferences_changed";
 
 
 @interface EHApp_delegate ()
+    <NSApplicationDelegate>
 
-/// Keeps a strong reference to the history vc.
-@property (nonatomic, strong) EHRoot_vc *history_vc;
+/// Keeps a strong reference to the root vc.
+@property (nonatomic, strong) EHRoot_vc *root_vc;
 /// Caches the preferences window for lazy generation.
 @property (nonatomic, strong) RHPreferencesWindowController *preferences_vc;
 
@@ -60,12 +61,15 @@ NSString *user_metric_prefereces_changed = @"user_metric_preferences_changed";
     set_nimrod_metric_use_based_on_user_preferences();
 
     // Insert code here to initialize your application
-    self.history_vc = [[EHRoot_vc alloc]
+    self.root_vc = [[EHRoot_vc alloc]
         initWithNibName:NSStringFromClass([EHRoot_vc class]) bundle:nil];
     self.window.delegate = self;
 
-    [self.window.contentView addSubview:self.history_vc.view];
-    self.history_vc.view.frame = ((NSView*)self.window.contentView).bounds;
+    [self.window.contentView addSubview:self.root_vc.view];
+    self.root_vc.view.frame = ((NSView*)self.window.contentView).bounds;
+
+    [self.window registerForDraggedTypes:@[NSURLPboardType]];
+    [[NSApplication sharedApplication] setDelegate:self];
 
     dispatch_async_low(^{ [self build_preferences]; });
 }
@@ -143,6 +147,77 @@ NSString *user_metric_prefereces_changed = @"user_metric_preferences_changed";
         objectForInfoDictionaryKey:@"CFBundleHelpBookName"];
     [[NSHelpManager sharedHelpManager]
      openHelpAnchor:help_anchor_licenses inBook:locBookName];
+}
+
+/// Linked from the main menu, starts the importation process.
+- (IBAction)import_csv:(id)sender
+{
+    [self.root_vc import_csv];
+}
+
+/// Linked from the main menu, starts the exportation process.
+- (IBAction)export_csv:(id)sender
+{
+    [self.root_vc export_csv];
+}
+
+#pragma mark -
+#pragma mark NSApplicationDelegate protocol
+
+/** Hook to react to multiple files dropped on the icon.
+ *
+ * We simply pick the first with a csv file extension.
+ */
+- (void)application:(NSApplication *)sender openFiles:(NSArray *)filenames
+{
+    for (NSString *file in filenames) {
+        NSString *ext = [[file pathExtension] lowercaseString];
+        if ([ext isEqualToString:@"csv"]) {
+            [NSApp abortModal];
+            // Run the importation in the next runloop, so that abortModal has
+            // a chance to notify/close modal sheets/windows.
+            [self.root_vc performSelector:@selector(import_csv_file:)
+                withObject:[NSURL fileURLWithPath:file] afterDelay:0];
+            return;
+        }
+    }
+}
+
+#pragma mark -
+#pragma mark NSDraggingDestination protocol
+
+// Accepts the drag operation if it is a csv file being dragged in.
+- (NSDragOperation)draggingEntered:(id<NSDraggingInfo>)sender
+{
+    NSPasteboard *pboard = [sender draggingPasteboard];
+
+    if (![[pboard types] containsObject:NSURLPboardType])
+        return NSDragOperationNone;
+
+    NSURL *file_url = [NSURL URLFromPasteboard:pboard];
+    NSString *ext = [[file_url pathExtension] lowercaseString];
+    if (![ext isEqualToString:@"csv"])
+        return NSDragOperationNone;
+
+    return NSDragOperationCopy;
+}
+
+/// Handles the drag operation, calls the importation method.
+- (BOOL)performDragOperation:(id <NSDraggingInfo>)sender
+{
+    NSPasteboard *pboard = [sender draggingPasteboard];
+    if (![[pboard types] containsObject:NSURLPboardType])
+        return NO;
+
+    NSURL *file_url = [NSURL URLFromPasteboard:pboard];
+    NSString *ext = [[file_url pathExtension] lowercaseString];
+    if (![ext isEqualToString:@"csv"])
+        return NO;
+
+    [self.root_vc performSelector:@selector(import_csv_file:)
+        withObject:file_url afterDelay:0];
+
+    return YES;
 }
 
 @end
