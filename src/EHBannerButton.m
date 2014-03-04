@@ -80,11 +80,11 @@
         @"ad_banner_2", @"ad_banner_3", @"ad_banner_4"]];
 
     [self set_urls:@[
-        @"https://itunes.apple.com/app/record-my-gps-position/id405865492?mt=8",
-        @"https://itunes.apple.com/app/submarine-hunt-lite/id422142576?mt=8",
+        @"https://itunes.apple.com/app/record-my-gps-position/id405865492?mt=8&ls=1",
+        @"https://itunes.apple.com/app/submarine-hunt-lite/id422142576?mt=8&ls=1",
         @"http://www.elhaso.es/",
         @"http://nimrod-lang.org",
-        @"https://itunes.apple.com/es/app/seohtracker/id805779021?mt=8"]];
+        @"https://itunes.apple.com/es/app/seohtracker/id805779021?mt=8&ls=1"]];
     self.current_pos = self.next_pos - 1;
     if (self.current_pos < 0)
         self.current_pos = MAX(0, self.filenames.count - 1);
