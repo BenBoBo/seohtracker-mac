@@ -115,7 +115,7 @@
     }
 
     const BOOL show_overlay = get_num_weights() < 5;
-    self.table_overlay.alphaValue = (show_overlay ? 1.0f : 0.0f);
+    [self.table_overlay setHidden:(show_overlay ? NO : YES)];
 }
 
 /// Simple wrapper to refresh the UI when changes are done to user settings.
