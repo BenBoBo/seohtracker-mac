@@ -78,6 +78,8 @@
 		D533F84B18B671FD00A7FFC3 /* pure_times.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83B18B671FD00A7FFC3 /* pure_times.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		D533F84C18B671FD00A7FFC3 /* root_system.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83C18B671FD00A7FFC3 /* root_system.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		D533F84D18B671FD00A7FFC3 /* wrappers_sqlite3.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83D18B671FD00A7FFC3 /* wrappers_sqlite3.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D5683E4A18C6390800D92F0A /* EHBannerButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D5683E4918C6390800D92F0A /* EHBannerButton.m */; };
+		D5683E4B18C6390800D92F0A /* EHBannerButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D5683E4918C6390800D92F0A /* EHBannerButton.m */; };
 		D58A04B718C5FCA400F7D52A /* EHScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = D58A04B618C5FCA400F7D52A /* EHScrollView.m */; };
 		D58A04B818C5FCA400F7D52A /* EHScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = D58A04B618C5FCA400F7D52A /* EHScrollView.m */; };
 		D58A7A3E18BDECC20005752B /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = D58A7A3D18BDECC20005752B /* Credits.html */; };
@@ -161,6 +163,8 @@
 		D533F83B18B671FD00A7FFC3 /* pure_times.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = pure_times.m; sourceTree = "<group>"; };
 		D533F83C18B671FD00A7FFC3 /* root_system.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = root_system.m; sourceTree = "<group>"; };
 		D533F83D18B671FD00A7FFC3 /* wrappers_sqlite3.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = wrappers_sqlite3.m; sourceTree = "<group>"; };
+		D5683E4818C6390800D92F0A /* EHBannerButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EHBannerButton.h; sourceTree = "<group>"; };
+		D5683E4918C6390800D92F0A /* EHBannerButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EHBannerButton.m; sourceTree = "<group>"; };
 		D58A04B518C5FCA400F7D52A /* EHScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EHScrollView.h; sourceTree = "<group>"; };
 		D58A04B618C5FCA400F7D52A /* EHScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EHScrollView.m; sourceTree = "<group>"; };
 		D58A7A3D18BDECC20005752B /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Credits.html; sourceTree = "<group>"; };
@@ -291,6 +295,8 @@
 				D5318A5F18BBB74A001FD6C0 /* vcs */,
 				D533F81A18B6650200A7FFC3 /* EHApp_delegate.h */,
 				D533F81B18B6650200A7FFC3 /* EHApp_delegate.m */,
+				D5683E4818C6390800D92F0A /* EHBannerButton.h */,
+				D5683E4918C6390800D92F0A /* EHBannerButton.m */,
 				D58A04B518C5FCA400F7D52A /* EHScrollView.h */,
 				D58A04B618C5FCA400F7D52A /* EHScrollView.m */,
 				D533F81C18B6650200A7FFC3 /* main.m */,
@@ -587,6 +593,7 @@
 				D58A04B818C5FCA400F7D52A /* EHScrollView.m in Sources */,
 				D52E74E118C50F6E00A8B6F1 /* logic_l_main.m in Sources */,
 				D52E74E218C50F6E00A8B6F1 /* pure_os.m in Sources */,
+				D5683E4B18C6390800D92F0A /* EHBannerButton.m in Sources */,
 				D52E74E318C50F6E00A8B6F1 /* EHModify_vc.m in Sources */,
 				D52E74E418C50F6E00A8B6F1 /* pure_strutils.m in Sources */,
 				D52E74E518C50F6E00A8B6F1 /* EHSettings_vc.m in Sources */,
@@ -623,6 +630,7 @@
 				D58A04B718C5FCA400F7D52A /* EHScrollView.m in Sources */,
 				D533F84118B671FD00A7FFC3 /* logic_l_main.m in Sources */,
 				D533F84618B671FD00A7FFC3 /* pure_os.m in Sources */,
+				D5683E4A18C6390800D92F0A /* EHBannerButton.m in Sources */,
 				D5318A7218BC03DC001FD6C0 /* EHModify_vc.m in Sources */,
 				D533F84A18B671FD00A7FFC3 /* pure_strutils.m in Sources */,
 				D5AD7DA918BD188B005F4865 /* EHSettings_vc.m in Sources */,
