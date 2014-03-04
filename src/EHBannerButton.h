@@ -4,4 +4,6 @@
  */
 @interface EHBannerButton : NSButton
 
+- (void)set_images:(NSArray*)filenames;
+
 @end

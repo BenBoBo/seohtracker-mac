@@ -7,6 +7,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="EHRoot_vc">
             <connections>
+                <outlet property="banner_button" destination="kpP-53-2bG" id="bfZ-eU-Mim"/>
                 <outlet property="minus_button" destination="lKz-cR-LWN" id="M1Q-bz-NgU"/>
                 <outlet property="modify_button" destination="ifr-Hg-q6z" id="cFP-iy-1jv"/>
                 <outlet property="read_date_textfield" destination="VLA-fc-52m" id="8th-cl-6Mw"/>
@@ -203,8 +204,8 @@
                 </textField>
                 <button id="kpP-53-2bG" customClass="EHBannerButton">
                     <rect key="frame" x="367" y="56" width="250" height="100"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="ad_banner_0" imagePosition="only" alignment="center" inset="2" id="vWk-oH-ucB">
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" inset="2" id="vWk-oH-ucB">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
@@ -215,6 +216,5 @@
     <resources>
         <image name="NSAddTemplate" width="8" height="8"/>
         <image name="NSRemoveTemplate" width="8" height="8"/>
-        <image name="ad_banner_0" width="250" height="100"/>
     </resources>
 </document>
