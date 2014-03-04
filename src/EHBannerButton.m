@@ -1,5 +1,7 @@
 #import "EHBannerButton.h"
 
+#import "user_config.h"
+
 #import "ELHASO.h"
 #import "NSArray+ELHASO.h"
 
@@ -41,13 +43,19 @@
 {
     [super awakeFromNib];
     DLOG(@"Awaking banner button");
+    // Sets the tracking area for mouse cursor change.
     LASSERT(!self.tracking_area, @"Double call?");
     self.tracking_area = [[NSTrackingArea alloc] initWithRect:self.bounds
         options:NSTrackingCursorUpdate | NSTrackingActiveAlways
         owner: self userInfo:nil];
     [self addTrackingArea:self.tracking_area];
+
+    // Hooks ourselves as handlers of clicks.
     [self setTarget:self];
     [self setAction:@selector(click_banner:)];
+
+    // Recovers the previous ad position.
+    self.next_pos = get_ad_index();
 }
 
 - (void)dealloc
@@ -77,6 +85,13 @@
         @"http://www.elhaso.es/",
         @"http://nimrod-lang.org",
         @"https://itunes.apple.com/es/app/seohtracker/id805779021?mt=8"]];
+    self.current_pos = self.next_pos - 1;
+    if (self.current_pos < 0)
+        self.current_pos = MAX(0, self.filenames.count - 1);
+
+    [NSObject cancelPreviousPerformRequestsWithTarget:self
+        selector:@selector(switch_banner) object:nil];
+    [self switch_banner];
 }
 
 /// Sets the images and starts rotating them.
@@ -84,9 +99,6 @@
 {
     LASSERT(filenames.count > 0, @"Can't set empty rotations!");
     self.filenames = filenames;
-    [NSObject cancelPreviousPerformRequestsWithTarget:self
-        selector:@selector(switch_banner) object:nil];
-    [self switch_banner];
 }
 
 /// Transforms NSString objects into NSURLs.
@@ -117,6 +129,9 @@
     } else {
         self.current_pos = self.next_pos;
         self.next_pos += 1;
+        if (self.next_pos >= self.filenames.count)
+            self.next_pos = 0;
+        set_ad_index(self.next_pos);
     }
 
     NSImage *image = [NSImage imageNamed:filename];
@@ -130,7 +145,7 @@
         [self.overlay setAlphaValue:1];
     } completionHandler:^{
         dispatch_async_ui(^{
-            [[NSAnimationContext currentContext] setDuration:1];
+            [[NSAnimationContext currentContext] setDuration:FADE_TIME];
             [[self.overlay animator] setAlphaValue:0];
         });
     }];

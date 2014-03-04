@@ -8,3 +8,6 @@ void set_config_changelog_version(float value);
 
 int user_metric_preference(void);
 void set_user_metric_preference(int value);
+
+void set_ad_index(int value);
+int get_ad_index(void);
