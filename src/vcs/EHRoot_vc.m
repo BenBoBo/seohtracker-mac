@@ -4,7 +4,6 @@
 #import "EHBannerButton.h"
 #import "EHModify_vc.h"
 #import "EHProgress_vc.h"
-#import "EHScrollView.h"
 #import "NSString+seohyun.h"
 
 #import "ELHASO.h"
@@ -12,8 +11,6 @@
 
 
 @interface EHRoot_vc ()
-/// Points to the scroller, since we need to get table refreshes.
-@property (nonatomic, weak) IBOutlet EHScrollView *scroll_view;
 /// The table we need to refresh during scrolls.
 @property (nonatomic, weak) IBOutlet NSTableView *table_view;
 /// Hint displaying at the bottom of the table_view.
@@ -72,8 +69,6 @@
         NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
         [center refresh_observer:self selector:@selector(refresh_ui_observer:)
             name:user_metric_prefereces_changed object:nil];
-        self.scroll_view.table_view = self.table_view;
-        self.scroll_view.overlay_view = self.table_overlay;
 
         self.banner_button.overlay = self.banner_overlay;
         [self.banner_button start];
