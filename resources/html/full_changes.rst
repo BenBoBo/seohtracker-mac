@@ -35,3 +35,5 @@ v4, ????-??-??
   <https://github.com/gradha/seohtracker-mac/issues/21>`_.
 * `Configured app sandbox
   <https://github.com/gradha/seohtracker-mac/issues/19>`_.
+* `Added empty database helper overlay
+  <https://github.com/gradha/seohtracker-mac/issues/13>`_.
