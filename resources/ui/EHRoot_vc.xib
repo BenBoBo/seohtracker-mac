@@ -204,7 +204,7 @@
                 <button id="kpP-53-2bG" customClass="EHBannerButton">
                     <rect key="frame" x="367" y="56" width="250" height="100"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="only" alignment="center" imageScaling="axesIndependently" inset="2" id="vWk-oH-ucB">
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="ad_banner_0" imagePosition="only" alignment="center" inset="2" id="vWk-oH-ucB">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
@@ -215,5 +215,6 @@
     <resources>
         <image name="NSAddTemplate" width="8" height="8"/>
         <image name="NSRemoveTemplate" width="8" height="8"/>
+        <image name="ad_banner_0" width="250" height="100"/>
     </resources>
 </document>
