@@ -96,6 +96,10 @@
 		D5683E6118C650DB00D92F0A /* ad_banner_3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D5683E5E18C650DB00D92F0A /* ad_banner_3.jpg */; };
 		D5683E6218C650DB00D92F0A /* ad_banner_3@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D5683E5F18C650DB00D92F0A /* ad_banner_3@2x.jpg */; };
 		D5683E6318C650DB00D92F0A /* ad_banner_3@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D5683E5F18C650DB00D92F0A /* ad_banner_3@2x.jpg */; };
+		D5683E6618C653BE00D92F0A /* ad_banner_4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D5683E6418C653BE00D92F0A /* ad_banner_4.jpg */; };
+		D5683E6718C653BE00D92F0A /* ad_banner_4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D5683E6418C653BE00D92F0A /* ad_banner_4.jpg */; };
+		D5683E6818C653BE00D92F0A /* ad_banner_4@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D5683E6518C653BE00D92F0A /* ad_banner_4@2x.jpg */; };
+		D5683E6918C653BE00D92F0A /* ad_banner_4@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D5683E6518C653BE00D92F0A /* ad_banner_4@2x.jpg */; };
 		D58A04B718C5FCA400F7D52A /* EHScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = D58A04B618C5FCA400F7D52A /* EHScrollView.m */; };
 		D58A04B818C5FCA400F7D52A /* EHScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = D58A04B618C5FCA400F7D52A /* EHScrollView.m */; };
 		D58A7A3E18BDECC20005752B /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = D58A7A3D18BDECC20005752B /* Credits.html */; };
@@ -189,6 +193,8 @@
 		D5683E5918C64DBB00D92F0A /* ad_banner_2@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "ad_banner_2@2x.jpg"; sourceTree = "<group>"; };
 		D5683E5E18C650DB00D92F0A /* ad_banner_3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ad_banner_3.jpg; sourceTree = "<group>"; };
 		D5683E5F18C650DB00D92F0A /* ad_banner_3@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "ad_banner_3@2x.jpg"; sourceTree = "<group>"; };
+		D5683E6418C653BE00D92F0A /* ad_banner_4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ad_banner_4.jpg; sourceTree = "<group>"; };
+		D5683E6518C653BE00D92F0A /* ad_banner_4@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "ad_banner_4@2x.jpg"; sourceTree = "<group>"; };
 		D58A04B518C5FCA400F7D52A /* EHScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EHScrollView.h; sourceTree = "<group>"; };
 		D58A04B618C5FCA400F7D52A /* EHScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EHScrollView.m; sourceTree = "<group>"; };
 		D58A7A3D18BDECC20005752B /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Credits.html; sourceTree = "<group>"; };
@@ -439,6 +445,8 @@
 				D5683E5918C64DBB00D92F0A /* ad_banner_2@2x.jpg */,
 				D5683E5E18C650DB00D92F0A /* ad_banner_3.jpg */,
 				D5683E5F18C650DB00D92F0A /* ad_banner_3@2x.jpg */,
+				D5683E6418C653BE00D92F0A /* ad_banner_4.jpg */,
+				D5683E6518C653BE00D92F0A /* ad_banner_4@2x.jpg */,
 				D58A7A4718BE07D30005752B /* contact_logo.png */,
 				D58A7A4818BE07D30005752B /* contact_logo@2x.png */,
 			);
@@ -561,10 +569,12 @@
 				D52E74EC18C50F6E00A8B6F1 /* EHSettings_vc.xib in Resources */,
 				D52E74ED18C50F6E00A8B6F1 /* html in Resources */,
 				D52E74EE18C50F6E00A8B6F1 /* RHPreferencesWindow.xib in Resources */,
+				D5683E6718C653BE00D92F0A /* ad_banner_4.jpg in Resources */,
 				D52E74EF18C50F6E00A8B6F1 /* contact_logo@2x.png in Resources */,
 				D52E74F018C50F6E00A8B6F1 /* InfoPlist.strings in Resources */,
 				D52E74F118C50F6E00A8B6F1 /* Credits.html in Resources */,
 				D5683E6118C650DB00D92F0A /* ad_banner_3.jpg in Resources */,
+				D5683E6918C653BE00D92F0A /* ad_banner_4@2x.jpg in Resources */,
 				D52E74F218C50F6E00A8B6F1 /* EHRoot_vc.xib in Resources */,
 				D5683E4F18C6456300D92F0A /* ad_banner_0.jpg in Resources */,
 				D5683E5518C6499100D92F0A /* ad_banner_1.jpg in Resources */,
@@ -589,10 +599,12 @@
 				D58A7A4518BE06050005752B /* seohtracker.icns in Resources */,
 				D5AD7DAC18BD4021005F4865 /* EHSettings_vc.xib in Resources */,
 				D5AD7DBC18BD5300005F4865 /* html in Resources */,
+				D5683E6618C653BE00D92F0A /* ad_banner_4.jpg in Resources */,
 				D5AD7DA418BD14A1005F4865 /* RHPreferencesWindow.xib in Resources */,
 				D58A7A4A18BE07D30005752B /* contact_logo@2x.png in Resources */,
 				D533F7F018B662CB00A7FFC3 /* InfoPlist.strings in Resources */,
 				D5683E6018C650DB00D92F0A /* ad_banner_3.jpg in Resources */,
+				D5683E6818C653BE00D92F0A /* ad_banner_4@2x.jpg in Resources */,
 				D58A7A3E18BDECC20005752B /* Credits.html in Resources */,
 				D5683E4E18C6456300D92F0A /* ad_banner_0.jpg in Resources */,
 				D5683E5418C6499100D92F0A /* ad_banner_1.jpg in Resources */,
