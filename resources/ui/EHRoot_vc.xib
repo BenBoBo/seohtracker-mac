@@ -11,6 +11,8 @@
                 <outlet property="modify_button" destination="ifr-Hg-q6z" id="cFP-iy-1jv"/>
                 <outlet property="read_date_textfield" destination="VLA-fc-52m" id="8th-cl-6Mw"/>
                 <outlet property="read_weight_textfield" destination="jer-W6-c7X" id="r0a-EL-c7i"/>
+                <outlet property="scroll_view" destination="vzO-tJ-CI6" id="ubX-f1-Mq4"/>
+                <outlet property="table_overlay" destination="aq4-11-JLO" id="fGT-lc-qfr"/>
                 <outlet property="table_view" destination="o9K-og-2FI" id="0gL-dD-d6O"/>
                 <outlet property="view" destination="1" id="urc-pA-K2p"/>
             </connections>
@@ -21,7 +23,7 @@
             <rect key="frame" x="0.0" y="0.0" width="628" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="vzO-tJ-CI6">
+                <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="vzO-tJ-CI6" customClass="EHScrollView">
                     <rect key="frame" x="20" y="56" width="320" height="404"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
                     <clipView key="contentView" id="wci-49-Kef">
@@ -190,6 +192,15 @@
                         <action selector="did_touch_minus_button:" target="-2" id="b4g-IY-rKF"/>
                     </connections>
                 </button>
+                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" id="aq4-11-JLO">
+                    <rect key="frame" x="20" y="56" width="320" height="60"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="To add entries to your database use the plus button below" id="8GP-Id-kE7">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
             </subviews>
         </customView>
     </objects>
