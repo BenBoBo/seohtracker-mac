@@ -8,6 +8,7 @@
 
 static NSString *k_user_metric_preference = @"USER_METRIC_PREFERENCE";
 static NSString *k_config_changelog_version = @"USER_CHANGELOG_VERSION";
+static NSString *k_ad_index_preference = @"AD_INDEX";
 
 
 /** Returns the current user setting changelog value.
@@ -87,4 +88,19 @@ bool system_uses_metric(void)
     const BOOL uses_metric = [[locale objectForKey:NSLocaleUsesMetricSystem]
         boolValue];
     return uses_metric;
+}
+
+/// Sets the add index preference to the specified value.
+void set_ad_index(int value)
+{
+    NSUserDefaults *d = [NSUserDefaults standardUserDefaults];
+    [d setInteger:value forKey:k_ad_index_preference];
+    [d synchronize];
+}
+
+/// Recovers the ad index preference.
+int get_ad_index(void)
+{
+    NSUserDefaults *d = [NSUserDefaults standardUserDefaults];
+    return (int)[d integerForKey:k_ad_index_preference];
 }

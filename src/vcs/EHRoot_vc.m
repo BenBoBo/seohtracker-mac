@@ -1,6 +1,7 @@
 #import "EHRoot_vc.h"
 
 #import "EHApp_delegate.h"
+#import "EHBannerButton.h"
 #import "EHModify_vc.h"
 #import "EHProgress_vc.h"
 #import "EHScrollView.h"
@@ -27,6 +28,10 @@
 @property (nonatomic, assign) BOOL did_awake;
 /// Needs to be disabled if nothing is selected.
 @property (weak) IBOutlet NSButton *minus_button;
+/// Rotating local ads.
+@property (weak) IBOutlet EHBannerButton *banner_button;
+/// The image on top of the banner to produce the fading.
+@property (nonatomic, strong) IBOutlet NSImageView *banner_overlay;
 
 - (IBAction)did_touch_modify_button:(id)sender;
 - (IBAction)did_touch_minus_button:(id)sender;
@@ -69,6 +74,9 @@
             name:user_metric_prefereces_changed object:nil];
         self.scroll_view.table_view = self.table_view;
         self.scroll_view.overlay_view = self.table_overlay;
+
+        self.banner_button.overlay = self.banner_overlay;
+        [self.banner_button start];
     }
 }
 
