@@ -76,8 +76,7 @@
         self.scroll_view.overlay_view = self.table_overlay;
 
         self.banner_button.overlay = self.banner_overlay;
-        [self.banner_button set_images:@[@"ad_banner_0", @"ad_banner_1",
-            @"ad_banner_2", @"ad_banner_3", @"ad_banner_4"]];
+        [self.banner_button start];
     }
 }
 

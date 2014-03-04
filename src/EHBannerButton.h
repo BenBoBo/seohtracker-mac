@@ -6,6 +6,8 @@
 
 @property (nonatomic, weak) NSImageView *overlay;
 
+- (void)start;
 - (void)set_images:(NSArray*)filenames;
+- (void)set_urls:(NSArray*)urls;
 
 @end

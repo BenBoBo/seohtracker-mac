@@ -18,11 +18,17 @@
 /// Adds a tracking area to change the mouse arrow icon.
 @property (nonatomic, strong) NSTrackingArea *tracking_area;
 
-/// Keeps the next index of the banner to display.
-@property (nonatomic, assign) int banner_pos;
+/// Keeps the next index of the next banner to display.
+@property (nonatomic, assign) int next_pos;
+
+/// The currently shown index.
+@property (nonatomic, assign) int current_pos;
 
 /// Images to rotate around.
 @property (nonatomic, strong) NSArray *filenames;
+
+/// Directions to open when clicked.
+@property (nonatomic, strong) NSArray *urls;
 
 @end
 
@@ -40,6 +46,8 @@
         options:NSTrackingCursorUpdate | NSTrackingActiveAlways
         owner: self userInfo:nil];
     [self addTrackingArea:self.tracking_area];
+    [self setTarget:self];
+    [self setAction:@selector(click_banner:)];
 }
 
 - (void)dealloc
@@ -57,6 +65,20 @@
     [[NSCursor pointingHandCursor] set];
 }
 
+/// Convenience method which sets up all the initial static data.
+- (void)start
+{
+    [self set_images:@[@"ad_banner_0", @"ad_banner_1",
+        @"ad_banner_2", @"ad_banner_3", @"ad_banner_4"]];
+
+    [self set_urls:@[
+        @"https://itunes.apple.com/app/record-my-gps-position/id405865492?mt=8",
+        @"https://itunes.apple.com/app/submarine-hunt-lite/id422142576?mt=8",
+        @"http://www.elhaso.es/",
+        @"http://nimrod-lang.org",
+        @"https://itunes.apple.com/es/app/seohtracker/id805779021?mt=8"]];
+}
+
 /// Sets the images and starts rotating them.
 - (void)set_images:(NSArray*)filenames
 {
@@ -67,22 +89,41 @@
     [self switch_banner];
 }
 
-/// Sets the visible banner to banner_pos and rotates it.
+/// Transforms NSString objects into NSURLs.
+- (void)set_urls:(NSArray*)urls
+{
+    NSMutableArray *final = [urls get_holder];
+    for (id o in urls) {
+        NSString *provisional = CAST(o, NSString);
+        if (provisional.length < 1) continue;
+        NSURL *url = [NSURL URLWithString:provisional];
+        if (url) [final addObject:url];
+    }
+
+    LASSERT(final.count > 0, @"Can't set empty urls!");
+    DLOG(@"Setting urls to %@", final);
+    self.urls = final;
+}
+
+/// Sets the visible banner to next_pos and rotates it.
 - (void)switch_banner
 {
     BLOCK_UI();
-    NSString *filename = [self.filenames get:self.banner_pos];
+    NSString *filename = [self.filenames get:self.next_pos];
     if (!filename) {
         filename = self.filenames[0];
-        self.banner_pos = 0;
+        self.current_pos = 0;
+        self.next_pos = 1;
     } else {
-        self.banner_pos += 1;
+        self.current_pos = self.next_pos;
+        self.next_pos += 1;
     }
 
     NSImage *image = [NSImage imageNamed:filename];
     LASSERT(image, @"No banner?");
     [self.overlay setImage:self.image];
     [self setImage:image];
+    DLOG(@"Showing banner pos %d", self.current_pos);
 
     // Fade out the overlay. I don't understand this at all.
     [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
@@ -96,6 +137,15 @@
 
     [self performSelector:@selector(switch_banner) withObject:nil
         afterDelay:BANNER_DELAY];
+}
+
+/// Handles clicks on the banner.
+- (void)click_banner:(id)sender
+{
+    NSURL *url = CAST([self.urls get:self.current_pos], NSURL);
+    DLOG(@"Clicked on %@", url);
+    if (url)
+        [[NSWorkspace sharedWorkspace] openURL:url];
 }
 
 @end
