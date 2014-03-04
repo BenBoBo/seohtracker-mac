@@ -37,3 +37,4 @@ v4, ????-??-??
   <https://github.com/gradha/seohtracker-mac/issues/19>`_.
 * `Added empty database helper overlay
   <https://github.com/gradha/seohtracker-mac/issues/13>`_.
+* `Added ads <https://github.com/gradha/seohtracker-mac/issues/9>`_.
