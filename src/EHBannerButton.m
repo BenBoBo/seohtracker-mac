@@ -70,6 +70,7 @@
 /// Sets the visible banner to banner_pos and rotates it.
 - (void)switch_banner
 {
+    BLOCK_UI();
     NSString *filename = [self.filenames get:self.banner_pos];
     if (!filename) {
         filename = self.filenames[0];
@@ -80,7 +81,19 @@
 
     NSImage *image = [NSImage imageNamed:filename];
     LASSERT(image, @"No banner?");
+    [self.overlay setImage:self.image];
     [self setImage:image];
+
+    // Fade out the overlay. I don't understand this at all.
+    [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+        [self.overlay setAlphaValue:1];
+    } completionHandler:^{
+        dispatch_async_ui(^{
+            [[NSAnimationContext currentContext] setDuration:1];
+            [[self.overlay animator] setAlphaValue:0];
+        });
+    }];
+
     [self performSelector:@selector(switch_banner) withObject:nil
         afterDelay:BANNER_DELAY];
 }
