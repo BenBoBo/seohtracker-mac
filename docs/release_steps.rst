@@ -33,7 +33,7 @@ What to do for a new public release?
   ``v``).  When specifying the tag message, copy and paste a text version of
   the full changes log into the message. Add rst item markers.
 * Move closed issues to the release milestone.
-* Increase version numbers, ``master`` branch gets +1.
+* Increase version numbers, ``master`` branch gets +0.1.
 
   * Modify `README.rst <../README.rst>`_.
   * Modify `resources/plist/appstore-Info.plist
