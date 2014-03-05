@@ -40,3 +40,5 @@ v4, ????-??-??
 * `Added ads <https://github.com/gradha/seohtracker-mac/issues/9>`_.
 * `Added usage analytics
   <https://github.com/gradha/seohtracker-mac/issues/23>`_.
+* `Removed tiff image packaging
+  <https://github.com/gradha/seohtracker-mac/issues/24>`_.
