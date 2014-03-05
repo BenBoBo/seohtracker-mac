@@ -2,6 +2,7 @@
 
 #import "user_config.h"
 
+#import "AnalyticsHelper.h"
 #import "ELHASO.h"
 #import "NSArray+ELHASO.h"
 
@@ -160,6 +161,9 @@
 {
     NSURL *url = CAST([self.urls get:self.current_pos], NSURL);
     DLOG(@"Clicked on %@", url);
+    [AnalyticsHelper.sharedInstance recordCachedEventWithCategory:@"Ads"
+        action:@"Clicked banner" label:[url absoluteString]
+        value:@(self.current_pos)];
     if (url)
         [[NSWorkspace sharedWorkspace] openURL:url];
 }
