@@ -189,6 +189,7 @@
 		D53F6D8818C735A600BBF8D5 /* AnalyticsEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnalyticsEvent.m; path = external/SimpleCocoaGoogleAnalytics/SimpleCocoaAnalytics/AnalyticsEvent.m; sourceTree = "<group>"; };
 		D53F6D8918C735A600BBF8D5 /* AnalyticsHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnalyticsHelper.h; path = external/SimpleCocoaGoogleAnalytics/SimpleCocoaAnalytics/AnalyticsHelper.h; sourceTree = "<group>"; };
 		D53F6D8A18C735A600BBF8D5 /* AnalyticsHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnalyticsHelper.m; path = external/SimpleCocoaGoogleAnalytics/SimpleCocoaAnalytics/AnalyticsHelper.m; sourceTree = "<group>"; };
+		D53F6D8F18C7382F00BBF8D5 /* google_analytics_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = google_analytics_config.h; sourceTree = "<group>"; };
 		D5683E4818C6390800D92F0A /* EHBannerButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EHBannerButton.h; sourceTree = "<group>"; };
 		D5683E4918C6390800D92F0A /* EHBannerButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EHBannerButton.m; sourceTree = "<group>"; };
 		D5683E4C18C6456300D92F0A /* ad_banner_0.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ad_banner_0.jpg; sourceTree = "<group>"; };
@@ -389,6 +390,7 @@
 				D5AD7DBB18BD5300005F4865 /* html */,
 				D533F82B18B671FD00A7FFC3 /* nimcache */,
 				D58A7A3D18BDECC20005752B /* Credits.html */,
+				D53F6D8F18C7382F00BBF8D5 /* google_analytics_config.h */,
 				D5C94B2D18BFA0EC00EF34A8 /* help_defines.h */,
 				D58A7A4B18BE4A280005752B /* Seohtracker.help */,
 			);

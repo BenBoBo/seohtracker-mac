@@ -17,6 +17,9 @@ PATH_TO_NIMBASE=~/project/nimrod/root/lib/nimbase.h
 # Where the nimrod source lives.
 NIMSRC=src/nim
 
+# Path to the google analytics config not under source control.
+GOOGLE=build/google_analytics_config.h
+
 # If we are running from inside the scripts subdir, get out.
 if [ ! -d "$NIMSRC" ]
 then
@@ -54,6 +57,11 @@ fi
 if [ -d "$NIMSRC" ]
 then
     mkdir -p "${NIMSRC}/${NIMOUT}"
+
+    # Make sure the google analytics code header exists, though maybe empty.
+    if [[ ! -f "${GOOGLE}" ]]; then
+        touch "${GOOGLE}"
+    fi
 
     # Force doc regeneration
     if [[ nakefile.nim -nt nakefile ]]; then
