@@ -25,7 +25,8 @@ What to do for a new public release?
 
 * ``git commit -av`` into the release branch the version number changes.
 * Verify if files in ``resources/screenshots`` need updating.
-* Trash ``build`` directory.
+* Save ``build/google_analytics_config.h``, trash ``build`` directory and
+  recover the header file.
 * Now build an archive of the appstore target and upload to iTunes connect.
 * Zip up ``build`` directory as ``build-sources-XXX.zip`` and keep somewhere.
 * ``git flow release finish versionname`` (the tagname is versionname without
