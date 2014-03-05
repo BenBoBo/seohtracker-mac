@@ -1,11 +1,13 @@
 #import "EHApp_delegate.h"
 
 #import "EHRoot_vc.h"
-#import "categories/NSString+seohyun.h"
 #import "EHSettings_vc.h"
+#import "categories/NSString+seohyun.h"
+#import "google_analytics_config.h"
 #import "help_defines.h"
 #import "user_config.h"
 
+#import "AnalyticsHelper.h"
 #import "ELHASO.h"
 #import "RHPreferences.h"
 
@@ -40,6 +42,8 @@ NSString *user_metric_prefereces_changed = @"user_metric_preferences_changed";
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+    [self start_google_analytics];
+
     NSString *db_path = get_path(@"", DIR_LIB);
     DLOG(@"Setting database path to %@", db_path);
 
@@ -84,6 +88,13 @@ NSString *user_metric_prefereces_changed = @"user_metric_preferences_changed";
 - (void)windowWillClose:(NSNotification *)notification
 {
     [[NSApplication sharedApplication] terminate:nil];
+}
+
+/// Tell google that the app is being closed.
+- (void)applicationWillTerminate:(NSNotification *)notification
+{
+    [AnalyticsHelper.sharedInstance handleApplicationWillClose];
+    [NSUserDefaults.standardUserDefaults synchronize];
 }
 
 #pragma mark -
@@ -159,6 +170,31 @@ NSString *user_metric_prefereces_changed = @"user_metric_preferences_changed";
 - (IBAction)export_csv:(id)sender
 {
     [self.root_vc export_csv];
+}
+
+/** Extracts bundle info to start google analytics.
+ *
+ * This uses the GOOGLE_ANALYTICS define which is not included in the source
+ * repository.
+ */
+- (void)start_google_analytics
+{
+#ifdef GOOGLE_ANALYTICS
+    NSBundle *b = [NSBundle mainBundle];
+    NSString *name = [b objectForInfoDictionaryKey:@"CFBundleName"];
+    NSString *version = [b objectForInfoDictionaryKey:@"CFBundleVersion"];
+
+    AnalyticsHelper *analyticsHelper = [AnalyticsHelper sharedInstance];
+    [analyticsHelper beginPeriodicReportingWithAccount:GOOGLE_ANALYTICS
+        name:name version:version];
+    DLOG(@"Registering with Google Analytics %@ name:%@ ver:%@",
+        GOOGLE_ANALYTICS, name, version);
+#else
+    DLOG(@"Not activating Google Analytics, missing configuration.");
+#ifdef APPSTORE
+#error Can't build appstore release without google defines!
+#endif
+#endif
 }
 
 #pragma mark -

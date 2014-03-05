@@ -7,3 +7,6 @@
 [submodule "external/RHPreferences"]
 	path = external/RHPreferences
 	url = https://github.com/gradha/RHPreferences.git
+[submodule "external/SimpleCocoaGoogleAnalytics"]
+	path = external/SimpleCocoaGoogleAnalytics
+	url = https://github.com/gradha/SimpleCocoaGoogleAnalytics.git
