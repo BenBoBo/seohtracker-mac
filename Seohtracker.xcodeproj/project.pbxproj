@@ -762,6 +762,10 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "src/Seohtracker-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					APPSTORE,
+				);
 				INFOPLIST_FILE = "resources/plist/appstore-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = Seohtracker;
@@ -777,6 +781,10 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "src/Seohtracker-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					APPSTORE,
+					"$(inherited)",
+				);
 				INFOPLIST_FILE = "resources/plist/appstore-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = Seohtracker;

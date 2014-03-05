@@ -191,6 +191,9 @@ NSString *user_metric_prefereces_changed = @"user_metric_preferences_changed";
         GOOGLE_ANALYTICS, name, version);
 #else
     DLOG(@"Not activating Google Analytics, missing configuration.");
+#ifdef APPSTORE
+#error Can't build appstore release without google defines!
+#endif
 #endif
 }
 
