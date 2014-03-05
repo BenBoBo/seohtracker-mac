@@ -136,6 +136,7 @@
 
     NSImage *image = [NSImage imageNamed:filename];
     LASSERT(image, @"No banner?");
+    [image setSize:self.overlay.bounds.size];
     [self.overlay setImage:self.image];
     [self setImage:image];
     DLOG(@"Showing banner pos %d", self.current_pos);
