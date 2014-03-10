@@ -28,7 +28,8 @@ What to do for a new public release?
 * Save ``build/google_analytics_config.h``, trash ``build`` directory and
   recover the header file.
 * Now build an archive of the appstore target and upload to iTunes connect.
-* Zip up ``build`` directory as ``build-sources-XXX.zip`` and keep somewhere.
+* Remove again ``build/google_analytics_config.h``, zip up ``build`` directory
+  as ``build-sources-XXX.zip`` and keep somewhere.
 * ``git flow release finish versionname`` (the tagname is versionname without
   ``v``).  When specifying the tag message, copy and paste a text version of
   the full changes log into the message. Add rst item markers.
@@ -59,5 +60,5 @@ What to do for a new public release?
 * Announce at http://forum.nimrod-lang.org/.
 * Close the milestone on github.
 * Update the released tag on https://github.com/gradha/seohtracker-mac/releases
-  with the template message **"Available on the appstore on YYYY-MM-DD"**.
+  with the template message **"Available on the mac appstore on YYYY-MM-DD"**.
   Attach previously saved ``build-sources-XXX.zip``.
