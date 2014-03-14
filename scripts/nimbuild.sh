@@ -15,7 +15,8 @@ PATH_TO_NIMROD=~/project/nimrod/root/bin/nimrod
 PATH_TO_NIMBASE=~/project/nimrod/root/lib/nimbase.h
 
 # Where the nimrod source lives.
-NIMSRC=src/nim
+NIMSRC=external/seohtracker-logic/objc_interface/nim
+
 
 # Path to the google analytics config not under source control.
 GOOGLE=build/google_analytics_config.h
@@ -44,7 +45,7 @@ if [ ! -s "$PATH_TO_NIMBASE" ]; then
     exit 1
 fi
 
-NIMOUT="../../build/nimcache" # Relative to NIMSRC
+NIMOUT="../../../../build/nimcache" # Relative to NIMSRC
 DEST_NIMBASE="${NIMOUT}/nimbase.h"
 
 if [[ "${ACTION}" == "clean" ]]; then
