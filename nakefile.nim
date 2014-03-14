@@ -138,6 +138,23 @@ iterator walk_dirs(dir: string): string =
         stack.add(p)
 
 
+iterator walk_iconset_dirs(): In_out =
+  ## Wrapper over walk_dirs to get only .iconset source directories.
+  ##
+  ## Returns tuples in the form (src:dir.iconset, dest:file.icns).
+  var x: In_out
+  for path in walk_dirs(icons_dir):
+    if not (path.split_file.ext == ".iconset"): continue
+    x.src = icons_dir/path
+    x.dest = gfx_build_dir/path.changeFileExt("icns")
+    yield x
+
+
+proc build_iconset_dirs(): seq[In_out] =
+  ## Wrapper to avoid iterator limitations.
+  result = to_seq(walk_iconset_dirs())
+
+
 iterator walk_help_dir_contents(dir: string): tuple[src, rel_path: string] =
   ## This is a wrapper over walk_dirs to add special files to all help dirs.
   ##
@@ -346,24 +363,40 @@ task "check_doc", "Validates rst format for a subset of documentation":
       echo output
 
 task "clean", "Removes temporal files, mainly":
+  # Remove generated html files.
   for path in walkDirRec("."):
     let (dir, name, ext) = splitFile(path)
     if ext == ".html":
       echo "Removing ", path
       path.removeFile()
 
+  # Remove generated iconset files.
+  for iconset in build_iconset_dirs():
+    if iconset.dest.exists_file:
+      echo "Removing ", iconset.dest
+      iconset.dest.remove_file
+
+  # Remove generated help directories.
+  for path in walk_dirs(build_dir):
+    if not (path.split_file.ext == ".help"): continue
+    let target = build_dir/path
+    echo "Removing ", target
+    target.remove_dir
+
+  if help_include.exists_file:
+    echo "Removing ", help_include
+    help_include.remove_file
+
+  echo "All clean"
+
 task "icons", "Generates icons from the source png files":
   gfx_build_dir.create_dir
-  for path in walk_dirs(icons_dir):
-    if not (path.split_file.ext == ".iconset"): continue
-    let
-      src = icons_dir/path
-      dest = gfx_build_dir/path.changeFileExt("icns")
-      dir = dest.split_file.dir
+  for iconset in build_iconset_dirs():
+    let dir = iconset.dest.split_file.dir
     dir.create_dir
-    if not dest.icon_needs_refresh(src): continue
-    if not shell("iconutil --convert icns --output", dest, src):
-      quit("Error generating icon from " & src)
+    if not iconset.dest.icon_needs_refresh(iconset.src): continue
+    if not shell("iconutil --convert icns --output", iconset.dest, iconset.src):
+      quit("Error generating icon from " & iconset.src)
     else:
-      echo src, " -> ", dest
+      echo iconset.src, " -> ", iconset.dest
   echo "All icons generated"

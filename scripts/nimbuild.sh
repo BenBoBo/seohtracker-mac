@@ -49,8 +49,16 @@ NIMOUT="../../../../build/nimcache" # Relative to NIMSRC
 DEST_NIMBASE="${NIMOUT}/nimbase.h"
 
 if [[ "${ACTION}" == "clean" ]]; then
-    echo "Cleaning ${NIMOUT}"
-    rm -Rf "${NIMOUT}"
+    echo "Cleaning ${NIMSRC}/${NIMOUT}"
+    rm -Rf "${NIMSRC}/${NIMOUT}"
+
+    # Force doc cleanup
+    if [[ nakefile.nim -nt nakefile ]]; then
+        "${PATH_TO_NIMROD}" c -r nakefile clean
+    else
+        ./nakefile clean
+    fi
+
     exit 0
 fi
 
