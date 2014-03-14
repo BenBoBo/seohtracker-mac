@@ -1,11 +1,12 @@
 #import "EHSettings_vc.h"
 
 #import "EHApp_delegate.h"
-#import "n_global.h"
-#import "user_config.h"
 
 #import "ELHASO.h"
 #import "NSNotificationCenter+ELHASO.h"
+#import "SHNotifications.h"
+#import "n_global.h"
+#import "user_config.h"
 
 
 @interface EHSettings_vc ()

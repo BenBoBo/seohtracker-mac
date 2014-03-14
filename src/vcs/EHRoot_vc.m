@@ -4,10 +4,12 @@
 #import "EHBannerButton.h"
 #import "EHModify_vc.h"
 #import "EHProgress_vc.h"
-#import "NSString+seohyun.h"
 
 #import "ELHASO.h"
 #import "NSNotificationCenter+ELHASO.h"
+#import "NSString+seohyun.h"
+#import "SHNotifications.h"
+#import "formatters.h"
 
 
 @interface EHRoot_vc ()
