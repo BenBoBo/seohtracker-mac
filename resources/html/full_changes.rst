@@ -13,6 +13,8 @@ v4.1, ????-??-??
   <https://github.com/gradha/seohtracker-mac/issues/29>`_.
 * `Modified help screens
   <https://github.com/gradha/seohtracker-mac/issues/30>`_.
+* `Made today and yesterday display as words in history
+  <https://github.com/gradha/seohtracker-mac/issues/31>`_.
 
 v4, 2014-03-05
 --------------

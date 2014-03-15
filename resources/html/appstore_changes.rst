@@ -8,7 +8,8 @@ This is a brief changes log. But you can `always check the detailed log
 v4.1, ????-??-??
 ----------------
 
-* Nothing yet.
+* `Close dates are formatted now as words
+  <https://github.com/gradha/seohtracker-mac/issues/31>`_.
 
 v4, 2014-03-05
 --------------
