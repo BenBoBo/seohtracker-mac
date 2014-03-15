@@ -8,6 +8,7 @@
 #import "AnalyticsHelper.h"
 #import "ELHASO.h"
 #import "RHPreferences.h"
+#import "categories/NSObject+seohyun.h"
 #import "categories/NSString+seohyun.h"
 #import "n_global.h"
 #import "user_config.h"
@@ -46,7 +47,7 @@
 
     // Insert code here to initialize your application
     self.root_vc = [[EHRoot_vc alloc]
-        initWithNibName:NSStringFromClass([EHRoot_vc class]) bundle:nil];
+        initWithNibName:[EHRoot_vc class_string] bundle:nil];
     self.window.delegate = self;
 
     [self.window.contentView addSubview:self.root_vc.view];
@@ -107,8 +108,7 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
             EHSettings_vc *pane1 = [[EHSettings_vc alloc]
-                initWithNibName:NSStringFromClass([EHSettings_vc class])
-                bundle:nil];
+                initWithNibName:[EHSettings_vc class_string] bundle:nil];
 
             self.preferences_vc = [[RHPreferencesWindowController alloc]
                 initWithViewControllers:@[pane1] andTitle:@"Preferences"];

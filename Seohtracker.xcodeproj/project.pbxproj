@@ -78,6 +78,8 @@
 		D53F6D8C18C735A600BBF8D5 /* AnalyticsEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = D53F6D8818C735A600BBF8D5 /* AnalyticsEvent.m */; };
 		D53F6D8D18C735A600BBF8D5 /* AnalyticsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D53F6D8A18C735A600BBF8D5 /* AnalyticsHelper.m */; };
 		D53F6D8E18C735A600BBF8D5 /* AnalyticsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D53F6D8A18C735A600BBF8D5 /* AnalyticsHelper.m */; };
+		D54FDD0018D4727E005083DB /* NSObject+seohyun.m in Sources */ = {isa = PBXBuildFile; fileRef = D54FDCFF18D4727E005083DB /* NSObject+seohyun.m */; };
+		D54FDD0118D4727E005083DB /* NSObject+seohyun.m in Sources */ = {isa = PBXBuildFile; fileRef = D54FDCFF18D4727E005083DB /* NSObject+seohyun.m */; };
 		D554515018D32E7D00BD4D7D /* NSString+seohyun.m in Sources */ = {isa = PBXBuildFile; fileRef = D554514518D32E7D00BD4D7D /* NSString+seohyun.m */; };
 		D554515118D32E7D00BD4D7D /* NSString+seohyun.m in Sources */ = {isa = PBXBuildFile; fileRef = D554514518D32E7D00BD4D7D /* NSString+seohyun.m */; };
 		D554515218D32E7D00BD4D7D /* formatters.m in Sources */ = {isa = PBXBuildFile; fileRef = D554514718D32E7D00BD4D7D /* formatters.m */; };
@@ -190,6 +192,8 @@
 		D53F6D8918C735A600BBF8D5 /* AnalyticsHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnalyticsHelper.h; path = external/SimpleCocoaGoogleAnalytics/SimpleCocoaAnalytics/AnalyticsHelper.h; sourceTree = "<group>"; };
 		D53F6D8A18C735A600BBF8D5 /* AnalyticsHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnalyticsHelper.m; path = external/SimpleCocoaGoogleAnalytics/SimpleCocoaAnalytics/AnalyticsHelper.m; sourceTree = "<group>"; };
 		D53F6D8F18C7382F00BBF8D5 /* google_analytics_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = google_analytics_config.h; sourceTree = "<group>"; };
+		D54FDCFE18D4727E005083DB /* NSObject+seohyun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+seohyun.h"; sourceTree = "<group>"; };
+		D54FDCFF18D4727E005083DB /* NSObject+seohyun.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+seohyun.m"; sourceTree = "<group>"; };
 		D554514418D32E7D00BD4D7D /* NSString+seohyun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+seohyun.h"; sourceTree = "<group>"; };
 		D554514518D32E7D00BD4D7D /* NSString+seohyun.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+seohyun.m"; sourceTree = "<group>"; };
 		D554514618D32E7D00BD4D7D /* formatters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = formatters.h; sourceTree = "<group>"; };
@@ -458,6 +462,8 @@
 		D554514318D32E7D00BD4D7D /* categories */ = {
 			isa = PBXGroup;
 			children = (
+				D54FDCFE18D4727E005083DB /* NSObject+seohyun.h */,
+				D54FDCFF18D4727E005083DB /* NSObject+seohyun.m */,
 				D554514418D32E7D00BD4D7D /* NSString+seohyun.h */,
 				D554514518D32E7D00BD4D7D /* NSString+seohyun.m */,
 			);
@@ -691,6 +697,7 @@
 				D52E74D518C50F6E00A8B6F1 /* posix_posix.m in Sources */,
 				D52E74D618C50F6E00A8B6F1 /* logic_l_db.m in Sources */,
 				D52E74D718C50F6E00A8B6F1 /* EHRoot_vc.m in Sources */,
+				D54FDD0118D4727E005083DB /* NSObject+seohyun.m in Sources */,
 				D554515318D32E7D00BD4D7D /* formatters.m in Sources */,
 				D52E74D818C50F6E00A8B6F1 /* pure_parseutils.m in Sources */,
 				D52E74D918C50F6E00A8B6F1 /* main.m in Sources */,
@@ -731,6 +738,7 @@
 				D533F84418B671FD00A7FFC3 /* posix_posix.m in Sources */,
 				D533F83F18B671FD00A7FFC3 /* logic_l_db.m in Sources */,
 				D5318A5E18BBB745001FD6C0 /* EHRoot_vc.m in Sources */,
+				D54FDD0018D4727E005083DB /* NSObject+seohyun.m in Sources */,
 				D554515218D32E7D00BD4D7D /* formatters.m in Sources */,
 				D533F84818B671FD00A7FFC3 /* pure_parseutils.m in Sources */,
 				D533F81F18B6650200A7FFC3 /* main.m in Sources */,

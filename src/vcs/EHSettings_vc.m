@@ -5,6 +5,7 @@
 #import "ELHASO.h"
 #import "NSNotificationCenter+ELHASO.h"
 #import "SHNotifications.h"
+#import "categories/NSObject+seohyun.h"
 #import "n_global.h"
 #import "user_config.h"
 
@@ -79,29 +80,28 @@
 #pragma mark -
 #pragma mark - RHPreferencesViewControllerProtocol
 
--(NSString*)identifier
+- (NSString*)identifier
 {
-    return NSStringFromClass(self.class);
+    return [self class_string];
 }
 
--(NSImage*)toolbarItemImage
+- (NSImage*)toolbarItemImage
 {
     return [NSImage imageNamed:NSImageNameActionTemplate];
 }
 
--(NSString*)toolbarItemLabel
+- (NSString*)toolbarItemLabel
 {
     return @"Settings";
 }
 
--(NSView*)initialKeyView
+- (NSView*)initialKeyView
 {
     return nil;
 }
 
 - (void)viewWillAppear
 {
-    DLOG(@"EHSettings_vc viewWillAppear");
     [self refresh_ui];
 }
 
