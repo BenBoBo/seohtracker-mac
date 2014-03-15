@@ -11,6 +11,8 @@ v4.1, ????-??-??
 
 * `Moved common objc code to logic submodule
   <https://github.com/gradha/seohtracker-mac/issues/29>`_.
+* `Modified help screens
+  <https://github.com/gradha/seohtracker-mac/issues/30>`_.
 
 v4, 2014-03-05
 --------------
