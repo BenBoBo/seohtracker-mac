@@ -4,10 +4,13 @@
 #import "EHBannerButton.h"
 #import "EHModify_vc.h"
 #import "EHProgress_vc.h"
-#import "NSString+seohyun.h"
 
 #import "ELHASO.h"
 #import "NSNotificationCenter+ELHASO.h"
+#import "SHNotifications.h"
+#import "categories/NSObject+seohyun.h"
+#import "categories/NSString+seohyun.h"
+#import "formatters.h"
 
 
 @interface EHRoot_vc ()
@@ -138,7 +141,7 @@
 {
     TWeight *weight = [self selected_weight];
     EHModify_vc *vc = [[EHModify_vc alloc]
-        initWithWindowNibName:NSStringFromClass([EHModify_vc class])];
+        initWithWindowNibName:[EHModify_vc class_string]];
     [vc set_values_from:weight for_new_value:NO];
 
     const NSInteger ret = [self begin_modal_sheet:vc.window];
@@ -215,7 +218,7 @@
 - (IBAction)did_touch_plus_button:(id)sender
 {
     EHModify_vc *vc = [[EHModify_vc alloc]
-        initWithWindowNibName:NSStringFromClass([EHModify_vc class])];
+        initWithWindowNibName:[EHModify_vc class_string]];
     [vc set_values_from:get_last_weight() for_new_value:YES];
 
     const NSInteger ret = [self begin_modal_sheet:vc.window];
