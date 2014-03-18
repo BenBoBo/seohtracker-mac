@@ -170,16 +170,18 @@
     }
 
     // Refresh the rows.
-    NSMutableIndexSet *rows = [NSMutableIndexSet indexSetWithIndex:new_pos];
-    if (old_pos != new_pos) [rows addIndex:old_pos];
-    [self.table_view reloadDataForRowIndexes:rows
-        columnIndexes:[NSIndexSet indexSetWithIndexesInRange:(NSRange){0, 2}]];
+    NSIndexSet *new_row = [NSIndexSet indexSetWithIndex:new_pos];
+    [self.table_view beginUpdates];
+    [self.table_view removeRowsAtIndexes:[NSIndexSet indexSetWithIndex:old_pos]
+        withAnimation:NSTableViewAnimationSlideLeft];
+    [self.table_view insertRowsAtIndexes:new_row
+        withAnimation:NSTableViewAnimationSlideRight];
+    [self.table_view endUpdates];
+    [self refresh_row_backgrounds];
 
     // Force selection to the new position.
-    [rows removeAllIndexes];
-    [rows addIndex:new_pos];
     [self.table_view deselectAll:self];
-    [self.table_view selectRowIndexes:rows byExtendingSelection:NO];
+    [self.table_view selectRowIndexes:new_row byExtendingSelection:NO];
 }
 
 /// Removes the selected weight, but first asks if really should be done.
@@ -209,8 +211,11 @@
         [self.table_view reloadData];
     } else {
         [self.table_view deselectAll:self];
+        [self.table_view beginUpdates];
         [self.table_view removeRowsAtIndexes:[NSIndexSet indexSetWithIndex:pos]
             withAnimation:NSTableViewAnimationSlideLeft];
+        [self.table_view endUpdates];
+        [self refresh_row_backgrounds];
     }
 }
 
@@ -248,13 +253,16 @@
     }
 
     // Refresh the rows.
-    NSIndexSet *row = [NSIndexSet indexSetWithIndex:new_pos];
-    [self.table_view insertRowsAtIndexes:row
+    NSIndexSet *new_row = [NSIndexSet indexSetWithIndex:new_pos];
+    [self.table_view beginUpdates];
+    [self.table_view insertRowsAtIndexes:new_row
         withAnimation:NSTableViewAnimationSlideRight];
+    [self.table_view endUpdates];
+    [self refresh_row_backgrounds];
 
     // Force selection to the new position.
     [self.table_view deselectAll:self];
-    [self.table_view selectRowIndexes:row byExtendingSelection:NO];
+    [self.table_view selectRowIndexes:new_row byExtendingSelection:NO];
     [self animate_scroll_to:new_pos];
 }
 
@@ -461,6 +469,45 @@
     self.modal_sheet_window = nil;
 }
 
+/// Default normal color for cell text.
+- (NSColor*)normal_color
+{
+    return [NSColor blackColor];
+}
+
+/// Color for the text of cells using the same day.
+- (NSColor*)shadowed_color
+{
+    return [NSColor grayColor];
+}
+
+/// Changes the background of the table row according to the weight attributes.
+- (void)update_row_background:(NSTableRowView*)row_view for_row:(NSInteger)row
+{
+    TWeight *w = get_weight(row);
+    RASSERT(w, @"No weight for position?", return);
+
+    if (alternating_day(w)) {
+        row_view.backgroundColor = [NSColor colorWithSRGBRed:237/255.0
+            green:237/255.0 blue:1 alpha:1];
+    } else {
+        row_view.backgroundColor = [NSColor whiteColor];
+    }
+}
+
+/** Call this after rows are reshuffled in the list.
+ *
+ * Visible rows will be iterated and their background color updated to the
+ * logic model. This is usually done for added rows.
+ */
+- (void)refresh_row_backgrounds
+{
+    [self.table_view enumerateAvailableRowViewsUsingBlock:
+        ^(NSTableRowView *v, NSInteger r) {
+            [self update_row_background:v for_row:r];
+        }];
+}
+
 #pragma mark -
 #pragma mark NSTableViewDataSource protocol
 
@@ -473,25 +520,41 @@
 #pragma mark -
 #pragma mark NSTableViewDelegate protocol
 
+/// Overrides to change row background color.
+- (void)tableView:(NSTableView *)tableView
+    didAddRowView:(NSTableRowView *)rowView forRow:(NSInteger)row
+{
+    [self update_row_background:rowView for_row:row];
+}
+
 - (NSView*)tableView:(NSTableView*)tableView
     viewForTableColumn:(NSTableColumn*)tableColumn row:(NSInteger)row
 {
     // Get a new ViewCell
-    NSTableCellView *cellView = [tableView
+    NSTableCellView *cell = [tableView
         makeViewWithIdentifier:tableColumn.identifier owner:self];
     TWeight *w = get_weight(row);
-    RASSERT(w, @"No weight for position?", return cellView);
+    RASSERT(w, @"No weight for position?", return cell);
 
     if ([tableColumn.identifier isEqualToString:@"EHHistory_date"]) {
-        cellView.textField.stringValue = format_date(w);
+        if (changes_day(w)) {
+            cell.textField.stringValue = format_date(w);
+        } else {
+            cell.textField.attributedStringValue =
+                format_shadowed_date(w, cell.textField.font,
+                self.normal_color, self.shadowed_color);
+        }
     } else if ([tableColumn.identifier isEqualToString:@"EHHistory_weight"]) {
-        cellView.textField.stringValue = [NSString
+        cell.textField.stringValue = [NSString
             stringWithFormat:@"%s %s", format_weight_with_current_unit(w),
             get_weight_string()];
+
+        cell.textField.textColor = (changes_day(w) ?
+            self.normal_color : self.shadowed_color);
     } else {
         LASSERT(0, @"Bad column");
     }
-    return cellView;
+    return cell;
 }
 
 /// User clicked or moved the cursor, update the UI.

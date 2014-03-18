@@ -7,31 +7,47 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D52E74CC18C50F6E00A8B6F1 /* pure_parsecsv.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83718B671FD00A7FFC3 /* pure_parsecsv.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D50E1DE918D84E82004BF4B2 /* l_db.m in Sources */ = {isa = PBXBuildFile; fileRef = D50E1DD718D84E82004BF4B2 /* l_db.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D50E1DEA18D84E82004BF4B2 /* l_db.m in Sources */ = {isa = PBXBuildFile; fileRef = D50E1DD718D84E82004BF4B2 /* l_db.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D50E1DEB18D84E82004BF4B2 /* l_log.m in Sources */ = {isa = PBXBuildFile; fileRef = D50E1DD818D84E82004BF4B2 /* l_log.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D50E1DEC18D84E82004BF4B2 /* l_log.m in Sources */ = {isa = PBXBuildFile; fileRef = D50E1DD818D84E82004BF4B2 /* l_log.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D50E1DED18D84E82004BF4B2 /* l_main.m in Sources */ = {isa = PBXBuildFile; fileRef = D50E1DD918D84E82004BF4B2 /* l_main.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D50E1DEE18D84E82004BF4B2 /* l_main.m in Sources */ = {isa = PBXBuildFile; fileRef = D50E1DD918D84E82004BF4B2 /* l_main.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D50E1DEF18D84E82004BF4B2 /* l_types.m in Sources */ = {isa = PBXBuildFile; fileRef = D50E1DDA18D84E82004BF4B2 /* l_types.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D50E1DF018D84E82004BF4B2 /* l_types.m in Sources */ = {isa = PBXBuildFile; fileRef = D50E1DDA18D84E82004BF4B2 /* l_types.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D50E1DF118D84E82004BF4B2 /* n_global.m in Sources */ = {isa = PBXBuildFile; fileRef = D50E1DDC18D84E82004BF4B2 /* n_global.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D50E1DF218D84E82004BF4B2 /* n_global.m in Sources */ = {isa = PBXBuildFile; fileRef = D50E1DDC18D84E82004BF4B2 /* n_global.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D50E1DF318D84E82004BF4B2 /* stdlib_db_sqlite.m in Sources */ = {isa = PBXBuildFile; fileRef = D50E1DDE18D84E82004BF4B2 /* stdlib_db_sqlite.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D50E1DF418D84E82004BF4B2 /* stdlib_db_sqlite.m in Sources */ = {isa = PBXBuildFile; fileRef = D50E1DDE18D84E82004BF4B2 /* stdlib_db_sqlite.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D50E1DF518D84E82004BF4B2 /* stdlib_lexbase.m in Sources */ = {isa = PBXBuildFile; fileRef = D50E1DDF18D84E82004BF4B2 /* stdlib_lexbase.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D50E1DF618D84E82004BF4B2 /* stdlib_lexbase.m in Sources */ = {isa = PBXBuildFile; fileRef = D50E1DDF18D84E82004BF4B2 /* stdlib_lexbase.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D50E1DF718D84E82004BF4B2 /* stdlib_os.m in Sources */ = {isa = PBXBuildFile; fileRef = D50E1DE018D84E82004BF4B2 /* stdlib_os.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D50E1DF818D84E82004BF4B2 /* stdlib_os.m in Sources */ = {isa = PBXBuildFile; fileRef = D50E1DE018D84E82004BF4B2 /* stdlib_os.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D50E1DF918D84E82004BF4B2 /* stdlib_parsecsv.m in Sources */ = {isa = PBXBuildFile; fileRef = D50E1DE118D84E82004BF4B2 /* stdlib_parsecsv.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D50E1DFA18D84E82004BF4B2 /* stdlib_parsecsv.m in Sources */ = {isa = PBXBuildFile; fileRef = D50E1DE118D84E82004BF4B2 /* stdlib_parsecsv.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D50E1DFB18D84E82004BF4B2 /* stdlib_parseutils.m in Sources */ = {isa = PBXBuildFile; fileRef = D50E1DE218D84E82004BF4B2 /* stdlib_parseutils.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D50E1DFC18D84E82004BF4B2 /* stdlib_parseutils.m in Sources */ = {isa = PBXBuildFile; fileRef = D50E1DE218D84E82004BF4B2 /* stdlib_parseutils.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D50E1DFD18D84E82004BF4B2 /* stdlib_posix.m in Sources */ = {isa = PBXBuildFile; fileRef = D50E1DE318D84E82004BF4B2 /* stdlib_posix.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D50E1DFE18D84E82004BF4B2 /* stdlib_posix.m in Sources */ = {isa = PBXBuildFile; fileRef = D50E1DE318D84E82004BF4B2 /* stdlib_posix.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D50E1DFF18D84E82004BF4B2 /* stdlib_sqlite3.m in Sources */ = {isa = PBXBuildFile; fileRef = D50E1DE418D84E82004BF4B2 /* stdlib_sqlite3.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D50E1E0018D84E82004BF4B2 /* stdlib_sqlite3.m in Sources */ = {isa = PBXBuildFile; fileRef = D50E1DE418D84E82004BF4B2 /* stdlib_sqlite3.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D50E1E0118D84E82004BF4B2 /* stdlib_streams.m in Sources */ = {isa = PBXBuildFile; fileRef = D50E1DE518D84E82004BF4B2 /* stdlib_streams.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D50E1E0218D84E82004BF4B2 /* stdlib_streams.m in Sources */ = {isa = PBXBuildFile; fileRef = D50E1DE518D84E82004BF4B2 /* stdlib_streams.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D50E1E0318D84E82004BF4B2 /* stdlib_strutils.m in Sources */ = {isa = PBXBuildFile; fileRef = D50E1DE618D84E82004BF4B2 /* stdlib_strutils.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D50E1E0418D84E82004BF4B2 /* stdlib_strutils.m in Sources */ = {isa = PBXBuildFile; fileRef = D50E1DE618D84E82004BF4B2 /* stdlib_strutils.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D50E1E0518D84E82004BF4B2 /* stdlib_system.m in Sources */ = {isa = PBXBuildFile; fileRef = D50E1DE718D84E82004BF4B2 /* stdlib_system.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D50E1E0618D84E82004BF4B2 /* stdlib_system.m in Sources */ = {isa = PBXBuildFile; fileRef = D50E1DE718D84E82004BF4B2 /* stdlib_system.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D50E1E0718D84E82004BF4B2 /* stdlib_times.m in Sources */ = {isa = PBXBuildFile; fileRef = D50E1DE818D84E82004BF4B2 /* stdlib_times.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		D50E1E0818D84E82004BF4B2 /* stdlib_times.m in Sources */ = {isa = PBXBuildFile; fileRef = D50E1DE818D84E82004BF4B2 /* stdlib_times.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		D52E74CD18C50F6E00A8B6F1 /* EHApp_delegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F81B18B6650200A7FFC3 /* EHApp_delegate.m */; };
-		D52E74CE18C50F6E00A8B6F1 /* logic_l_log.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F82E18B671FD00A7FFC3 /* logic_l_log.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		D52E74CF18C50F6E00A8B6F1 /* pure_streams.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83918B671FD00A7FFC3 /* pure_streams.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		D52E74D018C50F6E00A8B6F1 /* pure_times.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83B18B671FD00A7FFC3 /* pure_times.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		D52E74D118C50F6E00A8B6F1 /* root_system.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83C18B671FD00A7FFC3 /* root_system.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		D52E74D218C50F6E00A8B6F1 /* nim_n_global.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83218B671FD00A7FFC3 /* nim_n_global.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		D52E74D318C50F6E00A8B6F1 /* NSArray+ELHASO.m in Sources */ = {isa = PBXBuildFile; fileRef = D532973E18B68B1C0028F3AA /* NSArray+ELHASO.m */; };
 		D52E74D418C50F6E00A8B6F1 /* RHPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5AD7DA118BD14A1005F4865 /* RHPreferencesWindowController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		D52E74D518C50F6E00A8B6F1 /* posix_posix.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83418B671FD00A7FFC3 /* posix_posix.m */; };
-		D52E74D618C50F6E00A8B6F1 /* logic_l_db.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F82D18B671FD00A7FFC3 /* logic_l_db.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		D52E74D718C50F6E00A8B6F1 /* EHRoot_vc.m in Sources */ = {isa = PBXBuildFile; fileRef = D5318A5D18BBB745001FD6C0 /* EHRoot_vc.m */; };
-		D52E74D818C50F6E00A8B6F1 /* pure_parseutils.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83818B671FD00A7FFC3 /* pure_parseutils.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		D52E74D918C50F6E00A8B6F1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F81C18B6650200A7FFC3 /* main.m */; };
 		D52E74DB18C50F6E00A8B6F1 /* ELHASO.m in Sources */ = {isa = PBXBuildFile; fileRef = D532973C18B68B1C0028F3AA /* ELHASO.m */; };
 		D52E74DC18C50F6E00A8B6F1 /* EHProgress_vc.m in Sources */ = {isa = PBXBuildFile; fileRef = D5FCD4A218C1401600D7783B /* EHProgress_vc.m */; };
-		D52E74DD18C50F6E00A8B6F1 /* pure_lexbase.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83518B671FD00A7FFC3 /* pure_lexbase.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		D52E74DE18C50F6E00A8B6F1 /* logic_l_types.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83018B671FD00A7FFC3 /* logic_l_types.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		D52E74E018C50F6E00A8B6F1 /* wrappers_sqlite3.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83D18B671FD00A7FFC3 /* wrappers_sqlite3.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		D52E74E118C50F6E00A8B6F1 /* logic_l_main.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F82F18B671FD00A7FFC3 /* logic_l_main.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		D52E74E218C50F6E00A8B6F1 /* pure_os.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83618B671FD00A7FFC3 /* pure_os.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		D52E74E318C50F6E00A8B6F1 /* EHModify_vc.m in Sources */ = {isa = PBXBuildFile; fileRef = D5318A7018BC03DC001FD6C0 /* EHModify_vc.m */; };
-		D52E74E418C50F6E00A8B6F1 /* pure_strutils.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83A18B671FD00A7FFC3 /* pure_strutils.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		D52E74E518C50F6E00A8B6F1 /* EHSettings_vc.m in Sources */ = {isa = PBXBuildFile; fileRef = D5AD7DA718BD188B005F4865 /* EHSettings_vc.m */; };
-		D52E74E618C50F6E00A8B6F1 /* impure_db_sqlite.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F82C18B671FD00A7FFC3 /* impure_db_sqlite.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		D52E74E718C50F6E00A8B6F1 /* NSNotificationCenter+ELHASO.m in Sources */ = {isa = PBXBuildFile; fileRef = D5AD7DAE18BD46FA005F4865 /* NSNotificationCenter+ELHASO.m */; };
 		D52E74E918C50F6E00A8B6F1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D533F7E518B662CB00A7FFC3 /* Cocoa.framework */; };
 		D52E74EC18C50F6E00A8B6F1 /* EHSettings_vc.xib in Resources */ = {isa = PBXBuildFile; fileRef = D5AD7DAB18BD4021005F4865 /* EHSettings_vc.xib */; };
@@ -58,22 +74,6 @@
 		D533F7FC18B662CB00A7FFC3 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D533F7FA18B662CB00A7FFC3 /* MainMenu.xib */; };
 		D533F81E18B6650200A7FFC3 /* EHApp_delegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F81B18B6650200A7FFC3 /* EHApp_delegate.m */; };
 		D533F81F18B6650200A7FFC3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F81C18B6650200A7FFC3 /* main.m */; };
-		D533F83E18B671FD00A7FFC3 /* impure_db_sqlite.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F82C18B671FD00A7FFC3 /* impure_db_sqlite.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		D533F83F18B671FD00A7FFC3 /* logic_l_db.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F82D18B671FD00A7FFC3 /* logic_l_db.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		D533F84018B671FD00A7FFC3 /* logic_l_log.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F82E18B671FD00A7FFC3 /* logic_l_log.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		D533F84118B671FD00A7FFC3 /* logic_l_main.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F82F18B671FD00A7FFC3 /* logic_l_main.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		D533F84218B671FD00A7FFC3 /* logic_l_types.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83018B671FD00A7FFC3 /* logic_l_types.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		D533F84318B671FD00A7FFC3 /* nim_n_global.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83218B671FD00A7FFC3 /* nim_n_global.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		D533F84418B671FD00A7FFC3 /* posix_posix.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83418B671FD00A7FFC3 /* posix_posix.m */; };
-		D533F84518B671FD00A7FFC3 /* pure_lexbase.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83518B671FD00A7FFC3 /* pure_lexbase.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		D533F84618B671FD00A7FFC3 /* pure_os.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83618B671FD00A7FFC3 /* pure_os.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		D533F84718B671FD00A7FFC3 /* pure_parsecsv.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83718B671FD00A7FFC3 /* pure_parsecsv.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		D533F84818B671FD00A7FFC3 /* pure_parseutils.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83818B671FD00A7FFC3 /* pure_parseutils.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		D533F84918B671FD00A7FFC3 /* pure_streams.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83918B671FD00A7FFC3 /* pure_streams.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		D533F84A18B671FD00A7FFC3 /* pure_strutils.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83A18B671FD00A7FFC3 /* pure_strutils.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		D533F84B18B671FD00A7FFC3 /* pure_times.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83B18B671FD00A7FFC3 /* pure_times.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		D533F84C18B671FD00A7FFC3 /* root_system.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83C18B671FD00A7FFC3 /* root_system.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		D533F84D18B671FD00A7FFC3 /* wrappers_sqlite3.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F83D18B671FD00A7FFC3 /* wrappers_sqlite3.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		D53F6D8B18C735A600BBF8D5 /* AnalyticsEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = D53F6D8818C735A600BBF8D5 /* AnalyticsEvent.m */; };
 		D53F6D8C18C735A600BBF8D5 /* AnalyticsEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = D53F6D8818C735A600BBF8D5 /* AnalyticsEvent.m */; };
 		D53F6D8D18C735A600BBF8D5 /* AnalyticsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D53F6D8A18C735A600BBF8D5 /* AnalyticsHelper.m */; };
@@ -143,6 +143,24 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D50E1DD718D84E82004BF4B2 /* l_db.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = l_db.m; sourceTree = "<group>"; };
+		D50E1DD818D84E82004BF4B2 /* l_log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = l_log.m; sourceTree = "<group>"; };
+		D50E1DD918D84E82004BF4B2 /* l_main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = l_main.m; sourceTree = "<group>"; };
+		D50E1DDA18D84E82004BF4B2 /* l_types.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = l_types.m; sourceTree = "<group>"; };
+		D50E1DDB18D84E82004BF4B2 /* n_global.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = n_global.h; sourceTree = "<group>"; };
+		D50E1DDC18D84E82004BF4B2 /* n_global.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = n_global.m; sourceTree = "<group>"; };
+		D50E1DDD18D84E82004BF4B2 /* nimbase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nimbase.h; sourceTree = "<group>"; };
+		D50E1DDE18D84E82004BF4B2 /* stdlib_db_sqlite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = stdlib_db_sqlite.m; sourceTree = "<group>"; };
+		D50E1DDF18D84E82004BF4B2 /* stdlib_lexbase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = stdlib_lexbase.m; sourceTree = "<group>"; };
+		D50E1DE018D84E82004BF4B2 /* stdlib_os.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = stdlib_os.m; sourceTree = "<group>"; };
+		D50E1DE118D84E82004BF4B2 /* stdlib_parsecsv.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = stdlib_parsecsv.m; sourceTree = "<group>"; };
+		D50E1DE218D84E82004BF4B2 /* stdlib_parseutils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = stdlib_parseutils.m; sourceTree = "<group>"; };
+		D50E1DE318D84E82004BF4B2 /* stdlib_posix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = stdlib_posix.m; sourceTree = "<group>"; };
+		D50E1DE418D84E82004BF4B2 /* stdlib_sqlite3.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = stdlib_sqlite3.m; sourceTree = "<group>"; };
+		D50E1DE518D84E82004BF4B2 /* stdlib_streams.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = stdlib_streams.m; sourceTree = "<group>"; };
+		D50E1DE618D84E82004BF4B2 /* stdlib_strutils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = stdlib_strutils.m; sourceTree = "<group>"; };
+		D50E1DE718D84E82004BF4B2 /* stdlib_system.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = stdlib_system.m; sourceTree = "<group>"; };
+		D50E1DE818D84E82004BF4B2 /* stdlib_times.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = stdlib_times.m; sourceTree = "<group>"; };
 		D52E74FB18C50F6E00A8B6F1 /* Seohtracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Seohtracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D52E74FC18C50F6E00A8B6F1 /* appstore-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "appstore-Info.plist"; path = "/Users/gradha/project/nimrod/seohyun/mac/resources/plist/appstore-Info.plist"; sourceTree = "<absolute>"; };
 		D52E74FD18C5108300A8B6F1 /* appstore.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = appstore.entitlements; path = resources/plist/appstore.entitlements; sourceTree = "<group>"; };
@@ -169,24 +187,6 @@
 		D533F81B18B6650200A7FFC3 /* EHApp_delegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EHApp_delegate.m; sourceTree = "<group>"; };
 		D533F81C18B6650200A7FFC3 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		D533F81D18B6650200A7FFC3 /* Seohtracker-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Seohtracker-Prefix.pch"; sourceTree = "<group>"; };
-		D533F82C18B671FD00A7FFC3 /* impure_db_sqlite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = impure_db_sqlite.m; sourceTree = "<group>"; };
-		D533F82D18B671FD00A7FFC3 /* logic_l_db.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = logic_l_db.m; sourceTree = "<group>"; };
-		D533F82E18B671FD00A7FFC3 /* logic_l_log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = logic_l_log.m; sourceTree = "<group>"; };
-		D533F82F18B671FD00A7FFC3 /* logic_l_main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = logic_l_main.m; sourceTree = "<group>"; };
-		D533F83018B671FD00A7FFC3 /* logic_l_types.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = logic_l_types.m; sourceTree = "<group>"; };
-		D533F83118B671FD00A7FFC3 /* n_global.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = n_global.h; sourceTree = "<group>"; };
-		D533F83218B671FD00A7FFC3 /* nim_n_global.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = nim_n_global.m; sourceTree = "<group>"; };
-		D533F83318B671FD00A7FFC3 /* nimbase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nimbase.h; sourceTree = "<group>"; };
-		D533F83418B671FD00A7FFC3 /* posix_posix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = posix_posix.m; sourceTree = "<group>"; };
-		D533F83518B671FD00A7FFC3 /* pure_lexbase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = pure_lexbase.m; sourceTree = "<group>"; };
-		D533F83618B671FD00A7FFC3 /* pure_os.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = pure_os.m; sourceTree = "<group>"; };
-		D533F83718B671FD00A7FFC3 /* pure_parsecsv.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = pure_parsecsv.m; sourceTree = "<group>"; };
-		D533F83818B671FD00A7FFC3 /* pure_parseutils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = pure_parseutils.m; sourceTree = "<group>"; };
-		D533F83918B671FD00A7FFC3 /* pure_streams.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = pure_streams.m; sourceTree = "<group>"; };
-		D533F83A18B671FD00A7FFC3 /* pure_strutils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = pure_strutils.m; sourceTree = "<group>"; };
-		D533F83B18B671FD00A7FFC3 /* pure_times.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = pure_times.m; sourceTree = "<group>"; };
-		D533F83C18B671FD00A7FFC3 /* root_system.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = root_system.m; sourceTree = "<group>"; };
-		D533F83D18B671FD00A7FFC3 /* wrappers_sqlite3.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = wrappers_sqlite3.m; sourceTree = "<group>"; };
 		D53F6D8718C735A600BBF8D5 /* AnalyticsEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnalyticsEvent.h; path = external/SimpleCocoaGoogleAnalytics/SimpleCocoaAnalytics/AnalyticsEvent.h; sourceTree = "<group>"; };
 		D53F6D8818C735A600BBF8D5 /* AnalyticsEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnalyticsEvent.m; path = external/SimpleCocoaGoogleAnalytics/SimpleCocoaAnalytics/AnalyticsEvent.m; sourceTree = "<group>"; };
 		D53F6D8918C735A600BBF8D5 /* AnalyticsHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnalyticsHelper.h; path = external/SimpleCocoaGoogleAnalytics/SimpleCocoaAnalytics/AnalyticsHelper.h; sourceTree = "<group>"; };
@@ -402,24 +402,24 @@
 		D533F82B18B671FD00A7FFC3 /* nimcache */ = {
 			isa = PBXGroup;
 			children = (
-				D533F82C18B671FD00A7FFC3 /* impure_db_sqlite.m */,
-				D533F82D18B671FD00A7FFC3 /* logic_l_db.m */,
-				D533F82E18B671FD00A7FFC3 /* logic_l_log.m */,
-				D533F82F18B671FD00A7FFC3 /* logic_l_main.m */,
-				D533F83018B671FD00A7FFC3 /* logic_l_types.m */,
-				D533F83118B671FD00A7FFC3 /* n_global.h */,
-				D533F83218B671FD00A7FFC3 /* nim_n_global.m */,
-				D533F83318B671FD00A7FFC3 /* nimbase.h */,
-				D533F83418B671FD00A7FFC3 /* posix_posix.m */,
-				D533F83518B671FD00A7FFC3 /* pure_lexbase.m */,
-				D533F83618B671FD00A7FFC3 /* pure_os.m */,
-				D533F83718B671FD00A7FFC3 /* pure_parsecsv.m */,
-				D533F83818B671FD00A7FFC3 /* pure_parseutils.m */,
-				D533F83918B671FD00A7FFC3 /* pure_streams.m */,
-				D533F83A18B671FD00A7FFC3 /* pure_strutils.m */,
-				D533F83B18B671FD00A7FFC3 /* pure_times.m */,
-				D533F83C18B671FD00A7FFC3 /* root_system.m */,
-				D533F83D18B671FD00A7FFC3 /* wrappers_sqlite3.m */,
+				D50E1DD718D84E82004BF4B2 /* l_db.m */,
+				D50E1DD818D84E82004BF4B2 /* l_log.m */,
+				D50E1DD918D84E82004BF4B2 /* l_main.m */,
+				D50E1DDA18D84E82004BF4B2 /* l_types.m */,
+				D50E1DDB18D84E82004BF4B2 /* n_global.h */,
+				D50E1DDC18D84E82004BF4B2 /* n_global.m */,
+				D50E1DDD18D84E82004BF4B2 /* nimbase.h */,
+				D50E1DDE18D84E82004BF4B2 /* stdlib_db_sqlite.m */,
+				D50E1DDF18D84E82004BF4B2 /* stdlib_lexbase.m */,
+				D50E1DE018D84E82004BF4B2 /* stdlib_os.m */,
+				D50E1DE118D84E82004BF4B2 /* stdlib_parsecsv.m */,
+				D50E1DE218D84E82004BF4B2 /* stdlib_parseutils.m */,
+				D50E1DE318D84E82004BF4B2 /* stdlib_posix.m */,
+				D50E1DE418D84E82004BF4B2 /* stdlib_sqlite3.m */,
+				D50E1DE518D84E82004BF4B2 /* stdlib_streams.m */,
+				D50E1DE618D84E82004BF4B2 /* stdlib_strutils.m */,
+				D50E1DE718D84E82004BF4B2 /* stdlib_system.m */,
+				D50E1DE818D84E82004BF4B2 /* stdlib_times.m */,
 			);
 			path = nimcache;
 			sourceTree = "<group>";
@@ -682,40 +682,40 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D52E74CC18C50F6E00A8B6F1 /* pure_parsecsv.m in Sources */,
 				D52E74CD18C50F6E00A8B6F1 /* EHApp_delegate.m in Sources */,
-				D52E74CE18C50F6E00A8B6F1 /* logic_l_log.m in Sources */,
-				D52E74CF18C50F6E00A8B6F1 /* pure_streams.m in Sources */,
-				D52E74D018C50F6E00A8B6F1 /* pure_times.m in Sources */,
 				D554515B18D32E7D00BD4D7D /* user_config.m in Sources */,
 				D53F6D8E18C735A600BBF8D5 /* AnalyticsHelper.m in Sources */,
-				D52E74D118C50F6E00A8B6F1 /* root_system.m in Sources */,
-				D52E74D218C50F6E00A8B6F1 /* nim_n_global.m in Sources */,
 				D53F6D8C18C735A600BBF8D5 /* AnalyticsEvent.m in Sources */,
 				D52E74D318C50F6E00A8B6F1 /* NSArray+ELHASO.m in Sources */,
+				D50E1DF618D84E82004BF4B2 /* stdlib_lexbase.m in Sources */,
+				D50E1DFA18D84E82004BF4B2 /* stdlib_parsecsv.m in Sources */,
+				D50E1DF418D84E82004BF4B2 /* stdlib_db_sqlite.m in Sources */,
+				D50E1E0218D84E82004BF4B2 /* stdlib_streams.m in Sources */,
 				D52E74D418C50F6E00A8B6F1 /* RHPreferencesWindowController.m in Sources */,
-				D52E74D518C50F6E00A8B6F1 /* posix_posix.m in Sources */,
-				D52E74D618C50F6E00A8B6F1 /* logic_l_db.m in Sources */,
+				D50E1E0018D84E82004BF4B2 /* stdlib_sqlite3.m in Sources */,
+				D50E1DFE18D84E82004BF4B2 /* stdlib_posix.m in Sources */,
+				D50E1E0818D84E82004BF4B2 /* stdlib_times.m in Sources */,
 				D52E74D718C50F6E00A8B6F1 /* EHRoot_vc.m in Sources */,
 				D54FDD0118D4727E005083DB /* NSObject+seohyun.m in Sources */,
 				D554515318D32E7D00BD4D7D /* formatters.m in Sources */,
-				D52E74D818C50F6E00A8B6F1 /* pure_parseutils.m in Sources */,
 				D52E74D918C50F6E00A8B6F1 /* main.m in Sources */,
 				D52E74DB18C50F6E00A8B6F1 /* ELHASO.m in Sources */,
+				D50E1DEA18D84E82004BF4B2 /* l_db.m in Sources */,
 				D52E74DC18C50F6E00A8B6F1 /* EHProgress_vc.m in Sources */,
-				D52E74DD18C50F6E00A8B6F1 /* pure_lexbase.m in Sources */,
-				D52E74DE18C50F6E00A8B6F1 /* logic_l_types.m in Sources */,
-				D52E74E018C50F6E00A8B6F1 /* wrappers_sqlite3.m in Sources */,
-				D52E74E118C50F6E00A8B6F1 /* logic_l_main.m in Sources */,
-				D52E74E218C50F6E00A8B6F1 /* pure_os.m in Sources */,
 				D5683E4B18C6390800D92F0A /* EHBannerButton.m in Sources */,
+				D50E1DEE18D84E82004BF4B2 /* l_main.m in Sources */,
+				D50E1DF818D84E82004BF4B2 /* stdlib_os.m in Sources */,
+				D50E1DFC18D84E82004BF4B2 /* stdlib_parseutils.m in Sources */,
+				D50E1E0418D84E82004BF4B2 /* stdlib_strutils.m in Sources */,
 				D52E74E318C50F6E00A8B6F1 /* EHModify_vc.m in Sources */,
 				D554515118D32E7D00BD4D7D /* NSString+seohyun.m in Sources */,
 				D554515918D32E7D00BD4D7D /* SHNotifications.m in Sources */,
-				D52E74E418C50F6E00A8B6F1 /* pure_strutils.m in Sources */,
 				D52E74E518C50F6E00A8B6F1 /* EHSettings_vc.m in Sources */,
-				D52E74E618C50F6E00A8B6F1 /* impure_db_sqlite.m in Sources */,
+				D50E1E0618D84E82004BF4B2 /* stdlib_system.m in Sources */,
 				D52E74E718C50F6E00A8B6F1 /* NSNotificationCenter+ELHASO.m in Sources */,
+				D50E1DF018D84E82004BF4B2 /* l_types.m in Sources */,
+				D50E1DF218D84E82004BF4B2 /* n_global.m in Sources */,
+				D50E1DEC18D84E82004BF4B2 /* l_log.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -723,40 +723,40 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D533F84718B671FD00A7FFC3 /* pure_parsecsv.m in Sources */,
 				D533F81E18B6650200A7FFC3 /* EHApp_delegate.m in Sources */,
-				D533F84018B671FD00A7FFC3 /* logic_l_log.m in Sources */,
-				D533F84918B671FD00A7FFC3 /* pure_streams.m in Sources */,
-				D533F84B18B671FD00A7FFC3 /* pure_times.m in Sources */,
 				D554515A18D32E7D00BD4D7D /* user_config.m in Sources */,
 				D53F6D8D18C735A600BBF8D5 /* AnalyticsHelper.m in Sources */,
-				D533F84C18B671FD00A7FFC3 /* root_system.m in Sources */,
-				D533F84318B671FD00A7FFC3 /* nim_n_global.m in Sources */,
 				D53F6D8B18C735A600BBF8D5 /* AnalyticsEvent.m in Sources */,
 				D532974418B68CBE0028F3AA /* NSArray+ELHASO.m in Sources */,
+				D50E1DF518D84E82004BF4B2 /* stdlib_lexbase.m in Sources */,
+				D50E1DF918D84E82004BF4B2 /* stdlib_parsecsv.m in Sources */,
+				D50E1DF318D84E82004BF4B2 /* stdlib_db_sqlite.m in Sources */,
+				D50E1E0118D84E82004BF4B2 /* stdlib_streams.m in Sources */,
 				D5AD7DA518BD14A1005F4865 /* RHPreferencesWindowController.m in Sources */,
-				D533F84418B671FD00A7FFC3 /* posix_posix.m in Sources */,
-				D533F83F18B671FD00A7FFC3 /* logic_l_db.m in Sources */,
+				D50E1DFF18D84E82004BF4B2 /* stdlib_sqlite3.m in Sources */,
+				D50E1DFD18D84E82004BF4B2 /* stdlib_posix.m in Sources */,
+				D50E1E0718D84E82004BF4B2 /* stdlib_times.m in Sources */,
 				D5318A5E18BBB745001FD6C0 /* EHRoot_vc.m in Sources */,
 				D54FDD0018D4727E005083DB /* NSObject+seohyun.m in Sources */,
 				D554515218D32E7D00BD4D7D /* formatters.m in Sources */,
-				D533F84818B671FD00A7FFC3 /* pure_parseutils.m in Sources */,
 				D533F81F18B6650200A7FFC3 /* main.m in Sources */,
 				D532974318B68CBE0028F3AA /* ELHASO.m in Sources */,
+				D50E1DE918D84E82004BF4B2 /* l_db.m in Sources */,
 				D5FCD4A318C1401600D7783B /* EHProgress_vc.m in Sources */,
-				D533F84518B671FD00A7FFC3 /* pure_lexbase.m in Sources */,
-				D533F84218B671FD00A7FFC3 /* logic_l_types.m in Sources */,
-				D533F84D18B671FD00A7FFC3 /* wrappers_sqlite3.m in Sources */,
-				D533F84118B671FD00A7FFC3 /* logic_l_main.m in Sources */,
-				D533F84618B671FD00A7FFC3 /* pure_os.m in Sources */,
 				D5683E4A18C6390800D92F0A /* EHBannerButton.m in Sources */,
+				D50E1DED18D84E82004BF4B2 /* l_main.m in Sources */,
+				D50E1DF718D84E82004BF4B2 /* stdlib_os.m in Sources */,
+				D50E1DFB18D84E82004BF4B2 /* stdlib_parseutils.m in Sources */,
+				D50E1E0318D84E82004BF4B2 /* stdlib_strutils.m in Sources */,
 				D5318A7218BC03DC001FD6C0 /* EHModify_vc.m in Sources */,
 				D554515018D32E7D00BD4D7D /* NSString+seohyun.m in Sources */,
 				D554515818D32E7D00BD4D7D /* SHNotifications.m in Sources */,
-				D533F84A18B671FD00A7FFC3 /* pure_strutils.m in Sources */,
 				D5AD7DA918BD188B005F4865 /* EHSettings_vc.m in Sources */,
-				D533F83E18B671FD00A7FFC3 /* impure_db_sqlite.m in Sources */,
+				D50E1E0518D84E82004BF4B2 /* stdlib_system.m in Sources */,
 				D5AD7DAF18BD46FA005F4865 /* NSNotificationCenter+ELHASO.m in Sources */,
+				D50E1DEF18D84E82004BF4B2 /* l_types.m in Sources */,
+				D50E1DF118D84E82004BF4B2 /* n_global.m in Sources */,
+				D50E1DEB18D84E82004BF4B2 /* l_log.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
