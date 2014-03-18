@@ -461,6 +461,18 @@
     self.modal_sheet_window = nil;
 }
 
+/// Default normal color for cell text.
+- (NSColor*)normal_color
+{
+    return [NSColor blackColor];
+}
+
+/// Color for the text of cells using the same day.
+- (NSColor*)shadowed_color
+{
+    return [NSColor grayColor];
+}
+
 #pragma mark -
 #pragma mark NSTableViewDataSource protocol
 
@@ -492,21 +504,30 @@
     viewForTableColumn:(NSTableColumn*)tableColumn row:(NSInteger)row
 {
     // Get a new ViewCell
-    NSTableCellView *cellView = [tableView
+    NSTableCellView *cell = [tableView
         makeViewWithIdentifier:tableColumn.identifier owner:self];
     TWeight *w = get_weight(row);
-    RASSERT(w, @"No weight for position?", return cellView);
+    RASSERT(w, @"No weight for position?", return cell);
 
     if ([tableColumn.identifier isEqualToString:@"EHHistory_date"]) {
-        cellView.textField.stringValue = format_date(w);
+        if (changes_day(w)) {
+            cell.textField.stringValue = format_date(w);
+        } else {
+            cell.textField.attributedStringValue =
+                format_shadowed_date(w, cell.textField.font,
+                self.normal_color, self.shadowed_color);
+        }
     } else if ([tableColumn.identifier isEqualToString:@"EHHistory_weight"]) {
-        cellView.textField.stringValue = [NSString
+        cell.textField.stringValue = [NSString
             stringWithFormat:@"%s %s", format_weight_with_current_unit(w),
             get_weight_string()];
+
+        cell.textField.textColor = (changes_day(w) ?
+            self.normal_color : self.shadowed_color);
     } else {
         LASSERT(0, @"Bad column");
     }
-    return cellView;
+    return cell;
 }
 
 /// User clicked or moved the cursor, update the UI.
