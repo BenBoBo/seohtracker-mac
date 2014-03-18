@@ -473,6 +473,21 @@
 #pragma mark -
 #pragma mark NSTableViewDelegate protocol
 
+/// Overrides to change row background color.
+- (void)tableView:(NSTableView *)tableView
+    didAddRowView:(NSTableRowView *)rowView forRow:(NSInteger)row
+{
+    TWeight *w = get_weight(row);
+    RASSERT(w, @"No weight for position?", return);
+
+    if (alternating_day(w)) {
+        rowView.backgroundColor = [NSColor colorWithSRGBRed:237/255.0
+            green:237/255.0 blue:1 alpha:1];
+    } else {
+        rowView.backgroundColor = [NSColor whiteColor];
+    }
+}
+
 - (NSView*)tableView:(NSTableView*)tableView
     viewForTableColumn:(NSTableColumn*)tableColumn row:(NSInteger)row
 {
