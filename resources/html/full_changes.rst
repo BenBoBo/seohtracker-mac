@@ -17,6 +17,8 @@ v4.1, ????-??-??
   <https://github.com/gradha/seohtracker-mac/issues/31>`_.
 * `Shows alternate background for history cells with different date
   <https://github.com/gradha/seohtracker-mac/issues/32>`_.
+* `Updated internal readme
+  <https://github.com/gradha/seohtracker-mac/issues/26>`_.
 
 v4, 2014-03-05
 --------------

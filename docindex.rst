@@ -18,4 +18,6 @@ need to run ``nake doc`` at the root of the project:
   * `resources/html/appstore_changes.rst <resources/html/appstore_changes.rst>`_.
   * `resources/html/full_changes.rst <resources/html/full_changes.rst>`_.
 
+* Generated files
+
   * `Embedded help <build/Seohtracker.help/Contents/Resources/index.html>`_.
