@@ -22,3 +22,4 @@ xcuserdata/
 /docs/*.html
 /nakefile
 /resources/html/*.html
+/scripts/nimbuild_options.sh
