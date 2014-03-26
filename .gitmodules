@@ -10,3 +10,6 @@
 [submodule "external/SimpleCocoaGoogleAnalytics"]
 	path = external/SimpleCocoaGoogleAnalytics
 	url = https://github.com/gradha/SimpleCocoaGoogleAnalytics.git
+[submodule "external/ELHASO-mac-snippets"]
+	path = external/ELHASO-mac-snippets
+	url = git://github.com/gradha/ELHASO-mac-snippets.git
