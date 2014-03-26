@@ -11,6 +11,7 @@ build it:
 
 * Objective-C
 
+ * `ELHASO-mac-snippets <license_ELHASO_mac_snippets.html>`_
  * `RHPreferences <license_RHPreferences.html>`_.
  * `SimpleCocoaGoogleAnalytics <license_SimpleCocoaGoogleAnalytics.html>`_.
 
