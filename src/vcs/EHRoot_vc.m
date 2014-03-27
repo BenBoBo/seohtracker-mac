@@ -33,10 +33,6 @@
 /// The image on top of the banner to produce the fading.
 @property (nonatomic, strong) IBOutlet NSImageView *banner_overlay;
 
-- (IBAction)did_touch_modify_button:(id)sender;
-- (IBAction)did_touch_minus_button:(id)sender;
-- (IBAction)did_touch_plus_button:(id)sender;
-
 /// Keeps the name of the input file being imported.
 @property (nonatomic, strong) NSString *csv_to_import;
 
@@ -134,7 +130,6 @@
         [self.table_view scrollRowToVisible:pos];
     }
 }
-
 
 /// Called when the user wants to modify an existing value.
 - (IBAction)did_touch_modify_button:(id)sender

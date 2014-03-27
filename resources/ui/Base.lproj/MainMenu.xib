@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5053" systemVersion="12F45" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1080" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5053"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -292,6 +292,28 @@
                         </items>
                     </menu>
                 </menuItem>
+                <menuItem title="Weights" id="Di6-Th-vXb">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Weights" id="KlJ-iJ-z2Q">
+                        <items>
+                            <menuItem title="Delete weight" id="0Fd-Zc-VkD">
+                                <string key="keyEquivalent" base64-UTF8="YES">
+CA
+</string>
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                            </menuItem>
+                            <menuItem title="Modify weight" id="S4a-48-NLK">
+                                <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                            </menuItem>
+                            <menuItem title="Add weight" keyEquivalent="+" id="GxZ-nS-aLE">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
                 <menuItem title="Window" id="19">
                     <menu key="submenu" title="Window" systemMenu="window" id="24">
                         <items>
@@ -357,6 +379,9 @@
         </window>
         <customObject id="494" customClass="EHApp_delegate">
             <connections>
+                <outlet property="add_weight_menu" destination="GxZ-nS-aLE" id="VC1-fA-bcT"/>
+                <outlet property="delete_weight_menu" destination="0Fd-Zc-VkD" id="oUz-Pb-o2h"/>
+                <outlet property="modify_weight_menu" destination="S4a-48-NLK" id="YJ2-T5-8sw"/>
                 <outlet property="window" destination="371" id="532"/>
             </connections>
         </customObject>
