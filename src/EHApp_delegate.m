@@ -2,6 +2,7 @@
 
 #import "EHRoot_vc.h"
 #import "EHSettings_vc.h"
+#import "appstore_changes.h"
 #import "google_analytics_config.h"
 #import "help_defines.h"
 
@@ -68,11 +69,7 @@
 
     dispatch_async_low(^{ [self build_preferences]; });
 
-    NSUserNotification *n = [NSUserNotification new];
-    n.title = @"Seohtracker was updated";
-    n.subtitle = @"You have now version 5";
-    n.informativeText = @"Click to see what did change";
-    [user_notification_center deliverNotification:n];
+    dispatch_async_low(^{ [self generate_changelog_notification]; });
 
     // Detect if we are being launched due to the user clicking on notification.
     NSDictionary *start_info = aNotification.userInfo;
@@ -228,6 +225,33 @@
 #error Can't build appstore release without google defines!
 #endif
 #endif
+}
+
+/** Invoked during startup, checks changelog versions to show a notification.
+ *
+ * If the current runtime version is newer than the last stored preferences
+ * version then a notification is added to the user notification center. The
+ * user can touch the notification and this will display the changes log. Or he
+ * can dismiss the notification.
+ */
+- (void)generate_changelog_notification
+{
+    const int dif =
+        ceilf(EMBEDDED_CHANGELOG_VERSION - config_changelog_version());
+    if (dif <= 0.01)
+        return;
+
+    NSUserNotification *n = [NSUserNotification new];
+    n.title = @"Seohtracker was updated";
+    n.subtitle = [NSString stringWithFormat:@"You have now version %@.",
+        EMBEDDED_CHANGELOG_VERSION_STR];
+    n.informativeText = @"Click to see what did change.";
+
+    NSUserNotificationCenter *user_notification_center =
+        [NSUserNotificationCenter defaultUserNotificationCenter];
+    [user_notification_center deliverNotification:n];
+    // Mark current version as seen.
+    set_config_changelog_version(EMBEDDED_CHANGELOG_VERSION);
 }
 
 #pragma mark -
