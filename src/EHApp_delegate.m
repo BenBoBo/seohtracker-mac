@@ -2,6 +2,7 @@
 
 #import "EHRoot_vc.h"
 #import "EHSettings_vc.h"
+#import "appstore_changes.h"
 #import "google_analytics_config.h"
 #import "help_defines.h"
 
@@ -17,7 +18,7 @@
 
 
 @interface EHApp_delegate ()
-    <NSApplicationDelegate>
+    <NSApplicationDelegate, NSUserNotificationCenterDelegate>
 
 /// Keeps a strong reference to the root vc.
 @property (nonatomic, strong) EHRoot_vc *root_vc;
@@ -46,8 +47,8 @@
 
     configure_metric_locale();
 
-    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-    [center refresh_observer:self selector:@selector(locale_did_change:)
+    [[NSNotificationCenter defaultCenter] refresh_observer:self
+        selector:@selector(locale_did_change:)
         name:NSCurrentLocaleDidChangeNotification object:nil];
 
     // Insert code here to initialize your application
@@ -61,7 +62,24 @@
     [self.window registerForDraggedTypes:@[NSURLPboardType]];
     [[NSApplication sharedApplication] setDelegate:self];
 
+    // Register ourselves for user notifications. Just to open the changes log.
+    NSUserNotificationCenter *user_notification_center =
+        [NSUserNotificationCenter defaultUserNotificationCenter];
+    user_notification_center.delegate = self;
+
     dispatch_async_low(^{ [self build_preferences]; });
+
+    dispatch_async_low(^{ [self generate_changelog_notification]; });
+
+    // Detect if we are being launched due to the user clicking on notification.
+    NSDictionary *start_info = aNotification.userInfo;
+    NSUserNotification *user_notification = [start_info
+        objectForKey: NSApplicationLaunchUserNotificationKey];
+    if (user_notification) {
+        // Emulate being clicked at runtime.
+        [self userNotificationCenter:user_notification_center
+            didActivateNotification:user_notification];
+    }
 }
 
 /// Quit app if the user closes the main window, which is the last.
@@ -209,6 +227,33 @@
 #endif
 }
 
+/** Invoked during startup, checks changelog versions to show a notification.
+ *
+ * If the current runtime version is newer than the last stored preferences
+ * version then a notification is added to the user notification center. The
+ * user can touch the notification and this will display the changes log. Or he
+ * can dismiss the notification.
+ */
+- (void)generate_changelog_notification
+{
+    const int dif =
+        ceilf(EMBEDDED_CHANGELOG_VERSION - config_changelog_version());
+    if (dif <= 0.01)
+        return;
+
+    NSUserNotification *n = [NSUserNotification new];
+    n.title = @"Seohtracker was updated";
+    n.subtitle = [NSString stringWithFormat:@"You have now version %@.",
+        EMBEDDED_CHANGELOG_VERSION_STR];
+    n.informativeText = @"Click to see what did change.";
+
+    NSUserNotificationCenter *user_notification_center =
+        [NSUserNotificationCenter defaultUserNotificationCenter];
+    [user_notification_center deliverNotification:n];
+    // Mark current version as seen.
+    set_config_changelog_version(EMBEDDED_CHANGELOG_VERSION);
+}
+
 #pragma mark -
 #pragma mark NSApplicationDelegate protocol
 
@@ -267,5 +312,21 @@
 
     return YES;
 }
+
+#pragma mark -
+#pragma mark NSUserNotificationCenterDelegate protocol
+
+/** When the user clicks a notification, open the changes log.
+ *
+ * Also removes all previous notifications, since clicking any is enough and we
+ * aren't using user notifications for anything else at the moment.
+ */
+- (void)userNotificationCenter:(NSUserNotificationCenter *)center
+    didActivateNotification:(NSUserNotification *)notification
+{
+    [self show_whats_new:center];
+    [center removeAllDeliveredNotifications];
+}
+
 
 @end
