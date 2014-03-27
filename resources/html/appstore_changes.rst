@@ -13,6 +13,7 @@ v4.1, ????-??-??
   groups of measurements taken in the same day.
 * Entries for the same day use a stronger text color for the first value to
   differentiate it from others taken in the same day.
+* Fix for changing locale not updating the user interface at runtime.
 
 v4, 2014-03-05
 --------------

@@ -7,11 +7,12 @@
 
 #import "AnalyticsHelper.h"
 #import "ELHASO.h"
+#import "NSNotificationCenter+ELHASO.h"
 #import "RHPreferences.h"
+#import "SHNotifications.h"
 #import "categories/NSObject+seohyun.h"
 #import "categories/NSString+seohyun.h"
 #import "n_global.h"
-#import "user_config.h"
 #import "user_config.h"
 
 
@@ -44,6 +45,10 @@
     DLOG(@"Got %lld entries", get_num_weights());
 
     configure_metric_locale();
+
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center refresh_observer:self selector:@selector(locale_did_change:)
+        name:NSCurrentLocaleDidChangeNotification object:nil];
 
     // Insert code here to initialize your application
     self.root_vc = [[EHRoot_vc alloc]
@@ -80,6 +85,33 @@
 
 #pragma mark -
 #pragma mark Methods
+
+/** Hook to learn when the user locale changes, so we can detect our stuff.
+ *
+ * If the user metric were on automatic, the notification
+ * user_metric_prefereces_changed is generated for any visible EHSettings_vc to
+ * update its view as if the user had changed the setting.
+ *
+ * This also checks if the locale decimal separator changed, generating the
+ * event decimal_separator_changed if needed.
+ */
+- (void)locale_did_change:(NSNotification*)notification
+{
+    if (0 == user_metric_preference()) {
+        DLOG(@"Weight automatic: rechecking system value");
+        set_nimrod_metric_use_based_on_user_preferences();
+        NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+        [center postNotificationName:user_metric_prefereces_changed object:nil];
+    }
+
+    NSLocale *locale = [NSLocale autoupdatingCurrentLocale];
+    NSString *separator = [locale objectForKey:NSLocaleDecimalSeparator];
+    if (set_decimal_separator([separator cstring])) {
+        DLOG(@"The decimal separator changed to '%@'", separator);
+        NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+        [center postNotificationName:decimal_separator_changed object:nil];
+    }
+}
 
 /** Generates user preferences timestamp for changelog version.
  *

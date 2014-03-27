@@ -3,6 +3,8 @@
 #import "NSString+seohyun.h"
 
 #import "ELHASO.h"
+#import "NSNotificationCenter+ELHASO.h"
+#import "SHNotifications.h"
 
 
 @interface EHModify_vc ()
@@ -11,6 +13,8 @@
 @property (nonatomic, strong) NSDate *date;
 /// Internal value keeping the weight.
 @property (nonatomic, assign) float weight;
+/// Rembers if the weight was set from outside.
+@property (nonatomic, assign) TWeight *original_weight;
 /// Remembers if the caller is modifying an existing weight.
 @property (nonatomic, assign) BOOL modification;
 
@@ -46,8 +50,8 @@
     if (!(self = [super initWithWindow:window]))
         return nil;
 
-    self.date = [NSDate date];
     self.weight = get_localized_weight(0);
+    self.date = [NSDate date];
 
     self.formatter = [[NSNumberFormatter alloc] init];
     self.formatter.locale = [NSLocale currentLocale];
@@ -62,23 +66,35 @@
 {
     [super windowDidLoad];
 
-    // TODO: Use NSNumberFormatter
-    [self format_weight];
     self.date_picker.dateValue = self.date;
     self.hour_picker.dateValue = self.date;
     [self.warning_textfield setHidden:YES];
 
     self.title_textfield.stringValue = (self.modification ?
         @"Modifying previous value" : @"Enter values for new measurement");
-    self.unit_textfield.stringValue = @(get_weight_string());
+
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center refresh_observer:self selector:@selector(refresh_ui_observer:)
+        name:user_metric_prefereces_changed object:nil];
+
+    [self refresh_ui_observer:nil];
+}
+
+- (void)dealloc
+{
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center removeObserver:self
+        name:user_metric_prefereces_changed object:nil];
 }
 
 #pragma mark -
 #pragma mark Methods
 
-/// Resets the input text field with the logical weight value.
-- (void)format_weight
+/// Called during initialization and locale change.
+- (void)refresh_ui_observer:(id)notification
 {
+    self.unit_textfield.stringValue = @(get_weight_string());
+    self.weight = get_localized_weight(self.original_weight);
     self.weight_textfield.stringValue = [self.formatter
         stringFromNumber:@(self.weight)];
 }
@@ -93,6 +109,7 @@
 {
     if (!weight)
         return;
+    self.original_weight = weight;
     self.weight = get_localized_weight(weight);
     if (for_new_value) {
         self.date = [NSDate date];
