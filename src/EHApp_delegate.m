@@ -17,7 +17,7 @@
 
 
 @interface EHApp_delegate ()
-    <NSApplicationDelegate>
+    <NSApplicationDelegate, NSUserNotificationCenterDelegate>
 
 /// Keeps a strong reference to the root vc.
 @property (nonatomic, strong) EHRoot_vc *root_vc;
@@ -46,8 +46,8 @@
 
     configure_metric_locale();
 
-    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-    [center refresh_observer:self selector:@selector(locale_did_change:)
+    [[NSNotificationCenter defaultCenter] refresh_observer:self
+        selector:@selector(locale_did_change:)
         name:NSCurrentLocaleDidChangeNotification object:nil];
 
     // Insert code here to initialize your application
@@ -61,7 +61,28 @@
     [self.window registerForDraggedTypes:@[NSURLPboardType]];
     [[NSApplication sharedApplication] setDelegate:self];
 
+    // Register ourselves for user notifications. Just to open the changes log.
+    NSUserNotificationCenter *user_notification_center =
+        [NSUserNotificationCenter defaultUserNotificationCenter];
+    user_notification_center.delegate = self;
+
     dispatch_async_low(^{ [self build_preferences]; });
+
+    NSUserNotification *n = [NSUserNotification new];
+    n.title = @"Seohtracker was updated";
+    n.subtitle = @"You have now version 5";
+    n.informativeText = @"Click to see what did change";
+    [user_notification_center deliverNotification:n];
+
+    // Detect if we are being launched due to the user clicking on notification.
+    NSDictionary *start_info = aNotification.userInfo;
+    NSUserNotification *user_notification = [start_info
+        objectForKey: NSApplicationLaunchUserNotificationKey];
+    if (user_notification) {
+        // Emulate being clicked at runtime.
+        [self userNotificationCenter:user_notification_center
+            didActivateNotification:user_notification];
+    }
 }
 
 /// Quit app if the user closes the main window, which is the last.
@@ -267,5 +288,21 @@
 
     return YES;
 }
+
+#pragma mark -
+#pragma mark NSUserNotificationCenterDelegate protocol
+
+/** When the user clicks a notification, open the changes log.
+ *
+ * Also removes all previous notifications, since clicking any is enough and we
+ * aren't using user notifications for anything else at the moment.
+ */
+- (void)userNotificationCenter:(NSUserNotificationCenter *)center
+    didActivateNotification:(NSUserNotification *)notification
+{
+    [self show_whats_new:center];
+    [center removeAllDeliveredNotifications];
+}
+
 
 @end
