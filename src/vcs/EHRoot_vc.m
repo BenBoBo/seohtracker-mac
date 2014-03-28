@@ -177,6 +177,8 @@
     // Force selection to the new position.
     [self.table_view deselectAll:self];
     [self.table_view selectRowIndexes:new_row byExtendingSelection:NO];
+    // Focus tableview.
+    [[self.table_view window] makeFirstResponder:self.table_view];
 }
 
 /// Removes the selected weight, but first asks if really should be done.
@@ -259,6 +261,8 @@
     [self.table_view deselectAll:self];
     [self.table_view selectRowIndexes:new_row byExtendingSelection:NO];
     [self animate_scroll_to:new_pos];
+    // Focus tableview.
+    [[self.table_view window] makeFirstResponder:self.table_view];
 }
 
 /** Better animated scrollRowToVisible.
