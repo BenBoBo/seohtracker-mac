@@ -558,4 +558,28 @@
     [self refresh_ui];
 }
 
+#pragma mark -
+#pragma mark NSMenuValidation protocol
+
+/// Called by the UI to check the state of the menu entries.
+- (BOOL)validateMenuItem:(NSMenuItem *)menu_item
+{
+    if (!menu_item.action)
+        return NO;
+
+#define _ACTION(SELNAME) ([menu_item action] == @selector(SELNAME))
+
+    if (_ACTION(did_touch_plus_button:)) {
+        return YES;
+    } else if (_ACTION(did_touch_minus_button:) ||
+            _ACTION(did_touch_modify_button:)) {
+        TWeight *w = [self selected_weight];
+        return (w ? YES : NO);
+    } else {
+        LASSERT(NO, @"Should not reach here. Probably.");
+        return NO;
+    }
+#undef _ACTION
+}
+
 @end
