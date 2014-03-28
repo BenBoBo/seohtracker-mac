@@ -25,6 +25,8 @@ v4.1, ????-??-??
   <https://github.com/gradha/seohtracker-mac/issues/35>`_.
 * `Implemented changes notification
   <https://github.com/gradha/seohtracker-mac/issues/27>`_.
+* `Allows deletion of entries with keyboard
+  <https://github.com/gradha/seohtracker-mac/issues/8>`_.
 
 v4, 2014-03-05
 --------------
