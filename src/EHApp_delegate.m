@@ -25,6 +25,11 @@
 /// Caches the preferences window for lazy generation.
 @property (nonatomic, strong) RHPreferencesWindowController *preferences_vc;
 
+/// Menu entries which we bind at runtime.
+@property (nonatomic, weak) IBOutlet NSMenuItem *delete_weight_menu;
+@property (nonatomic, weak) IBOutlet NSMenuItem *modify_weight_menu;
+@property (nonatomic, weak) IBOutlet NSMenuItem *add_weight_menu;
+
 @end
 
 @implementation EHApp_delegate
@@ -66,6 +71,8 @@
     NSUserNotificationCenter *user_notification_center =
         [NSUserNotificationCenter defaultUserNotificationCenter];
     user_notification_center.delegate = self;
+
+    [self hook_menu_items];
 
     dispatch_async_low(^{ [self build_preferences]; });
 
@@ -252,6 +259,23 @@
     [user_notification_center deliverNotification:n];
     // Mark current version as seen.
     set_config_changelog_version(EMBEDDED_CHANGELOG_VERSION);
+}
+
+/** Sets the target/action for menu items.
+ *
+ * Since we create the view controller manually, we have to bind the menu items
+ * too manually. Go back it time and tell myself to not use that tutorial and
+ * instead create the GUI fully from interface builder.
+ */
+- (void)hook_menu_items
+{
+    for (NSMenuItem *menu in @[self.delete_weight_menu,
+            self.modify_weight_menu, self.add_weight_menu]) {
+        menu.target = self.root_vc;
+    }
+    self.delete_weight_menu.action = @selector(did_touch_minus_button:);
+    self.modify_weight_menu.action = @selector(did_touch_modify_button:);
+    self.add_weight_menu.action = @selector(did_touch_plus_button:);
 }
 
 #pragma mark -

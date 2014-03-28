@@ -33,10 +33,6 @@
 /// The image on top of the banner to produce the fading.
 @property (nonatomic, strong) IBOutlet NSImageView *banner_overlay;
 
-- (IBAction)did_touch_modify_button:(id)sender;
-- (IBAction)did_touch_minus_button:(id)sender;
-- (IBAction)did_touch_plus_button:(id)sender;
-
 /// Keeps the name of the input file being imported.
 @property (nonatomic, strong) NSString *csv_to_import;
 
@@ -135,7 +131,6 @@
     }
 }
 
-
 /// Called when the user wants to modify an existing value.
 - (IBAction)did_touch_modify_button:(id)sender
 {
@@ -182,6 +177,8 @@
     // Force selection to the new position.
     [self.table_view deselectAll:self];
     [self.table_view selectRowIndexes:new_row byExtendingSelection:NO];
+    // Focus tableview.
+    [[self.table_view window] makeFirstResponder:self.table_view];
 }
 
 /// Removes the selected weight, but first asks if really should be done.
@@ -264,6 +261,8 @@
     [self.table_view deselectAll:self];
     [self.table_view selectRowIndexes:new_row byExtendingSelection:NO];
     [self animate_scroll_to:new_pos];
+    // Focus tableview.
+    [[self.table_view window] makeFirstResponder:self.table_view];
 }
 
 /** Better animated scrollRowToVisible.
@@ -561,6 +560,30 @@
 - (void)tableViewSelectionDidChange:(NSNotification*)aNotification
 {
     [self refresh_ui];
+}
+
+#pragma mark -
+#pragma mark NSMenuValidation protocol
+
+/// Called by the UI to check the state of the menu entries.
+- (BOOL)validateMenuItem:(NSMenuItem *)menu_item
+{
+    if (!menu_item.action)
+        return NO;
+
+#define _ACTION(SELNAME) ([menu_item action] == @selector(SELNAME))
+
+    if (_ACTION(did_touch_plus_button:)) {
+        return YES;
+    } else if (_ACTION(did_touch_minus_button:) ||
+            _ACTION(did_touch_modify_button:)) {
+        TWeight *w = [self selected_weight];
+        return (w ? YES : NO);
+    } else {
+        LASSERT(NO, @"Should not reach here. Probably.");
+        return NO;
+    }
+#undef _ACTION
 }
 
 @end

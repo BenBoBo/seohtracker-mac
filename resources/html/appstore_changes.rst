@@ -14,6 +14,7 @@ v4.1, ????-??-??
 * Entries for the same day use a stronger text color for the first value to
   differentiate it from others taken in the same day.
 * Fix for changing locale not updating the user interface at runtime.
+* Added keyboard shortcuts for deletion/modification/addition of weights.
 
 v4, 2014-03-05
 --------------
