@@ -1,4 +1,4 @@
-import supernake, parseutils, xmlparser, streams, xmltree
+import supernake, xmlparser, streams, xmltree
 
 const
   build_dir = "build"
@@ -14,7 +14,6 @@ const
   help_generic_cfg = "default.cfg"
   help_caches = "Library"/"Caches"/"com.apple.help*"
   help_include = build_dir/"help_defines.h"
-  changelog_define = "EMBEDDED_CHANGELOG_VERSION"
 
 let
   rst_build_files = glob_rst(resource_dir/"html")
@@ -30,51 +29,6 @@ let
 proc icon_needs_refresh(dest, src_dir: string): bool =
   ## Wrapper around the normal needs_refresh expanding the src directory.
   result = dest.needs_refresh(to_seq(walk_files(src_dir/"icon*png")))
-
-
-proc find_first_version_header(node: PRstNode): float =
-  ## Returns greater than zero if a header node with version was found.
-  if node.kind == rnHeadline:
-    var headline = ""
-    for son in node.sons:
-      if (not son.isNil) and (not son.text.isNil):
-        headline.add(son.text)
-
-    if headline.len > 0 and headline[0] == 'v':
-      # Looks like the proper headline, parse it!
-      if parseFloat(headline, result, start = 1) > 0:
-        return
-      else:
-        result = 0
-
-  # Keep traversing the hierarchy.
-  for son in node.sons:
-    if not son.isNil():
-      result = find_first_version_header(son)
-      if result > 0: return
-
-
-proc generate_version_constant(target: In_out) =
-  ## Scans the src rst file and generates an output C header with a version.
-  ##
-  ## The version is extracted as the first "vDDD" value from section titles.
-  let text = target.src.readFile
-  var
-    hasToc = false
-    ast = rstParse(text, target.src, 0, 0, hasToc, {})
-  let
-    version_float = ast.find_first_version_header
-    version_str = version_float.formatFloat(ffDecimal, precision = 1)
-
-  target.dest.writeFile(format("""#ifndef $1_H
-#define $1_H
-
-#define $1 ($2f)
-#define $1_STR @"$2"
-
-#endif // $1_H
-""", changelog_define, version_str))
-  echo "Updated ", target.dest, " with ", changelog_define, " ", version_str
 
 
 iterator all_rst_files(): In_out =
