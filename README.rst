@@ -69,7 +69,7 @@ files.
 Changes
 =======
 
-This is stable version v5. For a brief list of changes see the
+This is development version v5.1. For a brief list of changes see the
 `resources/html/appstore_changes.rst file
 <resources/html/appstore_changes.rst>`_. For a detailed list of changes see the
 `resources/html/full_changes.rst file <resources/html/full_changes.rst>`_.
