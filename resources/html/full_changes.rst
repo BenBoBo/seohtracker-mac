@@ -6,8 +6,8 @@ Seohtracker for Mac is open source. You can create new issues at
 `https://github.com/gradha/seohtracker-mac/issues
 <https://github.com/gradha/seohtracker-mac/issues>`_.
 
-v4.1, ????-??-??
-----------------
+v5, 2014-04-01
+--------------
 
 * `Moved common objc code to logic submodule
   <https://github.com/gradha/seohtracker-mac/issues/29>`_.

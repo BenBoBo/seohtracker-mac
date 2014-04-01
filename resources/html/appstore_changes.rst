@@ -5,8 +5,8 @@ Brief changes log
 This is a brief changes log. But you can `always check the detailed log
 <full_changes.html>`_ if you wish so.
 
-v4.1, ????-??-??
-----------------
+v5, 2014-04-01
+--------------
 
 * Close dates are formatted now as words.
 * Alternating day rows use a slightly different background color to highlight
