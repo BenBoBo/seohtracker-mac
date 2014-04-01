@@ -1,10 +1,4 @@
-import nake, os, times, osproc, htmlparser, xmltree, strtabs, strutils,
-  rester, sequtils, packages/docutils/rst, packages/docutils/rstast, posix,
-  xmlparser, streams
-
-type
-  In_out = tuple[src, dest, options: string]
-    ## The tuple only contains file paths.
+import supernake, xmlparser, streams, xmltree
 
 const
   build_dir = "build"
@@ -21,64 +15,15 @@ const
   help_caches = "Library"/"Caches"/"com.apple.help*"
   help_include = build_dir/"help_defines.h"
 
-template glob_rst(basedir: string): expr =
-  ## Shortcut to simplify getting lists of files.
-  to_seq(walk_files(basedir/"*.rst"))
-
 let
   rst_build_files = glob_rst(resource_dir/"html")
   normal_rst_files = concat(glob_rst("."), glob_rst("docs"),
     glob_rst(resource_dir/"html"))
   help_insert_files = concat(mapIt(["appstore_changes", "full_changes"],
     string, resource_dir/"html"/(it & ".rst")), @["LICENSE.rst"])
-
-var
-  CONFIGS = newStringTable(modeCaseInsensitive)
-    ## Stores previously read configuration files.
-
-proc update_timestamp(path: string) =
-  discard utimes(path, nil)
-
-proc load_config(path: string): string =
-  ## Loads the config at path and returns it.
-  ##
-  ## Uses the CONFIGS variable to cache contents. Returns nil if path is nil.
-  if path.isNil: return
-  if CONFIGS.hasKey(path): return CONFIGS[path]
-  CONFIGS[path] = path.readFile
-  result = CONFIGS[path]
-
-proc rst2html(src: string, out_path = ""): bool =
-  ## Converts the filename `src` into `out_path` or src with extension changed.
-  let output = safe_rst_file_to_html(src)
-  if output.len > 0:
-    let dest = if out_path.len > 0: out_path else: src.changeFileExt("html")
-    dest.writeFile(output)
-    result = true
-
-proc change_rst_links_to_html(html_file: string) =
-  ## Opens the file, iterates hrefs and changes them to .html if they are .rst.
-  let html = loadHTML(html_file)
-  var DID_CHANGE: bool
-
-  for a in html.findAll("a"):
-    let href = a.attrs["href"]
-    if not href.isNil:
-      let (dir, filename, ext) = splitFile(href)
-      if cmpIgnoreCase(ext, ".rst") == 0:
-        a.attrs["href"] = dir / filename & ".html"
-        DID_CHANGE = true
-
-  if DID_CHANGE:
-    writeFile(html_file, $html)
-
-
-proc needs_refresh(target: In_out): bool =
-  ## Wrapper around the normal needs_refresh for In_out types.
-  if target.options.isNil:
-    result = target.dest.needs_refresh(target.src)
-  else:
-    result = target.dest.needs_refresh(target.src, target.options)
+  # Use correct path concat, wait for https://github.com/Araq/Nimrod/issues/871.
+  changelog_version: In_out = ("resources/html/appstore_changes.rst",
+    "build/nimcache/appstore_changes.h", nil)
 
 
 proc icon_needs_refresh(dest, src_dir: string): bool =
@@ -136,6 +81,23 @@ iterator walk_dirs(dir: string): string =
       of pcDir, pcLinkToDir:
         yield p[1 + dir.len .. <p.len]
         stack.add(p)
+
+
+iterator walk_iconset_dirs(): In_out =
+  ## Wrapper over walk_dirs to get only .iconset source directories.
+  ##
+  ## Returns tuples in the form (src:dir.iconset, dest:file.icns).
+  var x: In_out
+  for path in walk_dirs(icons_dir):
+    if not (path.split_file.ext == ".iconset"): continue
+    x.src = icons_dir/path
+    x.dest = gfx_build_dir/path.changeFileExt("icns")
+    yield x
+
+
+proc build_iconset_dirs(): seq[In_out] =
+  ## Wrapper to avoid iterator limitations.
+  result = to_seq(walk_iconset_dirs())
 
 
 iterator walk_help_dir_contents(dir: string): tuple[src, rel_path: string] =
@@ -199,13 +161,10 @@ proc process_help_rst(src, dest_dir, base_dir: string): bool =
       if base_cfg.exists_file:
         rst.options = base_cfg
 
-  if not rst.needs_refresh: return
-  discard change_rst_options(rst.options.load_config)
-  if not rst2html(rst.src, rst.dest):
-    quit("Could not generate html doc for " & rst.src)
-  else:
-    echo rst.src & " -> " & rst.dest
-    result = true
+  if not rst.needs_refresh:
+    return
+  rst2html(rst)
+  result = true
 
 
 proc trash_apple_help_cache_directories() =
@@ -263,16 +222,9 @@ task "doc", "Generates documentation in HTML and applehelp formats":
   doc_build_dir.create_dir
   # Generate html files from the rst docs.
   for f in build_all_rst_files():
-    let (rst_file, html_file, options) = f
-    if not f.needs_refresh: continue
-    discard change_rst_options(options.load_config)
-    if not rst2html(rst_file, html_file):
-      quit("Could not generate html doc for " & rst_file)
-    else:
-      if options.isNil:
-        change_rst_links_to_html(html_file)
+    if f.needs_refresh:
+      rst2html(f)
       doc_build_dir.update_timestamp
-      echo rst_file & " -> " & html_file
 
   # Generate Apple .help directories.
   for help_dir in find_help_directories():
@@ -334,36 +286,51 @@ task "doc", "Generates documentation in HTML and applehelp formats":
 
       update_timestamp(build_dir/basename)
 
+  # Generate the version number header for embedded changelog docs.
+  if changelog_version.needs_refresh:
+    changelog_version.dest.split_path.head.create_dir
+    generate_version_constant(changelog_version)
+
   echo "All docs generated"
 
 task "check_doc", "Validates rst format for a subset of documentation":
   for f in build_all_rst_files():
-    let rst_file = f.src
-    echo "Testing ", rst_file
-    let (output, exit) = execCmdEx("rst2html.py " & rst_file & " /dev/null")
-    if output.len > 0 or exit != 0:
-      echo "Failed python processing of " & rst_file
-      echo output
+    test_rst(f.src)
 
 task "clean", "Removes temporal files, mainly":
-  for path in walkDirRec("."):
-    let (dir, name, ext) = splitFile(path)
-    if ext == ".html":
-      echo "Removing ", path
-      path.removeFile()
+  # Remove generated html files.
+  for f in build_all_rst_files():
+    if f.dest.exists_file:
+      echo "Removing ", f.dest
+      f.dest.remove_file
+
+  # Remove generated iconset files.
+  for iconset in build_iconset_dirs():
+    if iconset.dest.exists_file:
+      echo "Removing ", iconset.dest
+      iconset.dest.remove_file
+
+  # Remove generated help directories.
+  for path in walk_dirs(build_dir):
+    if not (path.split_file.ext == ".help"): continue
+    let target = build_dir/path
+    echo "Removing ", target
+    target.remove_dir
+
+  if help_include.exists_file:
+    echo "Removing ", help_include
+    help_include.remove_file
+
+  echo "All clean"
 
 task "icons", "Generates icons from the source png files":
   gfx_build_dir.create_dir
-  for path in walk_dirs(icons_dir):
-    if not (path.split_file.ext == ".iconset"): continue
-    let
-      src = icons_dir/path
-      dest = gfx_build_dir/path.changeFileExt("icns")
-      dir = dest.split_file.dir
+  for iconset in build_iconset_dirs():
+    let dir = iconset.dest.split_file.dir
     dir.create_dir
-    if not dest.icon_needs_refresh(src): continue
-    if not shell("iconutil --convert icns --output", dest, src):
-      quit("Error generating icon from " & src)
+    if not iconset.dest.icon_needs_refresh(iconset.src): continue
+    if not shell("iconutil --convert icns --output", iconset.dest, iconset.src):
+      quit("Error generating icon from " & iconset.src)
     else:
-      echo src, " -> ", dest
+      echo iconset.src, " -> ", iconset.dest
   echo "All icons generated"

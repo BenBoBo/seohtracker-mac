@@ -2,36 +2,33 @@
 
 #import "EHRoot_vc.h"
 #import "EHSettings_vc.h"
-#import "categories/NSString+seohyun.h"
+#import "appstore_changes.h"
 #import "google_analytics_config.h"
 #import "help_defines.h"
-#import "user_config.h"
 
 #import "AnalyticsHelper.h"
 #import "ELHASO.h"
+#import "NSNotificationCenter+ELHASO.h"
 #import "RHPreferences.h"
-
-
-NSString *decimal_separator_changed = @"decimal_separator_changed";
-NSString *did_accept_file = @"NSNotificationDidAcceptFile";
-NSString *did_accept_file_path = @"NSNotificationDidAcceptFilePath";
-NSString *did_add_row = @"NSNotificationDidAddRow";
-NSString *did_add_row_pos = @"NSNotificationDidAddRowPos";
-NSString *did_change_changelog_version = @"NSNotificationDidChangeLogVersion";
-NSString *did_import_csv = @"NSNotificationDidImportCSV";
-NSString *did_remove_row = @"NSNotificationDidRemoveRow";
-NSString *did_select_sync_tab = @"NSNotificationDidSelectSyncTab";
-NSString *did_update_last_row = @"NSNotificationDidUpdateLastRow";
-NSString *user_metric_prefereces_changed = @"user_metric_preferences_changed";
+#import "SHNotifications.h"
+#import "categories/NSObject+seohyun.h"
+#import "categories/NSString+seohyun.h"
+#import "n_global.h"
+#import "user_config.h"
 
 
 @interface EHApp_delegate ()
-    <NSApplicationDelegate>
+    <NSApplicationDelegate, NSUserNotificationCenterDelegate>
 
 /// Keeps a strong reference to the root vc.
 @property (nonatomic, strong) EHRoot_vc *root_vc;
 /// Caches the preferences window for lazy generation.
 @property (nonatomic, strong) RHPreferencesWindowController *preferences_vc;
+
+/// Menu entries which we bind at runtime.
+@property (nonatomic, weak) IBOutlet NSMenuItem *delete_weight_menu;
+@property (nonatomic, weak) IBOutlet NSMenuItem *modify_weight_menu;
+@property (nonatomic, weak) IBOutlet NSMenuItem *add_weight_menu;
 
 @end
 
@@ -53,20 +50,15 @@ NSString *user_metric_prefereces_changed = @"user_metric_preferences_changed";
         abort();
     DLOG(@"Got %lld entries", get_num_weights());
 
-    // Obtain metric setting from environment.
-    // http://stackoverflow.com/a/9997513/172690
-    NSLocale *locale = [NSLocale autoupdatingCurrentLocale];
-    const BOOL uses_metric = [[locale objectForKey:NSLocaleUsesMetricSystem]
-        boolValue];
-    NSString *separator = [locale objectForKey:NSLocaleDecimalSeparator];
+    configure_metric_locale();
 
-    DLOG(@"Uses metric? %d, decimal separator is '%@'", uses_metric, separator);
-    set_decimal_separator([separator cstring]);
-    set_nimrod_metric_use_based_on_user_preferences();
+    [[NSNotificationCenter defaultCenter] refresh_observer:self
+        selector:@selector(locale_did_change:)
+        name:NSCurrentLocaleDidChangeNotification object:nil];
 
     // Insert code here to initialize your application
     self.root_vc = [[EHRoot_vc alloc]
-        initWithNibName:NSStringFromClass([EHRoot_vc class]) bundle:nil];
+        initWithNibName:[EHRoot_vc class_string] bundle:nil];
     self.window.delegate = self;
 
     [self.window.contentView addSubview:self.root_vc.view];
@@ -75,7 +67,26 @@ NSString *user_metric_prefereces_changed = @"user_metric_preferences_changed";
     [self.window registerForDraggedTypes:@[NSURLPboardType]];
     [[NSApplication sharedApplication] setDelegate:self];
 
+    // Register ourselves for user notifications. Just to open the changes log.
+    NSUserNotificationCenter *user_notification_center =
+        [NSUserNotificationCenter defaultUserNotificationCenter];
+    user_notification_center.delegate = self;
+
+    [self hook_menu_items];
+
     dispatch_async_low(^{ [self build_preferences]; });
+
+    dispatch_async_low(^{ [self generate_changelog_notification]; });
+
+    // Detect if we are being launched due to the user clicking on notification.
+    NSDictionary *start_info = aNotification.userInfo;
+    NSUserNotification *user_notification = [start_info
+        objectForKey: NSApplicationLaunchUserNotificationKey];
+    if (user_notification) {
+        // Emulate being clicked at runtime.
+        [self userNotificationCenter:user_notification_center
+            didActivateNotification:user_notification];
+    }
 }
 
 /// Quit app if the user closes the main window, which is the last.
@@ -99,6 +110,33 @@ NSString *user_metric_prefereces_changed = @"user_metric_preferences_changed";
 
 #pragma mark -
 #pragma mark Methods
+
+/** Hook to learn when the user locale changes, so we can detect our stuff.
+ *
+ * If the user metric were on automatic, the notification
+ * user_metric_prefereces_changed is generated for any visible EHSettings_vc to
+ * update its view as if the user had changed the setting.
+ *
+ * This also checks if the locale decimal separator changed, generating the
+ * event decimal_separator_changed if needed.
+ */
+- (void)locale_did_change:(NSNotification*)notification
+{
+    if (0 == user_metric_preference()) {
+        DLOG(@"Weight automatic: rechecking system value");
+        set_nimrod_metric_use_based_on_user_preferences();
+        NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+        [center postNotificationName:user_metric_prefereces_changed object:nil];
+    }
+
+    NSLocale *locale = [NSLocale autoupdatingCurrentLocale];
+    NSString *separator = [locale objectForKey:NSLocaleDecimalSeparator];
+    if (set_decimal_separator([separator cstring])) {
+        DLOG(@"The decimal separator changed to '%@'", separator);
+        NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+        [center postNotificationName:decimal_separator_changed object:nil];
+    }
+}
 
 /** Generates user preferences timestamp for changelog version.
  *
@@ -127,8 +165,7 @@ NSString *user_metric_prefereces_changed = @"user_metric_preferences_changed";
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
             EHSettings_vc *pane1 = [[EHSettings_vc alloc]
-                initWithNibName:NSStringFromClass([EHSettings_vc class])
-                bundle:nil];
+                initWithNibName:[EHSettings_vc class_string] bundle:nil];
 
             self.preferences_vc = [[RHPreferencesWindowController alloc]
                 initWithViewControllers:@[pane1] andTitle:@"Preferences"];
@@ -197,6 +234,50 @@ NSString *user_metric_prefereces_changed = @"user_metric_preferences_changed";
 #endif
 }
 
+/** Invoked during startup, checks changelog versions to show a notification.
+ *
+ * If the current runtime version is newer than the last stored preferences
+ * version then a notification is added to the user notification center. The
+ * user can touch the notification and this will display the changes log. Or he
+ * can dismiss the notification.
+ */
+- (void)generate_changelog_notification
+{
+    const int dif =
+        ceilf(EMBEDDED_CHANGELOG_VERSION - config_changelog_version());
+    if (dif <= 0.01)
+        return;
+
+    NSUserNotification *n = [NSUserNotification new];
+    n.title = @"Seohtracker was updated";
+    n.subtitle = [NSString stringWithFormat:@"You have now version %@.",
+        EMBEDDED_CHANGELOG_VERSION_STR];
+    n.informativeText = @"Click to see what did change.";
+
+    NSUserNotificationCenter *user_notification_center =
+        [NSUserNotificationCenter defaultUserNotificationCenter];
+    [user_notification_center deliverNotification:n];
+    // Mark current version as seen.
+    set_config_changelog_version(EMBEDDED_CHANGELOG_VERSION);
+}
+
+/** Sets the target/action for menu items.
+ *
+ * Since we create the view controller manually, we have to bind the menu items
+ * too manually. Go back it time and tell myself to not use that tutorial and
+ * instead create the GUI fully from interface builder.
+ */
+- (void)hook_menu_items
+{
+    for (NSMenuItem *menu in @[self.delete_weight_menu,
+            self.modify_weight_menu, self.add_weight_menu]) {
+        menu.target = self.root_vc;
+    }
+    self.delete_weight_menu.action = @selector(did_touch_minus_button:);
+    self.modify_weight_menu.action = @selector(did_touch_modify_button:);
+    self.add_weight_menu.action = @selector(did_touch_plus_button:);
+}
+
 #pragma mark -
 #pragma mark NSApplicationDelegate protocol
 
@@ -256,46 +337,20 @@ NSString *user_metric_prefereces_changed = @"user_metric_preferences_changed";
     return YES;
 }
 
-@end
-
 #pragma mark -
-#pragma mark Global functions
+#pragma mark NSUserNotificationCenterDelegate protocol
 
-/// Helper method to update nimrod's global metric defaults.
-void set_nimrod_metric_use_based_on_user_preferences(void)
-{
-    const int pref = user_metric_preference();
-    if (pref > 0)
-        specify_metric_use((1 == pref));
-    else
-        specify_metric_use(system_uses_metric());
-}
-
-/** Wraps format_nsdate with a TWeight* accessor.
+/** When the user clicks a notification, open the changes log.
  *
- * Returns the empty string if something went wrong.
+ * Also removes all previous notifications, since clicking any is enough and we
+ * aren't using user notifications for anything else at the moment.
  */
-NSString *format_date(TWeight *weight)
+- (void)userNotificationCenter:(NSUserNotificationCenter *)center
+    didActivateNotification:(NSUserNotification *)notification
 {
-    if (!weight) return @"";
-    NSDate *d = [NSDate dateWithTimeIntervalSince1970:date(weight)];
-    return format_nsdate(d);
+    [self show_whats_new:center];
+    [center removeAllDeliveredNotifications];
 }
 
-/** Formats a date to text format.
- *
- * Returns the empty string if something went wrong.
- */
-NSString *format_nsdate(NSDate *date)
-{
-    if (!date) return @"";
 
-    static NSDateFormatter *formatter = nil;
-    if (!formatter) {
-        formatter = [NSDateFormatter new];
-        [formatter setTimeStyle:NSDateFormatterMediumStyle];
-        [formatter setDateStyle:NSDateFormatterMediumStyle];
-    }
-    if (!formatter) return @"";
-    return [formatter stringFromDate:date];
-}
+@end

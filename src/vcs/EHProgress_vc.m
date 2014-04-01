@@ -1,6 +1,7 @@
 #import "EHProgress_vc.h"
 
 #import "ELHASO.h"
+#import "categories/NSObject+seohyun.h"
 
 
 @interface EHProgress_vc ()
@@ -35,7 +36,7 @@
 + (EHProgress_vc*)start_in:(NSViewController*)parent_vc
 {
     EHProgress_vc *ret = [[EHProgress_vc alloc]
-        initWithWindowNibName:NSStringFromClass([EHProgress_vc class])];
+        initWithWindowNibName:[EHProgress_vc class_string]];
     NSWindow *sheet = ret.window;
 
     [NSApp beginSheet:sheet modalForWindow:[parent_vc.view window]

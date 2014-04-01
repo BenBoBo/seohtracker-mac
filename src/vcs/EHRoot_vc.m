@@ -4,10 +4,13 @@
 #import "EHBannerButton.h"
 #import "EHModify_vc.h"
 #import "EHProgress_vc.h"
-#import "NSString+seohyun.h"
 
 #import "ELHASO.h"
 #import "NSNotificationCenter+ELHASO.h"
+#import "SHNotifications.h"
+#import "categories/NSObject+seohyun.h"
+#import "categories/NSString+seohyun.h"
+#import "formatters.h"
 
 
 @interface EHRoot_vc ()
@@ -29,10 +32,6 @@
 @property (weak) IBOutlet EHBannerButton *banner_button;
 /// The image on top of the banner to produce the fading.
 @property (nonatomic, strong) IBOutlet NSImageView *banner_overlay;
-
-- (IBAction)did_touch_modify_button:(id)sender;
-- (IBAction)did_touch_minus_button:(id)sender;
-- (IBAction)did_touch_plus_button:(id)sender;
 
 /// Keeps the name of the input file being imported.
 @property (nonatomic, strong) NSString *csv_to_import;
@@ -132,13 +131,12 @@
     }
 }
 
-
 /// Called when the user wants to modify an existing value.
 - (IBAction)did_touch_modify_button:(id)sender
 {
     TWeight *weight = [self selected_weight];
     EHModify_vc *vc = [[EHModify_vc alloc]
-        initWithWindowNibName:NSStringFromClass([EHModify_vc class])];
+        initWithWindowNibName:[EHModify_vc class_string]];
     [vc set_values_from:weight for_new_value:NO];
 
     const NSInteger ret = [self begin_modal_sheet:vc.window];
@@ -167,16 +165,20 @@
     }
 
     // Refresh the rows.
-    NSMutableIndexSet *rows = [NSMutableIndexSet indexSetWithIndex:new_pos];
-    if (old_pos != new_pos) [rows addIndex:old_pos];
-    [self.table_view reloadDataForRowIndexes:rows
-        columnIndexes:[NSIndexSet indexSetWithIndexesInRange:(NSRange){0, 2}]];
+    NSIndexSet *new_row = [NSIndexSet indexSetWithIndex:new_pos];
+    [self.table_view beginUpdates];
+    [self.table_view removeRowsAtIndexes:[NSIndexSet indexSetWithIndex:old_pos]
+        withAnimation:NSTableViewAnimationSlideLeft];
+    [self.table_view insertRowsAtIndexes:new_row
+        withAnimation:NSTableViewAnimationSlideRight];
+    [self.table_view endUpdates];
+    [self refresh_row_backgrounds];
 
     // Force selection to the new position.
-    [rows removeAllIndexes];
-    [rows addIndex:new_pos];
     [self.table_view deselectAll:self];
-    [self.table_view selectRowIndexes:rows byExtendingSelection:NO];
+    [self.table_view selectRowIndexes:new_row byExtendingSelection:NO];
+    // Focus tableview.
+    [[self.table_view window] makeFirstResponder:self.table_view];
 }
 
 /// Removes the selected weight, but first asks if really should be done.
@@ -206,8 +208,11 @@
         [self.table_view reloadData];
     } else {
         [self.table_view deselectAll:self];
+        [self.table_view beginUpdates];
         [self.table_view removeRowsAtIndexes:[NSIndexSet indexSetWithIndex:pos]
             withAnimation:NSTableViewAnimationSlideLeft];
+        [self.table_view endUpdates];
+        [self refresh_row_backgrounds];
     }
 }
 
@@ -215,7 +220,7 @@
 - (IBAction)did_touch_plus_button:(id)sender
 {
     EHModify_vc *vc = [[EHModify_vc alloc]
-        initWithWindowNibName:NSStringFromClass([EHModify_vc class])];
+        initWithWindowNibName:[EHModify_vc class_string]];
     [vc set_values_from:get_last_weight() for_new_value:YES];
 
     const NSInteger ret = [self begin_modal_sheet:vc.window];
@@ -245,14 +250,19 @@
     }
 
     // Refresh the rows.
-    NSIndexSet *row = [NSIndexSet indexSetWithIndex:new_pos];
-    [self.table_view insertRowsAtIndexes:row
+    NSIndexSet *new_row = [NSIndexSet indexSetWithIndex:new_pos];
+    [self.table_view beginUpdates];
+    [self.table_view insertRowsAtIndexes:new_row
         withAnimation:NSTableViewAnimationSlideRight];
+    [self.table_view endUpdates];
+    [self refresh_row_backgrounds];
 
     // Force selection to the new position.
     [self.table_view deselectAll:self];
-    [self.table_view selectRowIndexes:row byExtendingSelection:NO];
+    [self.table_view selectRowIndexes:new_row byExtendingSelection:NO];
     [self animate_scroll_to:new_pos];
+    // Focus tableview.
+    [[self.table_view window] makeFirstResponder:self.table_view];
 }
 
 /** Better animated scrollRowToVisible.
@@ -458,6 +468,45 @@
     self.modal_sheet_window = nil;
 }
 
+/// Default normal color for cell text.
+- (NSColor*)normal_color
+{
+    return [NSColor blackColor];
+}
+
+/// Color for the text of cells using the same day.
+- (NSColor*)shadowed_color
+{
+    return [NSColor grayColor];
+}
+
+/// Changes the background of the table row according to the weight attributes.
+- (void)update_row_background:(NSTableRowView*)row_view for_row:(NSInteger)row
+{
+    TWeight *w = get_weight(row);
+    RASSERT(w, @"No weight for position?", return);
+
+    if (alternating_day(w)) {
+        row_view.backgroundColor = [NSColor colorWithSRGBRed:237/255.0
+            green:237/255.0 blue:1 alpha:1];
+    } else {
+        row_view.backgroundColor = [NSColor whiteColor];
+    }
+}
+
+/** Call this after rows are reshuffled in the list.
+ *
+ * Visible rows will be iterated and their background color updated to the
+ * logic model. This is usually done for added rows.
+ */
+- (void)refresh_row_backgrounds
+{
+    [self.table_view enumerateAvailableRowViewsUsingBlock:
+        ^(NSTableRowView *v, NSInteger r) {
+            [self update_row_background:v for_row:r];
+        }];
+}
+
 #pragma mark -
 #pragma mark NSTableViewDataSource protocol
 
@@ -470,31 +519,71 @@
 #pragma mark -
 #pragma mark NSTableViewDelegate protocol
 
+/// Overrides to change row background color.
+- (void)tableView:(NSTableView *)tableView
+    didAddRowView:(NSTableRowView *)rowView forRow:(NSInteger)row
+{
+    [self update_row_background:rowView for_row:row];
+}
+
 - (NSView*)tableView:(NSTableView*)tableView
     viewForTableColumn:(NSTableColumn*)tableColumn row:(NSInteger)row
 {
     // Get a new ViewCell
-    NSTableCellView *cellView = [tableView
+    NSTableCellView *cell = [tableView
         makeViewWithIdentifier:tableColumn.identifier owner:self];
     TWeight *w = get_weight(row);
-    RASSERT(w, @"No weight for position?", return cellView);
+    RASSERT(w, @"No weight for position?", return cell);
 
     if ([tableColumn.identifier isEqualToString:@"EHHistory_date"]) {
-        cellView.textField.stringValue = format_date(w);
+        if (changes_day(w)) {
+            cell.textField.stringValue = format_date(w);
+        } else {
+            cell.textField.attributedStringValue =
+                format_shadowed_date(w, cell.textField.font,
+                self.normal_color, self.shadowed_color);
+        }
     } else if ([tableColumn.identifier isEqualToString:@"EHHistory_weight"]) {
-        cellView.textField.stringValue = [NSString
+        cell.textField.stringValue = [NSString
             stringWithFormat:@"%s %s", format_weight_with_current_unit(w),
             get_weight_string()];
+
+        cell.textField.textColor = (changes_day(w) ?
+            self.normal_color : self.shadowed_color);
     } else {
         LASSERT(0, @"Bad column");
     }
-    return cellView;
+    return cell;
 }
 
 /// User clicked or moved the cursor, update the UI.
 - (void)tableViewSelectionDidChange:(NSNotification*)aNotification
 {
     [self refresh_ui];
+}
+
+#pragma mark -
+#pragma mark NSMenuValidation protocol
+
+/// Called by the UI to check the state of the menu entries.
+- (BOOL)validateMenuItem:(NSMenuItem *)menu_item
+{
+    if (!menu_item.action)
+        return NO;
+
+#define _ACTION(SELNAME) ([menu_item action] == @selector(SELNAME))
+
+    if (_ACTION(did_touch_plus_button:)) {
+        return YES;
+    } else if (_ACTION(did_touch_minus_button:) ||
+            _ACTION(did_touch_modify_button:)) {
+        TWeight *w = [self selected_weight];
+        return (w ? YES : NO);
+    } else {
+        LASSERT(NO, @"Should not reach here. Probably.");
+        return NO;
+    }
+#undef _ACTION
 }
 
 @end

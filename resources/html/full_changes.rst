@@ -6,6 +6,28 @@ Seohtracker for Mac is open source. You can create new issues at
 `https://github.com/gradha/seohtracker-mac/issues
 <https://github.com/gradha/seohtracker-mac/issues>`_.
 
+v5, 2014-04-01
+--------------
+
+* `Moved common objc code to logic submodule
+  <https://github.com/gradha/seohtracker-mac/issues/29>`_.
+* `Modified help screens
+  <https://github.com/gradha/seohtracker-mac/issues/30>`_.
+* `Made today and yesterday display as words in history
+  <https://github.com/gradha/seohtracker-mac/issues/31>`_.
+* `Shows alternate background for history cells with different date
+  <https://github.com/gradha/seohtracker-mac/issues/32>`_.
+* `Updated internal readme
+  <https://github.com/gradha/seohtracker-mac/issues/26>`_.
+* `Moved ELHASO snippets to separate repo
+  <https://github.com/gradha/seohtracker-mac/issues/28>`_.
+* `Detects locale changes
+  <https://github.com/gradha/seohtracker-mac/issues/35>`_.
+* `Implemented changes notification
+  <https://github.com/gradha/seohtracker-mac/issues/27>`_.
+* `Allows deletion of entries with keyboard
+  <https://github.com/gradha/seohtracker-mac/issues/8>`_.
+
 v4, 2014-03-05
 --------------
 

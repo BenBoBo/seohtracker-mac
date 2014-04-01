@@ -6,7 +6,7 @@ What to do for a new public release?
 * Create new dummy issue `Release versionname` and assign to that milestone.
 * Annotate the release issue with the Nimrod commit used to compile sources,
   and Xcode version too.
-* git flow release start versionname (versionname without v).
+* ``git flow release start versionname`` (versionname without v).
 * Update version numbers:
 
   * Modify `README.rst <../README.rst>`_ (s/development/stable/).
@@ -24,16 +24,21 @@ What to do for a new public release?
     version/number.
 
 * ``git commit -av`` into the release branch the version number changes.
+* Update ``external/seohtracker-logic`` to a stable version and commit with
+  `Updates seohtracker logic submodule. Refs #xxx.`. The update should just be
+  minor changes involving a previous logic module release. If there are bigger
+  changes, **abort**.
 * Verify if files in ``resources/screenshots`` need updating.
 * Save ``build/google_analytics_config.h``, trash ``build`` directory and
   recover the header file.
 * Now build an archive of the appstore target and upload to iTunes connect.
-* Zip up ``build`` directory as ``build-sources-XXX.zip`` and keep somewhere.
+* Remove again ``build/google_analytics_config.h``, zip up ``build`` directory
+  as ``build-mac-sources-vXXX.zip`` and keep somewhere.
 * ``git flow release finish versionname`` (the tagname is versionname without
   ``v``).  When specifying the tag message, copy and paste a text version of
   the full changes log into the message. Add rst item markers.
 * Move closed issues to the release milestone.
-* Increase version numbers, ``master`` branch gets +1.
+* Increase version numbers, ``master`` branch gets +0.1.
 
   * Modify `README.rst <../README.rst>`_.
   * Modify `resources/plist/appstore-Info.plist
@@ -56,8 +61,8 @@ What to do for a new public release?
 
 * Patiently wait until Apple approves the binary on the appstore.
 * Update if necessary http://www.elhaso.es/seohtracker/index.
-* Announce at http://forum.nimrod-lang.org/.
+* Announce at http://forum.nimrod-lang.org/t/395.
 * Close the milestone on github.
 * Update the released tag on https://github.com/gradha/seohtracker-mac/releases
-  with the template message **"Available on the appstore on YYYY-MM-DD"**.
-  Attach previously saved ``build-sources-XXX.zip``.
+  with the template message **"Available on the mac appstore on YYYY-MM-DD"**.
+  Attach previously saved ``build-mac-sources-vXXX.zip``.

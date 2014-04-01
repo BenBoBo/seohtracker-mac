@@ -1,6 +1,3 @@
-[submodule "external/quicklook-rest-with-nimrod"]
-	path = external/quicklook-rest-with-nimrod
-	url = https://github.com/gradha/quicklook-rest-with-nimrod.git
 [submodule "external/seohtracker-logic"]
 	path = external/seohtracker-logic
 	url = https://github.com/gradha/seohtracker-logic.git
@@ -10,3 +7,6 @@
 [submodule "external/SimpleCocoaGoogleAnalytics"]
 	path = external/SimpleCocoaGoogleAnalytics
 	url = https://github.com/gradha/SimpleCocoaGoogleAnalytics.git
+[submodule "external/ELHASO-mac-snippets"]
+	path = external/ELHASO-mac-snippets
+	url = git://github.com/gradha/ELHASO-mac-snippets.git

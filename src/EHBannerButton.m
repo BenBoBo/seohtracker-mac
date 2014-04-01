@@ -88,7 +88,7 @@
         @"https://itunes.apple.com/es/app/seohtracker/id805779021?mt=8&ls=1"]];
     self.current_pos = self.next_pos - 1;
     if (self.current_pos < 0)
-        self.current_pos = MAX(0, self.filenames.count - 1);
+        self.current_pos = MAX(0, ((int)self.filenames.count) - 1);
 
     [NSObject cancelPreviousPerformRequestsWithTarget:self
         selector:@selector(switch_banner) object:nil];
