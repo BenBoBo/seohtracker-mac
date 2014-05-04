@@ -64,6 +64,8 @@
 		D5318A6118BBBEBE001FD6C0 /* EHRoot_vc.xib in Resources */ = {isa = PBXBuildFile; fileRef = D5318A6018BBBEBE001FD6C0 /* EHRoot_vc.xib */; };
 		D5318A7218BC03DC001FD6C0 /* EHModify_vc.m in Sources */ = {isa = PBXBuildFile; fileRef = D5318A7018BC03DC001FD6C0 /* EHModify_vc.m */; };
 		D5318A7518BC0798001FD6C0 /* EHModify_vc.xib in Resources */ = {isa = PBXBuildFile; fileRef = D5318A7418BC0798001FD6C0 /* EHModify_vc.xib */; };
+		D533E63B1916D7E2006AEA66 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D533E63A1916D7E2006AEA66 /* QuartzCore.framework */; };
+		D533E63C1916D7FD006AEA66 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D533E63A1916D7E2006AEA66 /* QuartzCore.framework */; };
 		D533F7E618B662CB00A7FFC3 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D533F7E518B662CB00A7FFC3 /* Cocoa.framework */; };
 		D533F7F018B662CB00A7FFC3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D533F7EE18B662CB00A7FFC3 /* InfoPlist.strings */; };
 		D533F7FC18B662CB00A7FFC3 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D533F7FA18B662CB00A7FFC3 /* MainMenu.xib */; };
@@ -176,6 +178,7 @@
 		D5318A7418BC0798001FD6C0 /* EHModify_vc.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EHModify_vc.xib; path = resources/ui/EHModify_vc.xib; sourceTree = "<group>"; };
 		D532974618B6AB330028F3AA /* devel-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "devel-Info.plist"; path = "resources/plist/devel-Info.plist"; sourceTree = "<group>"; };
 		D532974718B6AB330028F3AA /* devel.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = devel.entitlements; path = resources/plist/devel.entitlements; sourceTree = "<group>"; };
+		D533E63A1916D7E2006AEA66 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		D533F7E218B662CB00A7FFC3 /* Seohtracker devel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Seohtracker devel.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D533F7E518B662CB00A7FFC3 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		D533F7E818B662CB00A7FFC3 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -249,6 +252,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D533E63C1916D7FD006AEA66 /* QuartzCore.framework in Frameworks */,
 				D52E74E918C50F6E00A8B6F1 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -257,6 +261,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D533E63B1916D7E2006AEA66 /* QuartzCore.framework in Frameworks */,
 				D533F7E618B662CB00A7FFC3 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -329,6 +334,7 @@
 		D533F7E418B662CB00A7FFC3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D533E63A1916D7E2006AEA66 /* QuartzCore.framework */,
 				D533F7E818B662CB00A7FFC3 /* AppKit.framework */,
 				D533F7EA18B662CB00A7FFC3 /* Foundation.framework */,
 				D533F7E518B662CB00A7FFC3 /* Cocoa.framework */,

@@ -12,6 +12,65 @@
 #import "categories/NSString+seohyun.h"
 #import "formatters.h"
 
+#import <QuartzCore/QuartzCore.h>
+
+
+@implementation NSBezierPath (BezierPathQuartzUtilities)
+// This method works only in OS X v10.2 and later.
+- (CGPathRef)quartzPath
+{
+    NSInteger i, numElements;
+
+    // Need to begin a path here.
+    CGPathRef           immutablePath = NULL;
+
+    // Then draw the path elements.
+    numElements = [self elementCount];
+    if (numElements > 0)
+    {
+        CGMutablePathRef    path = CGPathCreateMutable();
+        NSPoint             points[3];
+        BOOL                didClosePath = YES;
+
+        for (i = 0; i < numElements; i++)
+        {
+            switch ([self elementAtIndex:i associatedPoints:points])
+            {
+                case NSMoveToBezierPathElement:
+                    CGPathMoveToPoint(path, NULL, points[0].x, points[0].y);
+                    break;
+
+                case NSLineToBezierPathElement:
+                    CGPathAddLineToPoint(path, NULL, points[0].x, points[0].y);
+                    didClosePath = NO;
+                    break;
+
+                case NSCurveToBezierPathElement:
+                    CGPathAddCurveToPoint(path, NULL, points[0].x, points[0].y,
+                                          points[1].x, points[1].y,
+                                          points[2].x, points[2].y);
+                    didClosePath = NO;
+                    break;
+
+                case NSClosePathBezierPathElement:
+                    CGPathCloseSubpath(path);
+                    didClosePath = YES;
+                    break;
+            }
+        }
+
+        // Be sure the path is closed or Quartz may not do valid hit detection.
+        if (!didClosePath)
+            CGPathCloseSubpath(path);
+
+        immutablePath = CGPathCreateCopy(path);
+        CGPathRelease(path);
+    }
+
+    return immutablePath;
+}
+@end
+
 
 @interface EHRoot_vc ()
 /// The table we need to refresh during scrolls.
@@ -74,7 +133,7 @@
         self.banner_button.overlay = self.banner_overlay;
         [self.banner_button start];
 
-        self.graph_scroll.backgroundColor = [NSColor whiteColor];
+        [self set_up_test_graph];
     }
 }
 
@@ -509,6 +568,44 @@
         ^(NSTableRowView *v, NSInteger r) {
             [self update_row_background:v for_row:r];
         }];
+}
+
+/** Initial testing of graph scrolling
+ *
+ * Sets up a not very correct graph just for testing.
+ */
+#define W 600
+#define H 200
+
+- (void)set_up_test_graph
+{
+    self.graph_scroll.backgroundColor = [NSColor whiteColor];
+
+    // Create graph layer.
+    CAShapeLayer *graph_layer = [CAShapeLayer new];
+    [graph_layer setFillColor:[[NSColor redColor] CGColor]];
+    [graph_layer setStrokeColor:[[NSColor blackColor] CGColor]];
+    [graph_layer setLineWidth:2.f];
+    [graph_layer setOpacity:0.4];
+
+    graph_layer.shadowColor = [[NSColor blackColor] CGColor];
+    graph_layer.shadowRadius = 4.f;
+    graph_layer.shadowOffset = CGSizeMake(0, 0);
+    graph_layer.shadowOpacity = 0.8;
+
+    // Create bezier path.
+    NSBezierPath *waveform = [[NSBezierPath alloc] init];
+
+    [waveform moveToPoint:CGPointMake(0.f, 1.f)];
+    for (int i = 0; i < W; i++)
+        [waveform lineToPoint:CGPointMake(i, random() % H)];
+    [waveform lineToPoint:CGPointMake(W, 1.f)];
+
+    [graph_layer setPath:[waveform quartzPath]];
+    NSView *doc = self.graph_scroll.documentView;
+    [doc.layer addSublayer:graph_layer];
+
+    [self.graph_scroll.documentView setFrameSize:NSMakeSize(W, H)];
 }
 
 #pragma mark -
