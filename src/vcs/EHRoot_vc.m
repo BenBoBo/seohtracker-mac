@@ -28,6 +28,8 @@
 @property (nonatomic, assign) BOOL did_awake;
 /// Needs to be disabled if nothing is selected.
 @property (weak) IBOutlet NSButton *minus_button;
+/// Scrollview containing the graph.
+@property (weak) IBOutlet NSScrollView *graph_scroll;
 /// Rotating local ads.
 @property (weak) IBOutlet EHBannerButton *banner_button;
 /// The image on top of the banner to produce the fading.
@@ -71,6 +73,8 @@
 
         self.banner_button.overlay = self.banner_overlay;
         [self.banner_button start];
+
+        self.graph_scroll.backgroundColor = [NSColor whiteColor];
     }
 }
 
