@@ -15,6 +15,8 @@
 #import <QuartzCore/QuartzCore.h>
 
 
+#define _DELAY 0.5
+
 @implementation NSBezierPath (BezierPathQuartzUtilities)
 // This method works only in OS X v10.2 and later.
 - (CGPathRef)quartzPath
@@ -91,6 +93,8 @@
 @property (weak) IBOutlet NSScrollView *graph_scroll;
 /// Keeps a pointer to the graph layer to update the path.
 @property (weak) CAShapeLayer *graph_layer;
+/// Stores the future size for the graph_layer after delayed resizing kicks in.
+@property (nonatomic, assign) int future_graph_height;
 /// Rotating local ads.
 @property (weak) IBOutlet EHBannerButton *banner_button;
 /// The image on top of the banner to produce the fading.
@@ -135,7 +139,7 @@
         self.banner_button.overlay = self.banner_overlay;
         [self.banner_button start];
 
-        [self set_up_test_graph:self.graph_scroll.bounds.size.height];
+        [self resize_graph:self.graph_scroll.bounds.size.height];
     }
 }
 
@@ -144,6 +148,9 @@
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center removeObserver:self
         name:user_metric_prefereces_changed object:nil];
+
+    [NSObject cancelPreviousPerformRequestsWithTarget:self
+        selector:@selector(do_resize_graph) object:nil];
 }
 
 #pragma mark -
@@ -578,8 +585,24 @@
  */
 #define W 600
 
-- (void)set_up_test_graph:(int)height
+- (void)resize_graph:(int)height
 {
+    [NSObject cancelPreviousPerformRequestsWithTarget:self
+        selector:@selector(do_resize_graph) object:nil];
+
+    self.future_graph_height = height;
+    [self performSelector:@selector(do_resize_graph)
+        withObject:nil afterDelay:_DELAY];
+}
+
+/** Workhorse invoked after a delay by resize_graph:
+ *
+ * It takes the new height from the future_graph_height value.
+ */
+- (void)do_resize_graph
+{
+    const int height = self.future_graph_height;
+
     if (!self.graph_layer) {
         self.graph_scroll.backgroundColor = [NSColor whiteColor];
         // Create graph layer.
@@ -616,7 +639,7 @@
  */
 - (void)resize_graph_scale
 {
-    [self set_up_test_graph:self.graph_scroll.frame.size.height];
+    [self resize_graph:self.graph_scroll.frame.size.height];
 }
 
 #pragma mark -
