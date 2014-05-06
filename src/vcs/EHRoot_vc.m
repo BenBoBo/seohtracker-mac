@@ -89,6 +89,8 @@
 @property (weak) IBOutlet NSButton *minus_button;
 /// Scrollview containing the graph.
 @property (weak) IBOutlet NSScrollView *graph_scroll;
+/// Keeps a pointer to the graph layer to update the path.
+@property (weak) CAShapeLayer *graph_layer;
 /// Rotating local ads.
 @property (weak) IBOutlet EHBannerButton *banner_button;
 /// The image on top of the banner to produce the fading.
@@ -133,7 +135,7 @@
         self.banner_button.overlay = self.banner_overlay;
         [self.banner_button start];
 
-        [self set_up_test_graph];
+        [self set_up_test_graph:self.graph_scroll.bounds.size.height];
     }
 }
 
@@ -575,37 +577,46 @@
  * Sets up a not very correct graph just for testing.
  */
 #define W 600
-#define H 200
 
-- (void)set_up_test_graph
+- (void)set_up_test_graph:(int)height
 {
-    self.graph_scroll.backgroundColor = [NSColor whiteColor];
+    if (!self.graph_layer) {
+        self.graph_scroll.backgroundColor = [NSColor whiteColor];
+        // Create graph layer.
+        CAShapeLayer *graph_layer = [CAShapeLayer new];
+        [graph_layer setFillColor:[[NSColor redColor] CGColor]];
+        [graph_layer setStrokeColor:[[NSColor blackColor] CGColor]];
+        [graph_layer setLineWidth:2.f];
+        [graph_layer setOpacity:0.4];
 
-    // Create graph layer.
-    CAShapeLayer *graph_layer = [CAShapeLayer new];
-    [graph_layer setFillColor:[[NSColor redColor] CGColor]];
-    [graph_layer setStrokeColor:[[NSColor blackColor] CGColor]];
-    [graph_layer setLineWidth:2.f];
-    [graph_layer setOpacity:0.4];
+        graph_layer.shadowColor = [[NSColor blackColor] CGColor];
+        graph_layer.shadowRadius = 4.f;
+        graph_layer.shadowOffset = CGSizeMake(0, 0);
+        graph_layer.shadowOpacity = 0.8;
 
-    graph_layer.shadowColor = [[NSColor blackColor] CGColor];
-    graph_layer.shadowRadius = 4.f;
-    graph_layer.shadowOffset = CGSizeMake(0, 0);
-    graph_layer.shadowOpacity = 0.8;
+        NSView *doc = self.graph_scroll.documentView;
+        [doc.layer addSublayer:graph_layer];
+        self.graph_layer = graph_layer;
+    }
 
     // Create bezier path.
     NSBezierPath *waveform = [[NSBezierPath alloc] init];
-
     [waveform moveToPoint:CGPointMake(0.f, 1.f)];
     for (int i = 0; i < W; i++)
-        [waveform lineToPoint:CGPointMake(i, random() % H)];
+        [waveform lineToPoint:CGPointMake(i, random() % height)];
     [waveform lineToPoint:CGPointMake(W, 1.f)];
 
-    [graph_layer setPath:[waveform quartzPath]];
-    NSView *doc = self.graph_scroll.documentView;
-    [doc.layer addSublayer:graph_layer];
+    [self.graph_scroll.documentView setFrameSize:NSMakeSize(W, height)];
+    [self.graph_layer setPath:[waveform quartzPath]];
+}
 
-    [self.graph_scroll.documentView setFrameSize:NSMakeSize(W, H)];
+/** Called back by the application delegate when the window is resized.
+ *
+ * The method will try to update the content view for the graph scroll.
+ */
+- (void)resize_graph_scale
+{
+    [self set_up_test_graph:self.graph_scroll.frame.size.height];
 }
 
 #pragma mark -
