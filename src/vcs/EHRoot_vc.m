@@ -6,6 +6,7 @@
 #import "EHProgress_vc.h"
 
 #import "ELHASO.h"
+#import "NSBezierPath+Seohtracker.h"
 #import "NSNotificationCenter+ELHASO.h"
 #import "SHNotifications.h"
 #import "categories/NSObject+seohyun.h"
@@ -15,63 +16,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 
-#define _DELAY 0.5
-
-@implementation NSBezierPath (BezierPathQuartzUtilities)
-// This method works only in OS X v10.2 and later.
-- (CGPathRef)quartzPath
-{
-    NSInteger i, numElements;
-
-    // Need to begin a path here.
-    CGPathRef           immutablePath = NULL;
-
-    // Then draw the path elements.
-    numElements = [self elementCount];
-    if (numElements > 0)
-    {
-        CGMutablePathRef    path = CGPathCreateMutable();
-        NSPoint             points[3];
-        BOOL                didClosePath = YES;
-
-        for (i = 0; i < numElements; i++)
-        {
-            switch ([self elementAtIndex:i associatedPoints:points])
-            {
-                case NSMoveToBezierPathElement:
-                    CGPathMoveToPoint(path, NULL, points[0].x, points[0].y);
-                    break;
-
-                case NSLineToBezierPathElement:
-                    CGPathAddLineToPoint(path, NULL, points[0].x, points[0].y);
-                    didClosePath = NO;
-                    break;
-
-                case NSCurveToBezierPathElement:
-                    CGPathAddCurveToPoint(path, NULL, points[0].x, points[0].y,
-                                          points[1].x, points[1].y,
-                                          points[2].x, points[2].y);
-                    didClosePath = NO;
-                    break;
-
-                case NSClosePathBezierPathElement:
-                    CGPathCloseSubpath(path);
-                    didClosePath = YES;
-                    break;
-            }
-        }
-
-        // Be sure the path is closed or Quartz may not do valid hit detection.
-        if (!didClosePath)
-            CGPathCloseSubpath(path);
-
-        immutablePath = CGPathCreateCopy(path);
-        CGPathRelease(path);
-    }
-
-    return immutablePath;
-}
-@end
+#define _GRAPH_REDRAW_DELAY 0.5
 
 
 @interface EHRoot_vc ()
@@ -592,7 +537,7 @@
 
     self.future_graph_height = height;
     [self performSelector:@selector(do_resize_graph)
-        withObject:nil afterDelay:_DELAY];
+        withObject:nil afterDelay:_GRAPH_REDRAW_DELAY];
 }
 
 /** Workhorse invoked after a delay by resize_graph:
