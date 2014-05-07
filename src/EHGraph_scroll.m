@@ -14,8 +14,8 @@
 /// Our original graph layer which we update.
 @property (strong) CAShapeLayer *graph_layer;
 
-/// Stores the future size for the graph_layer after delayed resizing kicks in.
-@property (nonatomic, assign) int future_graph_height;
+/// Keeps track of the previous (and future!) height.
+@property (nonatomic, assign) int last_height;
 
 @end
 
@@ -34,35 +34,41 @@
 #pragma mark -
 #pragma mark Methods
 
-/** Initial testing of graph scrolling
+/** Requests the graph to resize its contents to match the scroll view frame.
  *
- * Sets up a not very correct graph just for testing.
+ * You can call this at any time as much as you want. It will queue a pending
+ * operation to regenerate the graph, and only if the new height is different
+ * than the old one.
  */
 #define W 600
 
 - (void)resize_graph
 {
-    const int height = self.bounds.size.height;
+    const int new_height = self.bounds.size.height;
+    if (new_height == self.last_height)
+        return;
 
     [NSObject cancelPreviousPerformRequestsWithTarget:self
         selector:@selector(do_resize_graph) object:nil];
 
-    self.future_graph_height = height;
+    self.last_height = MAX(1, new_height);
     [self performSelector:@selector(do_resize_graph)
         withObject:nil afterDelay:_GRAPH_REDRAW_DELAY];
 }
 
-/** Workhorse invoked after a delay by resize_graph:
+/** Workhorse invoked after a delay by resize_graph.
  *
- * It takes the new height from the future_graph_height value.
+ * It takes the new height from the last_height value.
  */
 - (void)do_resize_graph
 {
-    const int height = self.future_graph_height;
+    DLOG(@"do_resize_graph");
+    const int height = self.last_height;
+    LASSERT(height > 0, @"Bad requested height, should always be positive");
 
     if (!self.graph_layer) {
-        self.backgroundColor = [NSColor whiteColor];
         // Create graph layer.
+        self.backgroundColor = [NSColor whiteColor];
         CAShapeLayer *graph_layer = [CAShapeLayer new];
         [graph_layer setFillColor:[[NSColor redColor] CGColor]];
         [graph_layer setStrokeColor:[[NSColor blackColor] CGColor]];
