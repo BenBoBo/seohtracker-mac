@@ -2,6 +2,7 @@
 
 #import "EHApp_delegate.h"
 #import "EHBannerButton.h"
+#import "EHGraph_scroll.h"
 #import "EHModify_vc.h"
 #import "EHProgress_vc.h"
 
@@ -14,9 +15,6 @@
 #import "formatters.h"
 
 #import <QuartzCore/QuartzCore.h>
-
-
-#define _GRAPH_REDRAW_DELAY 0.5
 
 
 @interface EHRoot_vc ()
@@ -35,11 +33,7 @@
 /// Needs to be disabled if nothing is selected.
 @property (weak) IBOutlet NSButton *minus_button;
 /// Scrollview containing the graph.
-@property (weak) IBOutlet NSScrollView *graph_scroll;
-/// Keeps a pointer to the graph layer to update the path.
-@property (weak) CAShapeLayer *graph_layer;
-/// Stores the future size for the graph_layer after delayed resizing kicks in.
-@property (nonatomic, assign) int future_graph_height;
+@property (weak) IBOutlet EHGraph_scroll *graph_scroll;
 /// Rotating local ads.
 @property (weak) IBOutlet EHBannerButton *banner_button;
 /// The image on top of the banner to produce the fading.
@@ -84,7 +78,7 @@
         self.banner_button.overlay = self.banner_overlay;
         [self.banner_button start];
 
-        [self resize_graph:self.graph_scroll.bounds.size.height];
+        [self.graph_scroll resize_graph];
     }
 }
 
@@ -93,9 +87,6 @@
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center removeObserver:self
         name:user_metric_prefereces_changed object:nil];
-
-    [NSObject cancelPreviousPerformRequestsWithTarget:self
-        selector:@selector(do_resize_graph) object:nil];
 }
 
 #pragma mark -
@@ -524,67 +515,13 @@
         }];
 }
 
-/** Initial testing of graph scrolling
- *
- * Sets up a not very correct graph just for testing.
- */
-#define W 600
-
-- (void)resize_graph:(int)height
-{
-    [NSObject cancelPreviousPerformRequestsWithTarget:self
-        selector:@selector(do_resize_graph) object:nil];
-
-    self.future_graph_height = height;
-    [self performSelector:@selector(do_resize_graph)
-        withObject:nil afterDelay:_GRAPH_REDRAW_DELAY];
-}
-
-/** Workhorse invoked after a delay by resize_graph:
- *
- * It takes the new height from the future_graph_height value.
- */
-- (void)do_resize_graph
-{
-    const int height = self.future_graph_height;
-
-    if (!self.graph_layer) {
-        self.graph_scroll.backgroundColor = [NSColor whiteColor];
-        // Create graph layer.
-        CAShapeLayer *graph_layer = [CAShapeLayer new];
-        [graph_layer setFillColor:[[NSColor redColor] CGColor]];
-        [graph_layer setStrokeColor:[[NSColor blackColor] CGColor]];
-        [graph_layer setLineWidth:2.f];
-        [graph_layer setOpacity:0.4];
-
-        graph_layer.shadowColor = [[NSColor blackColor] CGColor];
-        graph_layer.shadowRadius = 4.f;
-        graph_layer.shadowOffset = CGSizeMake(0, 0);
-        graph_layer.shadowOpacity = 0.8;
-
-        NSView *doc = self.graph_scroll.documentView;
-        [doc.layer addSublayer:graph_layer];
-        self.graph_layer = graph_layer;
-    }
-
-    // Create bezier path.
-    NSBezierPath *waveform = [[NSBezierPath alloc] init];
-    [waveform moveToPoint:CGPointMake(0.f, 1.f)];
-    for (int i = 0; i < W; i++)
-        [waveform lineToPoint:CGPointMake(i, random() % height)];
-    [waveform lineToPoint:CGPointMake(W, 1.f)];
-
-    [self.graph_scroll.documentView setFrameSize:NSMakeSize(W, height)];
-    [self.graph_layer setPath:[waveform quartzPath]];
-}
-
 /** Called back by the application delegate when the window is resized.
  *
  * The method will try to update the content view for the graph scroll.
  */
 - (void)resize_graph_scale
 {
-    [self resize_graph:self.graph_scroll.frame.size.height];
+    [self.graph_scroll resize_graph];
 }
 
 #pragma mark -

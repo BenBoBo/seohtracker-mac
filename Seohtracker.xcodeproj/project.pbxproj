@@ -114,6 +114,8 @@
 		D58A7A4C18BE4A280005752B /* Seohtracker.help in Resources */ = {isa = PBXBuildFile; fileRef = D58A7A4B18BE4A280005752B /* Seohtracker.help */; };
 		D58F1C1E191ABD3A00DAE4F7 /* NSBezierPath+Seohtracker.m in Sources */ = {isa = PBXBuildFile; fileRef = D58F1C1B191ABD3A00DAE4F7 /* NSBezierPath+Seohtracker.m */; };
 		D58F1C1F191ABD3A00DAE4F7 /* NSBezierPath+Seohtracker.m in Sources */ = {isa = PBXBuildFile; fileRef = D58F1C1B191ABD3A00DAE4F7 /* NSBezierPath+Seohtracker.m */; };
+		D58F1C22191ABE7D00DAE4F7 /* EHGraph_scroll.m in Sources */ = {isa = PBXBuildFile; fileRef = D58F1C21191ABE7D00DAE4F7 /* EHGraph_scroll.m */; };
+		D58F1C23191ABE7D00DAE4F7 /* EHGraph_scroll.m in Sources */ = {isa = PBXBuildFile; fileRef = D58F1C21191ABE7D00DAE4F7 /* EHGraph_scroll.m */; };
 		D5AD7DA418BD14A1005F4865 /* RHPreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = D5AD7D9F18BD14A1005F4865 /* RHPreferencesWindow.xib */; };
 		D5AD7DA518BD14A1005F4865 /* RHPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5AD7DA118BD14A1005F4865 /* RHPreferencesWindowController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		D5AD7DA918BD188B005F4865 /* EHSettings_vc.m in Sources */ = {isa = PBXBuildFile; fileRef = D5AD7DA718BD188B005F4865 /* EHSettings_vc.m */; };
@@ -227,6 +229,8 @@
 		D58A7A4B18BE4A280005752B /* Seohtracker.help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Seohtracker.help; sourceTree = "<group>"; };
 		D58F1C1A191ABD3A00DAE4F7 /* NSBezierPath+Seohtracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBezierPath+Seohtracker.h"; sourceTree = "<group>"; };
 		D58F1C1B191ABD3A00DAE4F7 /* NSBezierPath+Seohtracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBezierPath+Seohtracker.m"; sourceTree = "<group>"; };
+		D58F1C20191ABE7D00DAE4F7 /* EHGraph_scroll.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EHGraph_scroll.h; sourceTree = "<group>"; };
+		D58F1C21191ABE7D00DAE4F7 /* EHGraph_scroll.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EHGraph_scroll.m; sourceTree = "<group>"; };
 		D5AD7D9E18BD14A1005F4865 /* RHPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RHPreferences.h; sourceTree = "<group>"; };
 		D5AD7D9F18BD14A1005F4865 /* RHPreferencesWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RHPreferencesWindow.xib; sourceTree = "<group>"; };
 		D5AD7DA018BD14A1005F4865 /* RHPreferencesWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RHPreferencesWindowController.h; sourceTree = "<group>"; };
@@ -355,6 +359,8 @@
 				D533F81B18B6650200A7FFC3 /* EHApp_delegate.m */,
 				D5683E4818C6390800D92F0A /* EHBannerButton.h */,
 				D5683E4918C6390800D92F0A /* EHBannerButton.m */,
+				D58F1C20191ABE7D00DAE4F7 /* EHGraph_scroll.h */,
+				D58F1C21191ABE7D00DAE4F7 /* EHGraph_scroll.m */,
 				D533F81C18B6650200A7FFC3 /* main.m */,
 				D533F81D18B6650200A7FFC3 /* Seohtracker-Prefix.pch */,
 			);
@@ -717,6 +723,7 @@
 				D53F6D8E18C735A600BBF8D5 /* AnalyticsHelper.m in Sources */,
 				D5D7BAB8191EB21D00B2AEF9 /* l_graph.m in Sources */,
 				D53F6D8C18C735A600BBF8D5 /* AnalyticsEvent.m in Sources */,
+				D58F1C23191ABE7D00DAE4F7 /* EHGraph_scroll.m in Sources */,
 				D5E1B2C818E39B290078A2EC /* NSArray+ELHASO.m in Sources */,
 				D50E1DF618D84E82004BF4B2 /* stdlib_lexbase.m in Sources */,
 				D58F1C1F191ABD3A00DAE4F7 /* NSBezierPath+Seohtracker.m in Sources */,
@@ -761,6 +768,7 @@
 				D53F6D8D18C735A600BBF8D5 /* AnalyticsHelper.m in Sources */,
 				D5D7BAB7191EB21D00B2AEF9 /* l_graph.m in Sources */,
 				D53F6D8B18C735A600BBF8D5 /* AnalyticsEvent.m in Sources */,
+				D58F1C22191ABE7D00DAE4F7 /* EHGraph_scroll.m in Sources */,
 				D5E1B2C718E39B290078A2EC /* NSArray+ELHASO.m in Sources */,
 				D50E1DF518D84E82004BF4B2 /* stdlib_lexbase.m in Sources */,
 				D58F1C1E191ABD3A00DAE4F7 /* NSBezierPath+Seohtracker.m in Sources */,
