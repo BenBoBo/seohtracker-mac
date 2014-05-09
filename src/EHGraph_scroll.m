@@ -132,20 +132,25 @@
     waveform.lineJoinStyle = kCGLineJoinRound;
     if (num_weights) {
         TWeight *w;
-        // Set the initial point of the graph.
-        [waveform moveToPoint:CGPointMake(0.f, 0)];
+        CGPoint *knots = malloc(sizeof(CGPoint) * (num_weights + 2));
+        CGPoint *p = knots;
 
-        for (int f = 0; f < num_weights; f++) {
+        // Build the knots, which are the weights plotted on the graph.
+        p->x = p->y = 0;
+        p++;
+
+        for (int f = 0; f < num_weights; f++, p++) {
             w = get_weight(f);
-            const double x = ((date(w) - min_date) / ((double)_DAY_MODULUS)) *
-                day_scale;
-            const double y = (get_localized_weight(w) - min_weight) * h_factor;
-            DLOG(@"Got %0.1f with %0.1f", x, y);
-            [waveform lineToPoint:CGPointMake(x, y)];
+            p->x = ((date(w) - min_date) / ((double)_DAY_MODULUS)) * day_scale;
+            p->y = (get_localized_weight(w) - min_weight) * h_factor;
+            //DLOG(@"Got %0.1f with %0.1f", x, y);
         }
 
-        // Finish the graph.
-        [waveform lineToPoint:CGPointMake(total_days * day_scale, 0)];
+        p->x = total_days * day_scale;
+        p->y = 0;
+
+        [waveform appendBezierPathWithPoints:knots count:num_weights + 2];
+        free(knots);
     }
     DLOG(@"Got %ld total days, graph height %d", total_days, graph_height);
 
