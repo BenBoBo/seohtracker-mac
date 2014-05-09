@@ -12,6 +12,12 @@
 #define _DAY_MODULUS (60 * 60 * 24)
 
 
+// Forward declarations.
+static void get_curve_control_points(const CGPoint *knots, CGPoint *first_cp,
+    CGPoint *second_cp, const long total_points);
+static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
+
+
 @interface EHGraph_scroll ()
 
 /// Our original graph layer which we update.
@@ -149,8 +155,21 @@
         p->x = total_days * day_scale;
         p->y = 0;
 
-        [waveform appendBezierPathWithPoints:knots count:num_weights + 2];
+        // Obtain control points.
+        CGPoint *control1 = malloc(sizeof(CGPoint) * (num_weights + 1));
+        CGPoint *control2 = malloc(sizeof(CGPoint) * (num_weights + 1));
+        get_curve_control_points(knots, control1, control2, 2 + num_weights);
+
+        //[waveform appendBezierPathWithPoints:knots count:num_weights + 2];
+        [waveform moveToPoint:knots[0]];
+        p = knots + 1;
+        CGPoint *c1 = control1, *c2 = control2;
+        for (int f = 0; f < num_weights; f++, p++, c1++, c2++)
+            [waveform curveToPoint:*p controlPoint1:*c1 controlPoint2:*c2];
+        [waveform curveToPoint:*p controlPoint1:*c1 controlPoint2:*c2];
         free(knots);
+        free(control1);
+        free(control2);
     }
     DLOG(@"Got %ld total days, graph height %d", total_days, graph_height);
 
@@ -160,3 +179,96 @@
 }
 
 @end
+
+/** Calculates the control points for the bezier *knots*.
+ *
+ * Pass the input knot bezier spline points. These are where the bezier spline
+ * will go through, the control points will be generated for each segment and
+ * placed in the output arrays.
+ *
+ * The first_cp and second_cp parameters have to be already allocated and
+ * contain total_points - 1 entries.
+ *
+ * Algorithm and code adapted from
+ * http://www.codeproject.com/Articles/31859/Draw-a-Smooth-Curve-through-a-Set-of-2D-Points-wit
+ */
+static void get_curve_control_points(const CGPoint *knots, CGPoint *first_cp,
+    CGPoint *second_cp, const long total_points)
+{
+    assert(knots);
+    const long n = total_points - 1;
+    assert(n >= 1);
+
+    if (n == 1) {
+        // Special case: Bezier curve should be a straight line.
+        // 3P1 = 2P0 + P3
+        first_cp[0].x = (2 * knots[0].x + knots[1].x) / 3.0f;
+        first_cp[0].y = (2 * knots[0].y + knots[1].y) / 3.0f;
+
+        // P2 = 2P1 – P0
+        second_cp[0].x = 2 * first_cp[0].x - knots[0].x;
+        second_cp[0].y = 2 * first_cp[0].y - knots[0].y;
+        return;
+    }
+
+    // Calculate first Bezier control points
+    // Right hand side vector
+    CGFloat rhs[n];
+    // Set right hand side X values
+    for (int i = 1; i < n - 1; ++i)
+        rhs[i] = 4 * knots[i].x + 2 * knots[i + 1].x;
+
+    rhs[0] = knots[0].x + 2 * knots[1].x;
+    rhs[n - 1] = (8 * knots[n - 1].x + knots[n].x) / 2.0;
+    // Get first control points X-values
+    CGFloat *x = get_first_control_points(rhs, n);
+
+    // Set right hand side Y values
+    for (int i = 1; i < n - 1; ++i)
+        rhs[i] = 4 * knots[i].y + 2 * knots[i + 1].y;
+    rhs[0] = knots[0].y + 2 * knots[1].y;
+    rhs[n - 1] = (8 * knots[n - 1].y + knots[n].y) / 2.0;
+    // Get first control points Y-values
+    CGFloat *y = get_first_control_points(rhs, n);
+
+    // Fill output arrays.
+    for (int i = 0; i < n; ++i) {
+        // First control point
+        first_cp[i].x = x[i];
+        first_cp[i].y = y[i];
+        // Second control point
+        if (i < n - 1) {
+            second_cp[i].x = 2 * knots[i + 1].x - x[i + 1];
+            second_cp[i].y = 2 * knots[i + 1].y - y[i + 1];
+        } else {
+            second_cp[i].x = (knots[n].x + x[n - 1]) / 2;
+            second_cp[i].y = (knots[n].y + y[n - 1]) / 2;
+        }
+    }
+    free(x);
+    free(y);
+}
+
+/** Helper to get control points.
+ * Solves a tridiagonal system for one of coordinates (x or y) of first
+ * Bezier control points. Pass the right hand side vector array.
+ * Returns the solution vector you need to free.
+ */
+static CGFloat *get_first_control_points(const CGFloat *rhs, const long n)
+{
+    CGFloat *x = malloc(sizeof(CGFloat) * n); // Solution vector.
+    CGFloat tmp[n]; // Temp workspace.
+
+    CGFloat b = 2.0;
+    x[0] = rhs[0] / b;
+    for (int i = 1; i < n; i++) {
+        // Decomposition and forward substitution.
+        tmp[i] = 1 / b;
+        b = (i < n - 1 ? 4.0 : 3.5) - tmp[i];
+        x[i] = (rhs[i] - x[i - 1]) / b;
+    }
+    for (int i = 1; i < n; i++)
+        x[n - i - 1] -= tmp[n - i] * x[n - i]; // Backsubstitution.
+
+    return x;
+}
