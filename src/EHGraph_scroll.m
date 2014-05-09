@@ -128,7 +128,8 @@
     const double h_factor = graph_height / weight_range;
 
     // Create bezier path.
-    NSBezierPath *waveform = [[NSBezierPath alloc] init];
+    NSBezierPath *waveform = [NSBezierPath new];
+    waveform.lineJoinStyle = kCGLineJoinRound;
     if (num_weights) {
         TWeight *w;
         // Set the initial point of the graph.
