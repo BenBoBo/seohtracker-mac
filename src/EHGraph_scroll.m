@@ -187,17 +187,22 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
         CGPoint *control2 = malloc(sizeof(CGPoint) * (num_weights + 1));
         get_curve_control_points(knots, control1, control2, 2 + num_weights);
 
-        //[waveform appendBezierPathWithPoints:knots count:num_weights + 2];
+#if 1
+        [waveform appendBezierPathWithPoints:knots count:num_weights + 2];
+#else
         [waveform moveToPoint:knots[0]];
         p = knots + 1;
         CGPoint *c1 = control1, *c2 = control2;
         for (int f = 0; f < num_weights; f++, p++, c1++, c2++)
             [waveform curveToPoint:*p controlPoint1:*c1 controlPoint2:*c2];
         [waveform curveToPoint:*p controlPoint1:*c1 controlPoint2:*c2];
+#endif
         free(knots);
         free(control1);
         free(control2);
     }
+    free_scale(x_axis);
+    free_scale(y_axis);
     DLOG(@"Got %ld total days, graph height %d", total_days, graph_height);
 
     [self.documentView setFrameSize:NSMakeSize(
