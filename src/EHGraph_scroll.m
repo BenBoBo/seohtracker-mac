@@ -10,6 +10,7 @@
 
 #define _GRAPH_REDRAW_DELAY 0.5
 #define _DAY_MODULUS (60 * 60 * 24)
+#define _TICK_SPACE 15
 
 
 // Forward declarations.
@@ -115,7 +116,7 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     double day_scale = 15;
 
     // Calculate the min/max localized weight values.
-    double min_weight = 0, max_weight = 0, weight_range = 0;
+    double min_weight = 0, max_weight = 0, weight_range = 1;
     if (num_weights) {
         max_weight = min_weight = get_localized_weight(get_weight(0));
         for (int f = 1; f < num_weights; f++) {
@@ -128,9 +129,33 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
         // starting point.
         weight_range = max_weight - min_weight;
         LASSERT(weight_range >= 0, @"Incorrect weight range");
-        min_weight -= weight_range * 0.1;
-        weight_range *= 1.2;
     }
+
+    // Calculate the start/end of the y axis along with number of ticks.
+    const int max_y_ticks = (graph_height - 2 * _TICK_SPACE) / _TICK_SPACE;
+    Nice_scale *y_axis = malloc_scale(min_weight, max_weight, max_y_ticks);
+    const double nice_y_min = scale_nice_min(y_axis);
+    const double nice_y_max = scale_nice_max(y_axis);
+    const double tick_y_spacing = scale_tick_spacing(y_axis);
+    DLOG(@"Min weight %0.2f, max weight %0.2f", min_weight, max_weight);
+    DLOG(@"nice min %0.2f, max %0.2f, spacing %0.2f",
+        nice_y_min, nice_y_max, tick_y_spacing);
+    // Update the graphic range to scale down the vertical axis.
+    if (nice_y_max - nice_y_min >= 1)
+        weight_range = nice_y_max - nice_y_min;
+
+    // For the x axis we scale down the times to get days, then scale back
+    // again to use in the future plotting calculation.
+    Nice_scale *x_axis = malloc_scale(min_date / _DAY_MODULUS,
+        max_date / _DAY_MODULUS, 0);
+    const double nice_x_min = scale_nice_min(x_axis);
+    const double nice_x_max = scale_nice_max(x_axis);
+    const double nice_min_date = nice_x_min * _DAY_MODULUS;
+    DLOG(@"Min date %ld, nicer min date %0.0f",
+        min_date / _DAY_MODULUS, nice_x_min / _DAY_MODULUS);
+
+    // Transform the real graph limits into *ideal* limits for axis ranges.
+    LASSERT(weight_range >= 1, @"Ugh, bad y scale");
     const double h_factor = graph_height / weight_range;
 
     // Create bezier path.
@@ -139,20 +164,22 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     if (num_weights) {
         TWeight *w;
         CGPoint *knots = malloc(sizeof(CGPoint) * (num_weights + 2));
-        CGPoint *p = knots;
+        CGPoint *p = knots + 1;
 
         // Build the knots, which are the weights plotted on the graph.
-        p->x = p->y = 0;
-        p++;
-
         for (int f = 0; f < num_weights; f++, p++) {
             w = get_weight(f);
-            p->x = ((date(w) - min_date) / ((double)_DAY_MODULUS)) * day_scale;
-            p->y = (get_localized_weight(w) - min_weight) * h_factor;
-            //DLOG(@"Got %0.1f with %0.1f", x, y);
+            p->x = ((date(w) - nice_min_date) / ((double)_DAY_MODULUS)) *
+                day_scale;
+            p->y = (get_localized_weight(w) - nice_y_min) * h_factor;
+            //DLOG(@"Got %0.1f with %0.1f", p->x, p->y);
         }
 
-        p->x = total_days * day_scale;
+        // Fix the first entry, it's like the second with y = 0
+        knots[0].x = knots[1].x;
+        knots[0].y = 0;
+        // Fix the last entry, it's like the previous with y = 0
+        p->x = (p - 1)->x;
         p->y = 0;
 
         // Obtain control points.
@@ -173,8 +200,8 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     }
     DLOG(@"Got %ld total days, graph height %d", total_days, graph_height);
 
-    [self.documentView
-        setFrameSize:NSMakeSize(total_days * day_scale, graph_height)];
+    [self.documentView setFrameSize:NSMakeSize(
+        (nice_x_max - nice_x_min) * day_scale, graph_height)];
     [self.graph_layer setPath:[waveform quartzPath]];
 }
 
