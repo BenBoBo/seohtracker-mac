@@ -100,7 +100,7 @@
     TWeight *w = [self selected_weight];
     if (w) {
         self.read_date_textfield.stringValue = [NSString
-            stringWithFormat:@"Date: %@", format_date(w)];
+            stringWithFormat:@"Date: %@", format_relative_date(w)];
         self.read_weight_textfield.stringValue = [NSString
             stringWithFormat:@"Weight: %s %s",
             format_weight_with_current_unit(w), get_weight_string()];
@@ -195,7 +195,7 @@
     alert.messageText = @"Are you sure you want to remove the entry?";
     alert.informativeText = [NSString stringWithFormat:@"%s %s - %@",
         format_weight_with_current_unit(weight), get_weight_string(),
-        format_date(weight)];
+        format_relative_date(weight)];
     [alert addButtonWithTitle:@"Cancel"];
     [alert addButtonWithTitle:@"Accept"];
     const BOOL accept = (NSAlertSecondButtonReturn == [alert runModal]);
@@ -537,7 +537,7 @@
 
     if ([tableColumn.identifier isEqualToString:@"EHHistory_date"]) {
         if (changes_day(w)) {
-            cell.textField.stringValue = format_date(w);
+            cell.textField.stringValue = format_relative_date(w);
         } else {
             cell.textField.attributedStringValue =
                 format_shadowed_date(w, cell.textField.font,
