@@ -72,6 +72,10 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     NSView *doc = self.documentView;
     [doc.layer addSublayer:shape];
     self.graph_layer = shape;
+    [self.documentView setPostsBoundsChangedNotifications:YES];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+        selector:@selector(content_did_change:)
+        name:NSViewBoundsDidChangeNotification object:self.contentView];
 
     // Create the layer for the horizontal overlay lines.
     shape = [CAShapeLayer new];
@@ -112,6 +116,8 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
 {
     [NSObject cancelPreviousPerformRequestsWithTarget:self
         selector:@selector(do_resize_graph) object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+        name:NSViewBoundsDidChangeNotification object:nil];
 }
 
 #pragma mark -
@@ -331,6 +337,7 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
         scale_nice_min(y_axis)];
 
     NSRect rect;
+    rect.origin.x = self.documentVisibleRect.origin.x;
     rect.size = [text sizeWithAttributes:attributes];
     [self.min_y_text_layer setFrame:rect];
     [self.min_y_text_layer setString:text];
@@ -344,7 +351,36 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     [self.max_y_text_layer setString:text];
 }
 
+#pragma mark -
+#pragma mark Scroll view callbacks
+
+/** Invoked when the user scrolls stuff.
+ * We use this callback to update the text layers so their position matches the
+ * left frame and it looks as if they had not scrolled at all.
+ */
+- (void)content_did_change:(NSNotification*)notification
+{
+    NSClipView *v = CAST(notification.object, NSClipView);
+    LASSERT(v, @"Bad object?");
+    const CGFloat x = v.documentVisibleRect.origin.x;
+
+    // Disable animations, otherwise there is a weird scrolling.
+    [CATransaction begin];
+    [CATransaction setAnimationDuration:0];
+    NSRect rect = self.max_y_text_layer.frame;
+    rect.origin.x = x;
+    self.max_y_text_layer.frame = rect;
+
+    rect = self.min_y_text_layer.frame;
+    rect.origin.x = x;
+    self.min_y_text_layer.frame = rect;
+    [CATransaction commit];
+}
+
 @end
+
+#pragma mark -
+#pragma mark Static functions for bezier calculation
 
 /** Calculates the control points for the bezier *knots*.
  *
