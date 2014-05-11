@@ -29,7 +29,9 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
 /// Keeps track of the previous amount of entries used in the graph.
 @property (nonatomic, assign) long last_data_points;
 /// Layer with ticks and other marks for the graph.
-@property (strong) CAShapeLayer *axis_layer;
+@property (strong) CAShapeLayer *white_lines_layer;
+/// Another layer with ticks and other marks for the graph.
+@property (strong) CAShapeLayer *black_lines_layer;
 
 @end
 
@@ -53,7 +55,7 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     [shape setFillColor:[[NSColor redColor] CGColor]];
     [shape setStrokeColor:[[NSColor blackColor] CGColor]];
     [shape setLineWidth:2.f];
-    [shape setOpacity:0.4];
+    [shape setOpacity:1];
 
     shape.shadowColor = [[NSColor blackColor] CGColor];
     shape.shadowRadius = 4.f;
@@ -64,14 +66,23 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     [doc.layer addSublayer:shape];
     self.graph_layer = shape;
 
-    // Create the layer for the overlay lines and scales.
+    // Create the layer for the horizontal overlay lines.
     shape = [CAShapeLayer new];
     [shape setStrokeColor:[[NSColor whiteColor] CGColor]];
     [shape setLineWidth:0.5];
     [shape setOpacity:0.4];
 
     [doc.layer addSublayer:shape];
-    self.axis_layer = shape;
+    self.white_lines_layer = shape;
+
+    // Create the solid overlay for the visible ticks.
+    shape = [CAShapeLayer new];
+    [shape setStrokeColor:[[NSColor blackColor] CGColor]];
+    [shape setLineWidth:0.5];
+    [shape setOpacity:1];
+
+    [doc.layer addSublayer:shape];
+    self.black_lines_layer = shape;
 }
 
 - (void)dealloc
@@ -247,27 +258,49 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     w_factor:(double)w_factor h_factor:(double)h_factor
 {
     LASSERT(x_axis && y_axis, @"Bad parameters");
-    LASSERT(self.axis_layer, @"Invalid class state");
+    LASSERT(self.white_lines_layer, @"Invalid class state");
     const double y_range = scale_nice_max(y_axis) - scale_nice_min(y_axis);
     const double x_range = scale_nice_max(x_axis) - scale_nice_min(x_axis);
     const double y_step = scale_tick_spacing(y_axis);
     const double x_step = scale_tick_spacing(x_axis);
 
+    // Create horizontal white lines.
     NSBezierPath *b = [NSBezierPath new];
-    b.lineJoinStyle = kCGLineJoinRound;
     [b moveToPoint:CGPointMake(1, 1)];
     [b lineToPoint:CGPointMake(1, y_range * h_factor)];
     [b moveToPoint:CGPointMake(1, 1)];
     [b lineToPoint:CGPointMake(x_range * w_factor, 1)];
     double pos = 0;
-    double size = x_range * w_factor;
+    const double size = x_range * w_factor;
     for (int f = 0; pos <= y_range; f++) {
         pos = f * y_step;
         [b moveToPoint:CGPointMake(0, pos * h_factor)];
         [b lineToPoint:CGPointMake(size, pos * h_factor)];
     }
 
-    [self.axis_layer setPath:[b quartzPath]];
+    [self.white_lines_layer setPath:[b quartzPath]];
+
+    // Create axis and daily ticks.
+    b = [NSBezierPath new];
+    [b moveToPoint:CGPointMake(1, 1)];
+    [b lineToPoint:CGPointMake(1, y_range * h_factor)];
+    [b moveToPoint:CGPointMake(1, 1)];
+    [b lineToPoint:CGPointMake(x_range * w_factor, 1)];
+
+    // Start going back from the future, counting 7 days to make longer ticks.
+    pos = x_range * w_factor;
+    int count = 0;
+    while (pos > 0) {
+        [b moveToPoint:CGPointMake(pos, 1)];
+        if ((count % 7) == 0)
+            [b lineToPoint:CGPointMake(pos, y_step * h_factor)];
+        else
+            [b lineToPoint:CGPointMake(pos, 0.5 * y_step * h_factor)];
+        pos -= w_factor;
+        count++;
+    }
+
+    [self.black_lines_layer setPath:[b quartzPath]];
 }
 
 @end
