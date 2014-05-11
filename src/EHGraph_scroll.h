@@ -3,6 +3,4 @@
  */
 @interface EHGraph_scroll : NSScrollView
 
-- (void)resize_graph;
-
 @end

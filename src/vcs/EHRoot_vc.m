@@ -77,8 +77,6 @@
 
         self.banner_button.overlay = self.banner_overlay;
         [self.banner_button start];
-
-        [self.graph_scroll resize_graph];
     }
 }
 
@@ -513,15 +511,6 @@
         ^(NSTableRowView *v, NSInteger r) {
             [self update_row_background:v for_row:r];
         }];
-}
-
-/** Called back by the application delegate when the window is resized.
- *
- * The method will try to update the content view for the graph scroll.
- */
-- (void)resize_graph_scale
-{
-    [self.graph_scroll resize_graph];
 }
 
 #pragma mark -

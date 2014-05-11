@@ -48,6 +48,17 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
 #pragma mark -
 #pragma mark Life
 
+/** Register notifications for frame changes so we can update the contents.
+ */
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+    [self setPostsFrameChangedNotifications:YES];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+        selector:@selector(frame_did_change:)
+        name:NSViewFrameDidChangeNotification object:self];
+}
+
 /** Takes care of constructing the layers for the view.
  * This should be run only once if graph_layer (and others) is nil to fill it.
  */
@@ -352,7 +363,7 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
 }
 
 #pragma mark -
-#pragma mark Scroll view callbacks
+#pragma mark Scroll view callbacks/notifications
 
 /** Invoked when the user scrolls stuff.
  * We use this callback to update the text layers so their position matches the
@@ -375,6 +386,17 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     rect.origin.x = x;
     self.min_y_text_layer.frame = rect;
     [CATransaction commit];
+}
+
+/** Invoked when the view changes size.
+ * We use this callback to request a content resize.
+ */
+- (void)frame_did_change:(NSNotification*)notification
+{
+    NSScrollView *s = CAST(notification.object, NSScrollView);
+    LASSERT(s, @"Bad object?");
+    //DLOG(@"Frame changed! %@", NSStringFromRect(s.frame));
+    [self resize_graph];
 }
 
 @end

@@ -352,12 +352,4 @@
     [center removeAllDeliveredNotifications];
 }
 
-#pragma mark -
-#pragma mark NSWindowDelegate protocol
-
-- (void)windowDidResize:(NSNotification *)notification
-{
-    [self.root_vc resize_graph_scale];
-}
-
 @end
