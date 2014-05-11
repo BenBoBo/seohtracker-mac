@@ -11,6 +11,7 @@
 #define _GRAPH_REDRAW_DELAY 0.5
 #define _DAY_MODULUS (60 * 60 * 24)
 #define _TICK_SPACE 15
+#define _DAY_SCALE 15.0
 
 
 // Forward declarations.
@@ -27,6 +28,8 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
 @property (nonatomic, assign) int last_height;
 /// Keeps track of the previous amount of entries used in the graph.
 @property (nonatomic, assign) long last_data_points;
+/// Layer with ticks and other marks for the graph.
+@property (strong) CAShapeLayer *axis_layer;
 
 @end
 
@@ -35,6 +38,41 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
 
 #pragma mark -
 #pragma mark Life
+
+/** Takes care of constructing the layers for the view.
+ * This should be run only once if graph_layer (and others) is nil to fill it.
+ */
+- (void)init_properties
+{
+    LASSERT(!self.graph_layer, @"Double initialization?");
+    LASSERT(self.documentView, @"No document view available?");
+
+    self.backgroundColor = [NSColor whiteColor];
+    // Create the layer for the graph content.
+    CAShapeLayer *shape = [CAShapeLayer new];
+    [shape setFillColor:[[NSColor redColor] CGColor]];
+    [shape setStrokeColor:[[NSColor blackColor] CGColor]];
+    [shape setLineWidth:2.f];
+    [shape setOpacity:0.4];
+
+    shape.shadowColor = [[NSColor blackColor] CGColor];
+    shape.shadowRadius = 4.f;
+    shape.shadowOffset = CGSizeMake(0, 0);
+    shape.shadowOpacity = 0.8;
+
+    NSView *doc = self.documentView;
+    [doc.layer addSublayer:shape];
+    self.graph_layer = shape;
+
+    // Create the layer for the overlay lines and scales.
+    shape = [CAShapeLayer new];
+    [shape setStrokeColor:[[NSColor whiteColor] CGColor]];
+    [shape setLineWidth:0.5];
+    [shape setOpacity:0.4];
+
+    [doc.layer addSublayer:shape];
+    self.axis_layer = shape;
+}
 
 - (void)dealloc
 {
@@ -82,24 +120,9 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
 {
     DLOG(@"do_resize_graph");
 
-    if (!self.graph_layer) {
-        // Create graph layer.
-        self.backgroundColor = [NSColor whiteColor];
-        CAShapeLayer *graph_layer = [CAShapeLayer new];
-        [graph_layer setFillColor:[[NSColor redColor] CGColor]];
-        [graph_layer setStrokeColor:[[NSColor blackColor] CGColor]];
-        [graph_layer setLineWidth:2.f];
-        [graph_layer setOpacity:0.4];
-
-        graph_layer.shadowColor = [[NSColor blackColor] CGColor];
-        graph_layer.shadowRadius = 4.f;
-        graph_layer.shadowOffset = CGSizeMake(0, 0);
-        graph_layer.shadowOpacity = 0.8;
-
-        NSView *doc = self.documentView;
-        [doc.layer addSublayer:graph_layer];
-        self.graph_layer = graph_layer;
-    }
+    if (!self.graph_layer)
+        [self init_properties];
+    LASSERT(self.graph_layer, @"Bad initialization");
 
     const long num_weights = get_num_weights();
     const int graph_height = self.last_height;
@@ -113,7 +136,6 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     }
     LASSERT(max_date > min_date, @"Bad calculations, max should be bigger");
     const long total_days = (max_date - min_date) / _DAY_MODULUS;
-    double day_scale = 15;
 
     // Calculate the min/max localized weight values.
     double min_weight = 0, max_weight = 0, weight_range = 1;
@@ -157,6 +179,7 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     // Transform the real graph limits into *ideal* limits for axis ranges.
     LASSERT(weight_range >= 1, @"Ugh, bad y scale");
     const double h_factor = graph_height / weight_range;
+    const double w_factor = _DAY_SCALE / ((double)_DAY_MODULUS);
 
     // Create bezier path.
     NSBezierPath *waveform = [NSBezierPath new];
@@ -169,8 +192,7 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
         // Build the knots, which are the weights plotted on the graph.
         for (int f = 0; f < num_weights; f++, p++) {
             w = get_weight(f);
-            p->x = ((date(w) - nice_min_date) / ((double)_DAY_MODULUS)) *
-                day_scale;
+            p->x = (date(w) - nice_min_date) * w_factor;
             p->y = (get_localized_weight(w) - nice_y_min) * h_factor;
             //DLOG(@"Got %0.1f with %0.1f", p->x, p->y);
         }
@@ -201,13 +223,51 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
         free(control1);
         free(control2);
     }
-    free_scale(x_axis);
-    free_scale(y_axis);
     DLOG(@"Got %ld total days, graph height %d", total_days, graph_height);
 
     [self.documentView setFrameSize:NSMakeSize(
-        (nice_x_max - nice_x_min) * day_scale, graph_height)];
+        (nice_x_max - nice_x_min) * _DAY_SCALE, graph_height)];
     [self.graph_layer setPath:[waveform quartzPath]];
+
+    [self build_axis_layer:x_axis y_axis:y_axis
+        w_factor:_DAY_MODULUS * w_factor h_factor:h_factor];
+
+    free_scale(x_axis);
+    free_scale(y_axis);
+}
+
+/** Builds the axis layer and replaces the instance variable.
+ *
+ * Pass the x and y axis scales and the factors to multiply units in each axis
+ * to obtain actual plot values.
+ *
+ * Note that x values have to be multiplied by _DAY_MODULUS.
+ */
+- (void)build_axis_layer:(Nice_scale*)x_axis y_axis:(Nice_scale*)y_axis
+    w_factor:(double)w_factor h_factor:(double)h_factor
+{
+    LASSERT(x_axis && y_axis, @"Bad parameters");
+    LASSERT(self.axis_layer, @"Invalid class state");
+    const double y_range = scale_nice_max(y_axis) - scale_nice_min(y_axis);
+    const double x_range = scale_nice_max(x_axis) - scale_nice_min(x_axis);
+    const double y_step = scale_tick_spacing(y_axis);
+    const double x_step = scale_tick_spacing(x_axis);
+
+    NSBezierPath *b = [NSBezierPath new];
+    b.lineJoinStyle = kCGLineJoinRound;
+    [b moveToPoint:CGPointMake(1, 1)];
+    [b lineToPoint:CGPointMake(1, y_range * h_factor)];
+    [b moveToPoint:CGPointMake(1, 1)];
+    [b lineToPoint:CGPointMake(x_range * w_factor, 1)];
+    double pos = 0;
+    double size = x_range * w_factor;
+    for (int f = 0; pos <= y_range; f++) {
+        pos = f * y_step;
+        [b moveToPoint:CGPointMake(0, pos * h_factor)];
+        [b lineToPoint:CGPointMake(size, pos * h_factor)];
+    }
+
+    [self.axis_layer setPath:[b quartzPath]];
 }
 
 @end
