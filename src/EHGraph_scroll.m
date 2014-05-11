@@ -12,7 +12,10 @@
 #define _DAY_MODULUS (60 * 60 * 24)
 #define _TICK_SPACE 15
 #define _DAY_SCALE 15.0
-
+#define _MIN_MAX_FONT_SIZE 16
+#define _MIN_MAX_FONT_NAME @"Helvetica-Bold"
+#define _MIN_MAX_FG_COL [NSColor blackColor]
+#define _MIN_MAX_BG_COL [NSColor clearColor]
 
 // Forward declarations.
 static void get_curve_control_points(const CGPoint *knots, CGPoint *first_cp,
@@ -29,9 +32,13 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
 /// Keeps track of the previous amount of entries used in the graph.
 @property (nonatomic, assign) long last_data_points;
 /// Layer with ticks and other marks for the graph.
-@property (strong) CAShapeLayer *white_lines_layer;
+@property (nonatomic, strong) CAShapeLayer *white_lines_layer;
 /// Another layer with ticks and other marks for the graph.
-@property (strong) CAShapeLayer *black_lines_layer;
+@property (nonatomic, strong) CAShapeLayer *black_lines_layer;
+/// Layer for the minimum weight.
+@property (nonatomic, strong) CATextLayer *min_y_text_layer;
+/// Layer for the maximum weight.
+@property (nonatomic, strong) CATextLayer *max_y_text_layer;
 
 @end
 
@@ -83,6 +90,22 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
 
     [doc.layer addSublayer:shape];
     self.black_lines_layer = shape;
+
+    CATextLayer *l = [CATextLayer new];
+    [l setFont:_MIN_MAX_FONT_NAME];
+    [l setFontSize:_MIN_MAX_FONT_SIZE];
+    [l setForegroundColor:[_MIN_MAX_FG_COL CGColor]];
+    [l setBackgroundColor:[_MIN_MAX_BG_COL CGColor]];
+    [doc.layer addSublayer:l];
+    self.min_y_text_layer = l;
+
+    l = [CATextLayer new];
+    [l setFont:_MIN_MAX_FONT_NAME];
+    [l setFontSize:_MIN_MAX_FONT_SIZE];
+    [l setForegroundColor:[_MIN_MAX_FG_COL CGColor]];
+    [l setBackgroundColor:[_MIN_MAX_BG_COL CGColor]];
+    [doc.layer addSublayer:l];
+    self.max_y_text_layer = l;
 }
 
 - (void)dealloc
@@ -262,7 +285,6 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     const double y_range = scale_nice_max(y_axis) - scale_nice_min(y_axis);
     const double x_range = scale_nice_max(x_axis) - scale_nice_min(x_axis);
     const double y_step = scale_tick_spacing(y_axis);
-    const double x_step = scale_tick_spacing(x_axis);
 
     // Create horizontal white lines.
     NSBezierPath *b = [NSBezierPath new];
@@ -301,6 +323,25 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     }
 
     [self.black_lines_layer setPath:[b quartzPath]];
+
+    NSDictionary *attributes = @{ NSFontAttributeName:
+        [NSFont fontWithName:@"Helvetica-Bold" size:16] };
+
+    NSString *text = [NSString stringWithFormat:@"%0.1f",
+        scale_nice_min(y_axis)];
+
+    NSRect rect;
+    rect.size = [text sizeWithAttributes:attributes];
+    [self.min_y_text_layer setFrame:rect];
+    [self.min_y_text_layer setString:text];
+
+    text = [NSString stringWithFormat:@"%0.1f",
+        scale_nice_max(y_axis)];
+
+    rect.size = [text sizeWithAttributes:attributes];
+    rect.origin.y = self.bounds.size.height - rect.size.height;
+    [self.max_y_text_layer setFrame:rect];
+    [self.max_y_text_layer setString:text];
 }
 
 @end
