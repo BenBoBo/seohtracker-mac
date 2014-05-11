@@ -91,21 +91,21 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     [doc.layer addSublayer:shape];
     self.black_lines_layer = shape;
 
-    CATextLayer *l = [CATextLayer new];
-    [l setFont:_MIN_MAX_FONT_NAME];
-    [l setFontSize:_MIN_MAX_FONT_SIZE];
-    [l setForegroundColor:[_MIN_MAX_FG_COL CGColor]];
-    [l setBackgroundColor:[_MIN_MAX_BG_COL CGColor]];
-    [doc.layer addSublayer:l];
-    self.min_y_text_layer = l;
+    CATextLayer*(^build_text_layer)(void) = ^(void) {
+        CATextLayer *l = [CATextLayer new];
+        [l setFont:_MIN_MAX_FONT_NAME];
+        [l setFontSize:_MIN_MAX_FONT_SIZE];
+        [l setForegroundColor:[_MIN_MAX_FG_COL CGColor]];
+        [l setBackgroundColor:[_MIN_MAX_BG_COL CGColor]];
+        [l setOpacity:0.8];
+        return l;
+    };
 
-    l = [CATextLayer new];
-    [l setFont:_MIN_MAX_FONT_NAME];
-    [l setFontSize:_MIN_MAX_FONT_SIZE];
-    [l setForegroundColor:[_MIN_MAX_FG_COL CGColor]];
-    [l setBackgroundColor:[_MIN_MAX_BG_COL CGColor]];
-    [doc.layer addSublayer:l];
-    self.max_y_text_layer = l;
+    self.min_y_text_layer = build_text_layer();
+    [doc.layer addSublayer:self.min_y_text_layer];
+
+    self.max_y_text_layer = build_text_layer();
+    [doc.layer addSublayer:self.max_y_text_layer];
 }
 
 - (void)dealloc
