@@ -156,6 +156,16 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     [NSObject cancelPreviousPerformRequestsWithTarget:self
         selector:@selector(do_resize_graph) object:nil];
 
+    // Hide existing graphs/layers.
+    [CATransaction begin];
+    [CATransaction setAnimationDuration:_GRAPH_REDRAW_DELAY];
+    self.min_y_text_layer.opacity = 0;
+    self.max_y_text_layer.opacity = 0;
+    self.graph_layer.opacity = 0;
+    self.white_lines_layer.opacity = 0;
+    self.black_lines_layer.opacity = 0;
+    [CATransaction commit];
+
     self.last_height = MAX(1, new_height);
     self.last_data_points = new_data_points;
 
@@ -174,6 +184,13 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     if (!self.graph_layer)
         [self init_properties];
     LASSERT(self.graph_layer, @"Bad initialization");
+
+    // Recover hidden layers.
+    self.min_y_text_layer.opacity = 1;
+    self.max_y_text_layer.opacity = 1;
+    self.graph_layer.opacity = 1;
+    self.white_lines_layer.opacity = 1;
+    self.black_lines_layer.opacity = 1;
 
     const long num_weights = get_num_weights();
     const int graph_height = self.last_height;
