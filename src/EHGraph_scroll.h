@@ -8,4 +8,6 @@
 /// Set to a weight you want to have visible during the next content redraw.
 @property (nonatomic, assign) TWeight *redraw_lock;
 
+- (void)select_weight:(TWeight*)weight;
+
 @end

@@ -39,6 +39,13 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
 @property (nonatomic, strong) CATextLayer *min_y_text_layer;
 /// Layer for the maximum weight.
 @property (nonatomic, strong) CATextLayer *max_y_text_layer;
+/// Layer controlling the vertical selection of a weight.
+@property (nonatomic, strong) CAShapeLayer *selection_layer;
+
+// Keeps the parameters required to calculate the X position of a graph.
+@property (nonatomic, assign) double graph_min_date;
+@property (nonatomic, assign) double graph_w_factor;
+@property (nonatomic, assign) double graph_total_height;
 
 @end
 
@@ -106,6 +113,15 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
 
     [doc.layer addSublayer:shape];
     self.black_lines_layer = shape;
+
+    // Similar for the selection.
+    shape = [CAShapeLayer new];
+    [shape setStrokeColor:[[NSColor blueColor] CGColor]];
+    [shape setLineWidth:_DAY_SCALE * 0.5];
+    [shape setOpacity:0.3];
+
+    [doc.layer addSublayer:shape];
+    self.selection_layer = shape;
 
     CATextLayer*(^build_text_layer)(void) = ^(void) {
         CATextLayer *l = [CATextLayer new];
@@ -307,6 +323,10 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     free_scale(x_axis);
     free_scale(y_axis);
 
+    self.graph_min_date = nice_min_date;
+    self.graph_w_factor = w_factor;
+    self.graph_total_height = (nice_y_max - nice_y_min) * h_factor;
+
     // Try to center a specific value?
     if (self.redraw_lock) {
         DLOG(@"Got a request to lock on %p", self.redraw_lock);
@@ -392,6 +412,23 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     rect.origin.y = self.bounds.size.height - rect.size.height;
     [self.max_y_text_layer setFrame:rect];
     [self.max_y_text_layer setString:text];
+}
+
+/** Selects a weight in the table.
+ * Pass the weight you want to select or nil to deselect. The weight will be
+ * highlighted in the graph.
+ */
+- (void)select_weight:(TWeight*)weight
+{
+    const double x = (weight ?
+        (date(weight) - self.graph_min_date) * self.graph_w_factor : -1);
+
+    NSBezierPath *w = [NSBezierPath new];
+    if (x >= 0) {
+        [w moveToPoint:CGPointMake(x, 0)];
+        [w lineToPoint:CGPointMake(x, self.graph_total_height)];
+    }
+    self.selection_layer.path = [w quartzPath];
 }
 
 #pragma mark -
