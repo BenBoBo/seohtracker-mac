@@ -25,6 +25,8 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
 
 @interface EHGraph_scroll ()
 
+/// Hooks the text layer used to infor the user we are working.
+@property (nonatomic, weak) IBOutlet NSTextField *shield_view;
 /// Our original graph layer which we update.
 @property (strong) CAShapeLayer *graph_layer;
 /// Keeps track of the previous (and future!) height.
@@ -53,6 +55,7 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
 - (void)awakeFromNib
 {
     [super awakeFromNib];
+    self.shield_view.alphaValue = 0;
     [self setPostsFrameChangedNotifications:YES];
     [[NSNotificationCenter defaultCenter] addObserver:self
         selector:@selector(frame_did_change:)
@@ -164,6 +167,7 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     self.graph_layer.opacity = 0;
     self.white_lines_layer.opacity = 0;
     self.black_lines_layer.opacity = 0;
+    self.shield_view.animator.alphaValue = 1;
     [CATransaction commit];
 
     self.last_height = MAX(1, new_height);
@@ -191,6 +195,7 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     self.graph_layer.opacity = 1;
     self.white_lines_layer.opacity = 1;
     self.black_lines_layer.opacity = 1;
+    self.shield_view.animator.alphaValue = 0;
 
     const long num_weights = get_num_weights();
     const int graph_height = self.last_height;
