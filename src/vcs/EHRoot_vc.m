@@ -70,6 +70,7 @@
         [self refresh_ui];
         const long last = get_num_weights();
         if (last > 0) [self.table_view scrollRowToVisible:last - 1];
+        self.graph_scroll.redraw_lock = get_last_weight();
 
         NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
         [center refresh_observer:self selector:@selector(refresh_ui_observer:)

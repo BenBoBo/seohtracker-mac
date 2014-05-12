@@ -1,7 +1,5 @@
 #import "EHGraph_scroll.h"
 
-#import "n_global.h"
-
 #import "ELHASO.h"
 #import "NSBezierPath+Seohtracker.h"
 
@@ -298,8 +296,9 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     }
     DLOG(@"Got %ld total days, graph height %d", total_days, graph_height);
 
-    [self.documentView setFrameSize:NSMakeSize(
-        (nice_x_max - nice_x_min) * _DAY_SCALE, graph_height)];
+    const NSSize doc_size = NSMakeSize(
+        (nice_x_max - nice_x_min) * _DAY_SCALE, graph_height);
+    [self.documentView setFrameSize:doc_size];
     [self.graph_layer setPath:[waveform quartzPath]];
 
     [self build_axis_layer:x_axis y_axis:y_axis
@@ -307,6 +306,17 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
 
     free_scale(x_axis);
     free_scale(y_axis);
+
+    // Try to center a specific value?
+    if (self.redraw_lock) {
+        DLOG(@"Got a request to lock on %p", self.redraw_lock);
+        NSClipView *clip = CAST(self.contentView, NSClipView);
+        const CGFloat x = MIN(doc_size.width - self.bounds.size.width,
+            (date(self.redraw_lock) - nice_min_date) * w_factor);
+        if (x > 0)
+            [clip scrollToPoint:CGPointMake(x, 0)];
+        self.redraw_lock = nil;
+    }
 }
 
 /** Builds the axis layer and replaces the instance variable.
