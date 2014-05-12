@@ -333,8 +333,10 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
         NSClipView *clip = CAST(self.contentView, NSClipView);
         const CGFloat x = MIN(doc_size.width - self.bounds.size.width,
             (date(self.redraw_lock) - nice_min_date) * w_factor);
-        if (x > 0)
+        if (x > 0) {
             [clip scrollToPoint:CGPointMake(x, 0)];
+            [self reflectScrolledClipView:clip];
+        }
         self.redraw_lock = nil;
     }
 }
@@ -429,6 +431,39 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
         [w lineToPoint:CGPointMake(x, self.graph_total_height)];
     }
     self.selection_layer.path = [w quartzPath];
+    [self scroll_to_weight:weight];
+}
+
+/** Scrolls the graph to the X position of the specified weight.
+ * The scrolling is only done if the position is not already visible. The
+ * scrolling tries to center the view, which won't be smooth for the user using
+ * the cursor keys, but at least it will be fast.
+ */
+- (void)scroll_to_weight:(TWeight*)weight
+{
+    if (!weight)
+        return;
+
+    NSClipView *clip = CAST(self.contentView, NSClipView);
+    const NSRect doc_rect = [self.documentView frame];
+    const NSRect visible_rect = clip.documentVisibleRect;
+    //CGFloat x = MIN(doc_rect.size.width - visible_rect.size.width,
+    //    (date(weight) - self.graph_min_date) * self.graph_w_factor);
+    const CGFloat x = (date(weight) - self.graph_min_date) *
+        self.graph_w_factor;
+    if (x > visible_rect.origin.x &&
+            x < visible_rect.origin.x + visible_rect.size.width) {
+        // The point is already visible, get out.
+        return;
+    }
+
+    // Transform the coordinate into scroll origin.
+    CGFloat left = x - visible_rect.size.width / 2.0;
+    // Now make sure the point doesn't make the document escape the bounds.
+
+    left = MID(0, left, doc_rect.size.width - visible_rect.size.width);
+    [clip scrollToPoint:CGPointMake(left, 0)];
+    [self reflectScrolledClipView:clip];
 }
 
 #pragma mark -
