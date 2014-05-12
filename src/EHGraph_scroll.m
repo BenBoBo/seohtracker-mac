@@ -165,10 +165,11 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     const int new_height = self.bounds.size.height;
     const long new_data_points = get_num_weights();
     // Check if we have to update the graph.
-    if (new_height == self.last_height &&
-            new_data_points == self.last_data_points ) {
-        return;
-    }
+    // Patched to avoid weird scroll content view issues.
+    //if (new_height == self.last_height &&
+    //        new_data_points == self.last_data_points ) {
+    //    return;
+    //}
 
     [NSObject cancelPreviousPerformRequestsWithTarget:self
         selector:@selector(do_resize_graph) object:nil];
