@@ -60,7 +60,9 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
 - (void)awakeFromNib
 {
     [super awakeFromNib];
+    // Hide the shield and make it ignore clicks, letting them through.
     self.shield_view.alphaValue = 0;
+    self.shield_view.nextResponder = self;
     [self setPostsFrameChangedNotifications:YES];
     [[NSNotificationCenter defaultCenter] addObserver:self
         selector:@selector(frame_did_change:)
@@ -502,6 +504,59 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     LASSERT(s, @"Bad object?");
     //DLOG(@"Frame changed! %@", NSStringFromRect(s.frame));
     [self resize_graph];
+}
+
+#pragma mark -
+#pragma mark Mouse related methods
+
+// We want to handle clicks at first sight.
+- (BOOL)acceptsFirstMouse:(NSEvent*)event
+{
+    return YES;
+}
+
+/** Handles clicks on the scroll view.
+ * Converts the click to a date, then seaches for the nearest weight, and
+ * selects it. The conversion is essentially the reverse of what select_weight:
+ * is doing.
+ */
+- (void)mouseDown:(NSEvent*)event
+{
+    RASSERT(self.graph_w_factor > 0, @"Ugh, weird graph factor", return);
+    const long data_points = get_num_weights();
+    if (data_points < 1)
+        return;
+    if (1 == data_points) {
+        [self select_weight:get_last_weight()];
+        return;
+    }
+
+    // Ok, we have to search.
+    const NSPoint window_point = [event locationInWindow];
+    const NSPoint p = [self convertPoint:window_point fromView:nil];
+    const NSRect rect = self.documentVisibleRect;
+    const time_t clicked_date = self.graph_min_date +
+        ((p.x + rect.origin.x) / self.graph_w_factor);
+    DLOG(@"Clicked on date %ld", clicked_date);
+
+    // Start up by getting one of the extreme values and its difference.
+    TWeight *closest = get_weight(0);
+    time_t date_w = date(closest);
+    time_t best = (clicked_date > date_w ?
+        clicked_date - date_w : date_w - clicked_date);
+
+    for (int f = 1; f < data_points; f++) {
+        TWeight *w = get_weight(f);
+        date_w = date(w);
+        time_t temp = (clicked_date > date_w ?
+            clicked_date - date_w : date_w - clicked_date);
+        if (temp > best)
+            continue;
+        best = temp;
+        closest = w;
+    }
+
+    [self select_weight:closest];
 }
 
 @end
