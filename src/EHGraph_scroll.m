@@ -527,7 +527,9 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     if (data_points < 1)
         return;
     if (1 == data_points) {
-        [self select_weight:get_last_weight()];
+        TWeight *w = get_last_weight();
+        //[self select_weight:get_last_weight()];
+        [self.click_delegate did_click_on_weight:w];
         return;
     }
 
@@ -556,7 +558,8 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
         closest = w;
     }
 
-    [self select_weight:closest];
+    //[self select_weight:closest];
+    [self.click_delegate did_click_on_weight:closest];
 }
 
 @end

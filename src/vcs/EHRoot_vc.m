@@ -18,6 +18,8 @@
 
 
 @interface EHRoot_vc ()
+    <EHGraph_click_delegate>
+
 /// The table we need to refresh during scrolls.
 @property (nonatomic, weak) IBOutlet NSTableView *table_view;
 /// Hint displaying at the bottom of the table_view.
@@ -70,6 +72,7 @@
         [self refresh_ui];
         const long last = get_num_weights();
         if (last > 0) [self.table_view scrollRowToVisible:last - 1];
+        self.graph_scroll.click_delegate = self;
         self.graph_scroll.redraw_lock = get_last_weight();
 
         NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
@@ -132,6 +135,12 @@
     [self refresh_ui];
     [self.table_view reloadData];
     // Attempt to recover previous row selection.
+    [self select_table_pos:pos];
+}
+
+/// Forces the table and scrolling to a specific row in the table.
+- (void)select_table_pos:(const NSInteger)pos
+{
     if (pos >= 0) {
         NSIndexSet *rows = [NSIndexSet indexSetWithIndex:pos];
         [self.table_view selectRowIndexes:rows byExtendingSelection:NO];
@@ -513,6 +522,16 @@
         ^(NSTableRowView *v, NSInteger r) {
             [self update_row_background:v for_row:r];
         }];
+}
+
+#pragma mark -
+#pragma mark EHGraph_click_delegate protocol
+
+/// Called by the graph when the user clicks on it.
+- (void)did_click_on_weight:(TWeight*)w
+{
+    [self select_table_pos:find_pos(w)];
+    [self refresh_ui];
 }
 
 #pragma mark -
