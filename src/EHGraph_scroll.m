@@ -239,13 +239,13 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
         // Now calculate the weight range between the extremes, expand it a
         // little bit, and reduce slightly the min_weight so it serves as base
         // starting point.
-        weight_range = max_weight - min_weight;
-        LASSERT(weight_range >= 0, @"Incorrect weight range");
+        weight_range = MAX(1, max_weight - min_weight);
     }
 
     // Calculate the start/end of the y axis along with number of ticks.
     const int max_y_ticks = (graph_height - 2 * _TICK_SPACE) / _TICK_SPACE;
-    Nice_scale *y_axis = malloc_scale(min_weight, max_weight, max_y_ticks);
+    Nice_scale *y_axis = (!num_weights ? nil :
+        malloc_scale(min_weight, max_weight, max_y_ticks));
     const double nice_y_min = scale_nice_min(y_axis);
     const double nice_y_max = scale_nice_max(y_axis);
     const double tick_y_spacing = scale_tick_spacing(y_axis);
@@ -258,8 +258,8 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
 
     // For the x axis we scale down the times to get days, then scale back
     // again to use in the future plotting calculation.
-    Nice_scale *x_axis = malloc_scale(min_date / _DAY_MODULUS,
-        max_date / _DAY_MODULUS, 0);
+    Nice_scale *x_axis = (!num_weights ? nil :
+        malloc_scale(min_date / _DAY_MODULUS, max_date / _DAY_MODULUS, 0));
     const double nice_x_min = scale_nice_min(x_axis);
     const double nice_x_max = scale_nice_max(x_axis);
     const double nice_min_date = nice_x_min * _DAY_MODULUS;
@@ -350,11 +350,12 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
  * to obtain actual plot values.
  *
  * Note that x values have to be multiplied by _DAY_MODULUS.
+ *
+ * If x_axis or y_axis are nil, the scales will be reset to invisible values.
  */
 - (void)build_axis_layer:(Nice_scale*)x_axis y_axis:(Nice_scale*)y_axis
     w_factor:(double)w_factor h_factor:(double)h_factor
 {
-    LASSERT(x_axis && y_axis, @"Bad parameters");
     LASSERT(self.white_lines_layer, @"Invalid class state");
     const double y_range = scale_nice_max(y_axis) - scale_nice_min(y_axis);
     const double x_range = scale_nice_max(x_axis) - scale_nice_min(x_axis);
@@ -362,38 +363,43 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
 
     // Create horizontal white lines.
     NSBezierPath *b = [NSBezierPath new];
-    [b moveToPoint:CGPointMake(1, 1)];
-    [b lineToPoint:CGPointMake(1, y_range * h_factor)];
-    [b moveToPoint:CGPointMake(1, 1)];
-    [b lineToPoint:CGPointMake(x_range * w_factor, 1)];
-    double pos = 0;
-    const double size = x_range * w_factor;
-    for (int f = 0; pos <= y_range; f++) {
-        pos = f * y_step;
-        [b moveToPoint:CGPointMake(0, pos * h_factor)];
-        [b lineToPoint:CGPointMake(size, pos * h_factor)];
+    if (x_axis && y_axis) {
+        [b moveToPoint:CGPointMake(1, 1)];
+        [b lineToPoint:CGPointMake(1, y_range * h_factor)];
+        [b moveToPoint:CGPointMake(1, 1)];
+        [b lineToPoint:CGPointMake(x_range * w_factor, 1)];
+        double pos = 0;
+        const double size = x_range * w_factor;
+        for (int f = 0; pos <= y_range; f++) {
+            pos = f * y_step;
+            [b moveToPoint:CGPointMake(0, pos * h_factor)];
+            [b lineToPoint:CGPointMake(size, pos * h_factor)];
+        }
     }
 
     [self.white_lines_layer setPath:[b quartzPath]];
 
     // Create axis and daily ticks.
     b = [NSBezierPath new];
-    [b moveToPoint:CGPointMake(1, 1)];
-    [b lineToPoint:CGPointMake(1, y_range * h_factor)];
-    [b moveToPoint:CGPointMake(1, 1)];
-    [b lineToPoint:CGPointMake(x_range * w_factor, 1)];
 
-    // Start going back from the future, counting 7 days to make longer ticks.
-    pos = x_range * w_factor;
-    int count = 0;
-    while (pos > 0) {
-        [b moveToPoint:CGPointMake(pos, 1)];
-        if ((count % 7) == 0)
-            [b lineToPoint:CGPointMake(pos, y_step * h_factor)];
-        else
-            [b lineToPoint:CGPointMake(pos, 0.5 * y_step * h_factor)];
-        pos -= w_factor;
-        count++;
+    if (x_axis && y_axis) {
+        [b moveToPoint:CGPointMake(1, 1)];
+        [b lineToPoint:CGPointMake(1, y_range * h_factor)];
+        [b moveToPoint:CGPointMake(1, 1)];
+        [b lineToPoint:CGPointMake(x_range * w_factor, 1)];
+
+        // Start going back from the future, at 7 days make longer ticks.
+        double pos = x_range * w_factor;
+        int count = 0;
+        while (pos > 0) {
+            [b moveToPoint:CGPointMake(pos, 1)];
+            if ((count % 7) == 0)
+                [b lineToPoint:CGPointMake(pos, y_step * h_factor)];
+            else
+                [b lineToPoint:CGPointMake(pos, 0.5 * y_step * h_factor)];
+            pos -= w_factor;
+            count++;
+        }
     }
 
     [self.black_lines_layer setPath:[b quartzPath]];
