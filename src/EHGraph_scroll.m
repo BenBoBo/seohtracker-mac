@@ -83,7 +83,6 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     [shape setFillColor:[[NSColor redColor] CGColor]];
     [shape setStrokeColor:[[NSColor blackColor] CGColor]];
     [shape setLineWidth:2.f];
-    [shape setOpacity:1];
 
     shape.shadowColor = [[NSColor blackColor] CGColor];
     shape.shadowRadius = 4.f;
@@ -100,9 +99,9 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
 
     // Create the layer for the horizontal overlay lines.
     shape = [CAShapeLayer new];
-    [shape setStrokeColor:[[NSColor whiteColor] CGColor]];
+    [shape setStrokeColor:[[[NSColor whiteColor]
+        colorWithAlphaComponent:0.4] CGColor]];
     [shape setLineWidth:0.5];
-    [shape setOpacity:0.4];
 
     [doc.layer addSublayer:shape];
     self.white_lines_layer = shape;
@@ -111,16 +110,15 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     shape = [CAShapeLayer new];
     [shape setStrokeColor:[[NSColor blackColor] CGColor]];
     [shape setLineWidth:0.5];
-    [shape setOpacity:1];
 
     [doc.layer addSublayer:shape];
     self.black_lines_layer = shape;
 
     // Similar for the selection.
     shape = [CAShapeLayer new];
-    [shape setStrokeColor:[[NSColor blueColor] CGColor]];
+    [shape setStrokeColor:[[[NSColor blueColor]
+        colorWithAlphaComponent:0.3] CGColor]];
     [shape setLineWidth:_DAY_SCALE * 0.5];
-    [shape setOpacity:0.3];
 
     [doc.layer addSublayer:shape];
     self.selection_layer = shape;
@@ -129,9 +127,9 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
         CATextLayer *l = [CATextLayer new];
         [l setFont:_MIN_MAX_FONT_NAME];
         [l setFontSize:_MIN_MAX_FONT_SIZE];
-        [l setForegroundColor:[_MIN_MAX_FG_COL CGColor]];
+        [l setForegroundColor:[[_MIN_MAX_FG_COL
+            colorWithAlphaComponent:0.8] CGColor]];
         [l setBackgroundColor:[_MIN_MAX_BG_COL CGColor]];
-        [l setOpacity:0.8];
         return l;
     };
 
@@ -184,6 +182,7 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     self.graph_layer.opacity = 0;
     self.white_lines_layer.opacity = 0;
     self.black_lines_layer.opacity = 0;
+    self.selection_layer.opacity = 0;
     self.shield_view.animator.alphaValue = 1;
     [CATransaction commit];
 
@@ -212,6 +211,7 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     self.graph_layer.opacity = 1;
     self.white_lines_layer.opacity = 1;
     self.black_lines_layer.opacity = 1;
+    self.selection_layer.opacity = 1;
     self.shield_view.animator.alphaValue = 0;
 
     const long num_weights = get_num_weights();
