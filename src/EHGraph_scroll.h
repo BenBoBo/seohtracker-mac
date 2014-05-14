@@ -19,6 +19,7 @@
 /// Set to a delegate to get callbacks about clicks.
 @property (nonatomic, weak) id<EHGraph_click_delegate> click_delegate;
 
+- (void)refresh_graph;
 - (void)select_weight:(TWeight*)weight;
 
 @end

@@ -136,6 +136,8 @@
     [self.table_view reloadData];
     // Attempt to recover previous row selection.
     [self select_table_pos:pos];
+    [self.graph_scroll refresh_graph];
+    self.graph_scroll.redraw_lock = [self selected_weight];
 }
 
 /// Forces the table and scrolling to a specific row in the table.
@@ -196,6 +198,8 @@
     [self.table_view selectRowIndexes:new_row byExtendingSelection:NO];
     // Focus tableview.
     [[self.table_view window] makeFirstResponder:self.table_view];
+    [self.graph_scroll refresh_graph];
+    self.graph_scroll.redraw_lock = [self selected_weight];
 }
 
 /// Removes the selected weight, but first asks if really should be done.
@@ -231,6 +235,8 @@
         [self.table_view endUpdates];
         [self refresh_row_backgrounds];
     }
+    [self.graph_scroll refresh_graph];
+    self.graph_scroll.redraw_lock = [self selected_weight];
 }
 
 /// Adds a new entry, displaying the modification sheet.
@@ -280,6 +286,8 @@
     [self animate_scroll_to:new_pos];
     // Focus tableview.
     [[self.table_view window] makeFirstResponder:self.table_view];
+    [self.graph_scroll refresh_graph];
+    self.graph_scroll.redraw_lock = [self selected_weight];
 }
 
 /** Better animated scrollRowToVisible.
@@ -371,6 +379,7 @@
 
     [self.table_view reloadData];
     [self refresh_ui];
+    [self.graph_scroll refresh_graph];
 
     [progress dismiss];
     self.table_view.enabled = YES;

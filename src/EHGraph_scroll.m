@@ -162,7 +162,7 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
  * You should call this if the size of the frame for the scrollview changes, or
  * the logic data is modified (additions, modifications or deletions).
  */
-- (void)resize_graph
+- (void)refresh_graph
 {
     const int new_height = self.bounds.size.height;
     const long new_data_points = get_num_weights();
@@ -194,7 +194,7 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
         withObject:nil afterDelay:_GRAPH_REDRAW_DELAY];
 }
 
-/** Workhorse invoked after a delay by resize_graph.
+/** Workhorse invoked after a delay by refresh_graph.
  *
  * It takes the new height from the last_height value.
  */
@@ -503,7 +503,7 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     NSScrollView *s = CAST(notification.object, NSScrollView);
     LASSERT(s, @"Bad object?");
     //DLOG(@"Frame changed! %@", NSStringFromRect(s.frame));
-    [self resize_graph];
+    [self refresh_graph];
 }
 
 #pragma mark -
