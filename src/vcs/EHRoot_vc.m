@@ -196,6 +196,7 @@
     // Force selection to the new position.
     [self.table_view deselectAll:self];
     [self.table_view selectRowIndexes:new_row byExtendingSelection:NO];
+    [self animate_scroll_to:new_pos];
     // Focus tableview.
     [[self.table_view window] makeFirstResponder:self.table_view];
     [self.graph_scroll refresh_graph];
