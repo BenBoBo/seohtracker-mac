@@ -47,6 +47,9 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
 @property (nonatomic, assign) double graph_w_factor;
 @property (nonatomic, assign) double graph_total_height;
 
+// Offsets to center the graphic if there is not enough data.
+@property (nonatomic, assign) double offset_y;
+
 @end
 
 
@@ -128,7 +131,7 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
         [l setFont:_MIN_MAX_FONT_NAME];
         [l setFontSize:_MIN_MAX_FONT_SIZE];
         [l setForegroundColor:[[_MIN_MAX_FG_COL
-            colorWithAlphaComponent:0.8] CGColor]];
+            colorWithAlphaComponent:0.6] CGColor]];
         [l setBackgroundColor:[_MIN_MAX_BG_COL CGColor]];
         return l;
     };
@@ -256,6 +259,15 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     if (nice_y_max - nice_y_min >= 1)
         weight_range = nice_y_max - nice_y_min;
 
+    LASSERT(weight_range >= 1, @"Ugh, bad y scale");
+    double h_factor = _DAY_SCALE * 4;
+    self.offset_y = 0;
+    // If the graph is small, add an offset. Otherwise scale down the h_factor.
+    if (weight_range * h_factor < graph_height)
+        self.offset_y = (graph_height - weight_range * h_factor) * 0.5;
+    else
+        h_factor = graph_height / weight_range;
+
     // For the x axis we scale down the times to get days, then scale back
     // again to use in the future plotting calculation.
     Nice_scale *x_axis = (!num_weights ? nil :
@@ -267,8 +279,6 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
         min_date / _DAY_MODULUS, nice_x_min / _DAY_MODULUS);
 
     // Transform the real graph limits into *ideal* limits for axis ranges.
-    LASSERT(weight_range >= 1, @"Ugh, bad y scale");
-    const double h_factor = graph_height / weight_range;
     const double w_factor = _DAY_SCALE / ((double)_DAY_MODULUS);
 
     // Create bezier path.
@@ -283,16 +293,17 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
         for (int f = 0; f < num_weights; f++, p++) {
             w = get_weight(f);
             p->x = (date(w) - nice_min_date) * w_factor;
-            p->y = (get_localized_weight(w) - nice_y_min) * h_factor;
+            p->y = (get_localized_weight(w) - nice_y_min) * h_factor +
+                self.offset_y;
             //DLOG(@"Got %0.1f with %0.1f", p->x, p->y);
         }
 
         // Fix the first entry, it's like the second with y = 0
         knots[0].x = knots[1].x;
-        knots[0].y = 0;
+        knots[0].y = self.offset_y;
         // Fix the last entry, it's like the previous with y = 0
         p->x = (p - 1)->x;
-        p->y = 0;
+        p->y = self.offset_y;
 
         // Obtain control points.
         CGPoint *control1 = malloc(sizeof(CGPoint) * (num_weights + 1));
@@ -364,16 +375,16 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     // Create horizontal white lines.
     NSBezierPath *b = [NSBezierPath new];
     if (x_axis && y_axis) {
-        [b moveToPoint:CGPointMake(1, 1)];
-        [b lineToPoint:CGPointMake(1, y_range * h_factor)];
-        [b moveToPoint:CGPointMake(1, 1)];
-        [b lineToPoint:CGPointMake(x_range * w_factor, 1)];
+        //[b moveToPoint:CGPointMake(1, 1)];
+        //[b lineToPoint:CGPointMake(1, self.offset_y + y_range * h_factor)];
+        //[b moveToPoint:CGPointMake(1, 1)];
+        //[b lineToPoint:CGPointMake(x_range * w_factor, 1)];
         double pos = 0;
         const double size = x_range * w_factor;
         for (int f = 0; pos <= y_range; f++) {
             pos = f * y_step;
-            [b moveToPoint:CGPointMake(0, pos * h_factor)];
-            [b lineToPoint:CGPointMake(size, pos * h_factor)];
+            [b moveToPoint:CGPointMake(0, self.offset_y + pos * h_factor)];
+            [b lineToPoint:CGPointMake(size, self.offset_y + pos * h_factor)];
         }
     }
 
@@ -383,20 +394,23 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     b = [NSBezierPath new];
 
     if (x_axis && y_axis) {
-        [b moveToPoint:CGPointMake(1, 1)];
-        [b lineToPoint:CGPointMake(1, y_range * h_factor)];
-        [b moveToPoint:CGPointMake(1, 1)];
-        [b lineToPoint:CGPointMake(x_range * w_factor, 1)];
+        // Axis.
+        [b moveToPoint:CGPointMake(1, self.offset_y)];
+        [b lineToPoint:CGPointMake(1, self.offset_y + y_range * h_factor)];
+        [b moveToPoint:CGPointMake(1, self.offset_y)];
+        [b lineToPoint:CGPointMake(x_range * w_factor, self.offset_y)];
 
         // Start going back from the future, at 7 days make longer ticks.
         double pos = x_range * w_factor;
         int count = 0;
         while (pos > 0) {
-            [b moveToPoint:CGPointMake(pos, 1)];
+            [b moveToPoint:CGPointMake(pos, self.offset_y)];
             if ((count % 7) == 0)
-                [b lineToPoint:CGPointMake(pos, y_step * h_factor)];
+                [b lineToPoint:CGPointMake(pos,
+                    self.offset_y + y_step * h_factor)];
             else
-                [b lineToPoint:CGPointMake(pos, 0.5 * y_step * h_factor)];
+                [b lineToPoint:CGPointMake(pos,
+                    self.offset_y + 0.5 * y_step * h_factor)];
             pos -= w_factor;
             count++;
         }
@@ -407,20 +421,22 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     NSDictionary *attributes = @{ NSFontAttributeName:
         [NSFont fontWithName:@"Helvetica-Bold" size:16] };
 
-    NSString *text = [NSString stringWithFormat:@"%0.1f",
-        scale_nice_min(y_axis)];
+    NSString *text = (y_axis ? [NSString stringWithFormat:@"%0.1f",
+        scale_nice_min(y_axis)] : @"");
 
     NSRect rect;
-    rect.origin.x = self.documentVisibleRect.origin.x;
     rect.size = [text sizeWithAttributes:attributes];
+    rect.origin.x = self.documentVisibleRect.origin.x;
+    rect.origin.y = MAX(0, self.offset_y - rect.size.height);
     [self.min_y_text_layer setFrame:rect];
     [self.min_y_text_layer setString:text];
 
-    text = [NSString stringWithFormat:@"%0.1f",
-        scale_nice_max(y_axis)];
+    text = (y_axis ? [NSString stringWithFormat:@"%0.1f",
+        scale_nice_max(y_axis)] : @"");
 
     rect.size = [text sizeWithAttributes:attributes];
-    rect.origin.y = self.bounds.size.height - rect.size.height;
+    rect.origin.y = self.bounds.size.height - rect.size.height -
+        MAX(0, self.offset_y - rect.size.height);
     [self.max_y_text_layer setFrame:rect];
     [self.max_y_text_layer setString:text];
 }
@@ -436,8 +452,8 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
 
     NSBezierPath *w = [NSBezierPath new];
     if (x >= 0) {
-        [w moveToPoint:CGPointMake(x, 0)];
-        [w lineToPoint:CGPointMake(x, self.graph_total_height)];
+        [w moveToPoint:CGPointMake(x, self.offset_y)];
+        [w lineToPoint:CGPointMake(x, self.offset_y + self.graph_total_height)];
     }
     self.selection_layer.path = [w quartzPath];
     [self scroll_to_weight:weight];
