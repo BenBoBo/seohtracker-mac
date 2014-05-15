@@ -89,7 +89,7 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     self.backgroundColor = [NSColor whiteColor];
     // Create the layer for the graph content.
     CAShapeLayer *shape = [CAShapeLayer new];
-    [shape setFillColor:[[[NSColor redColor]
+    [shape setFillColor:[[[NSColor blueColor]
         colorWithAlphaComponent:0.6] CGColor]];
     [shape setStrokeColor:[[NSColor blackColor] CGColor]];
     [shape setLineWidth:2.f];
@@ -167,6 +167,16 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
         selector:@selector(do_resize_graph) object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self
         name:NSViewBoundsDidChangeNotification object:nil];
+}
+
+#pragma mark -
+#pragma mark Properties
+
+/// Overrides setter to immediately redraw the new value.
+- (void)setSelected_weight:(TWeight*)weight
+{
+    _selected_weight = weight;
+    [self select_weight:weight];
 }
 
 #pragma mark -
@@ -379,6 +389,9 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
         }
         self.redraw_lock = nil;
     }
+
+    // Refresh selection on the graph.
+    [self select_weight:self.selected_weight];
 }
 
 /** Builds the axis layer and replaces the instance variable.

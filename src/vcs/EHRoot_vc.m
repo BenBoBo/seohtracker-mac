@@ -122,7 +122,7 @@
         self.modify_button.enabled = NO;
         self.minus_button.enabled = NO;
     }
-    [self.graph_scroll select_weight:w];
+    self.graph_scroll.selected_weight = w;
 
     const BOOL show_overlay = get_num_weights() < 5;
     [self.table_overlay setHidden:(show_overlay ? NO : YES)];
