@@ -9,7 +9,8 @@ Seohtracker for Mac is open source. You can create new issues at
 v5.1, ????-??-??
 ----------------
 
-* Nothing yet.
+* `Added graphical weight timeline.
+  <https://github.com/gradha/seohtracker-mac/issues/16>`_.
 
 v5, 2014-04-01
 --------------
