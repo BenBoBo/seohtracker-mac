@@ -88,7 +88,8 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     self.backgroundColor = [NSColor whiteColor];
     // Create the layer for the graph content.
     CAShapeLayer *shape = [CAShapeLayer new];
-    [shape setFillColor:[[NSColor redColor] CGColor]];
+    [shape setFillColor:[[[NSColor redColor]
+        colorWithAlphaComponent:0.6] CGColor]];
     [shape setStrokeColor:[[NSColor blackColor] CGColor]];
     [shape setLineWidth:2.f];
 
@@ -108,7 +109,7 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     // Create the layer for the horizontal overlay lines.
     shape = [CAShapeLayer new];
     [shape setStrokeColor:[[[NSColor whiteColor]
-        colorWithAlphaComponent:0.4] CGColor]];
+        colorWithAlphaComponent:0.5] CGColor]];
     [shape setLineWidth:0.5];
 
     [doc.layer addSublayer:shape];
@@ -278,7 +279,7 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
         weight_range = nice_y_max - nice_y_min;
 
     LASSERT(weight_range >= 1, @"Ugh, bad y scale");
-    double h_factor = _DAY_SCALE * 4;
+    double h_factor = _DAY_SCALE * 3;
     self.offset_y = 0;
     // If the graph is small, add an offset. Otherwise scale down the h_factor.
     if (weight_range * h_factor < graph_height)
