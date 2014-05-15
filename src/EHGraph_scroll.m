@@ -53,6 +53,7 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
 @property (nonatomic, assign) double graph_total_width;
 
 // Offsets to center the graphic if there is not enough data.
+@property (nonatomic, assign) double offset_x;
 @property (nonatomic, assign) double offset_y;
 
 @end
@@ -299,6 +300,10 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
 
     // Transform the real graph limits into *ideal* limits for axis ranges.
     const double w_factor = _DAY_SCALE / ((double)_DAY_MODULUS);
+    const double graph_width = (nice_x_max - nice_x_min) * _DAY_SCALE;
+    self.offset_x = 0;
+    if (graph_width < self.bounds.size.width)
+        self.offset_x = (self.bounds.size.width - graph_width) * 0.5;
 
     // Create bezier path.
     NSBezierPath *waveform = [NSBezierPath new];
@@ -311,7 +316,7 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
         // Build the knots, which are the weights plotted on the graph.
         for (int f = 0; f < num_weights; f++, p++) {
             w = get_weight(f);
-            p->x = (date(w) - nice_min_date) * w_factor;
+            p->x = self.offset_x + (date(w) - nice_min_date) * w_factor;
             p->y = (get_localized_weight(w) - nice_y_min) * h_factor +
                 self.offset_y;
             //DLOG(@"Got %0.1f with %0.1f", p->x, p->y);
@@ -345,9 +350,7 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     }
     DLOG(@"Got %ld total days, graph height %d", total_days, graph_height);
 
-    const NSSize doc_size = NSMakeSize(
-        (nice_x_max - nice_x_min) * _DAY_SCALE, graph_height);
-    [self.documentView setFrameSize:doc_size];
+    [self.documentView setFrameSize:NSMakeSize(graph_width, graph_height)];
     [self.graph_layer setPath:[waveform quartzPath]];
 
     [self build_axis_layer:x_axis y_axis:y_axis
@@ -368,7 +371,7 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     if (self.redraw_lock) {
         DLOG(@"Got a request to lock on %p", self.redraw_lock);
         NSClipView *clip = CAST(self.contentView, NSClipView);
-        const CGFloat x = MIN(doc_size.width - self.bounds.size.width,
+        const CGFloat x = MIN(graph_width - self.bounds.size.width,
             (date(self.redraw_lock) - nice_min_date) * w_factor);
         if (x > 0) {
             [clip scrollToPoint:CGPointMake(x, 0)];
@@ -406,8 +409,10 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
         const double size = x_range * w_factor;
         for (int f = 0; pos <= y_range; f++) {
             pos = f * y_step;
-            [b moveToPoint:CGPointMake(0, self.offset_y + pos * h_factor)];
-            [b lineToPoint:CGPointMake(size, self.offset_y + pos * h_factor)];
+            [b moveToPoint:CGPointMake(self.offset_x,
+                self.offset_y + pos * h_factor)];
+            [b lineToPoint:CGPointMake(self.offset_x + size,
+                self.offset_y + pos * h_factor)];
         }
     }
 
@@ -418,21 +423,23 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
 
     if (x_axis && y_axis) {
         // Axis.
-        [b moveToPoint:CGPointMake(1, self.offset_y)];
-        [b lineToPoint:CGPointMake(1, self.offset_y + y_range * h_factor)];
-        [b moveToPoint:CGPointMake(1, self.offset_y)];
-        [b lineToPoint:CGPointMake(x_range * w_factor, self.offset_y)];
+        [b moveToPoint:CGPointMake(self.offset_x + 1, self.offset_y)];
+        [b lineToPoint:CGPointMake(self.offset_x + 1,
+            self.offset_y + y_range * h_factor)];
+        [b moveToPoint:CGPointMake(self.offset_x + 1, self.offset_y)];
+        [b lineToPoint:CGPointMake(self.offset_x + x_range * w_factor,
+            self.offset_y)];
 
         // Start going back from the future, at 7 days make longer ticks.
         double pos = x_range * w_factor;
         int count = 0;
         while (pos > 0) {
-            [b moveToPoint:CGPointMake(pos, self.offset_y)];
+            [b moveToPoint:CGPointMake(self.offset_x + pos, self.offset_y)];
             if ((count % 7) == 0)
-                [b lineToPoint:CGPointMake(pos,
+                [b lineToPoint:CGPointMake(self.offset_x + pos,
                     self.offset_y + y_step * h_factor)];
             else
-                [b lineToPoint:CGPointMake(pos,
+                [b lineToPoint:CGPointMake(self.offset_x + pos,
                     self.offset_y + 0.5 * y_step * h_factor)];
             pos -= w_factor;
             count++;
@@ -449,7 +456,7 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
 
     NSRect rect;
     rect.size = [text sizeWithAttributes:attributes];
-    rect.origin.x = self.documentVisibleRect.origin.x;
+    rect.origin.x = self.offset_x + self.documentVisibleRect.origin.x;
     rect.origin.y = MAX(0, self.offset_y - rect.size.height);
     [self.min_y_text_layer setFrame:rect];
     [self.min_y_text_layer setString:text];
@@ -477,15 +484,16 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
 
     NSBezierPath *w = [NSBezierPath new];
     if (x >= 0) {
-        [w moveToPoint:CGPointMake(x, self.offset_y)];
-        [w lineToPoint:CGPointMake(x, self.offset_y + self.graph_total_height)];
+        [w moveToPoint:CGPointMake(self.offset_x + x, self.offset_y)];
+        [w lineToPoint:CGPointMake(self.offset_x + x,
+            self.offset_y + self.graph_total_height)];
     }
     self.selection_x_layer.path = [w quartzPath];
 
     w = [NSBezierPath new];
     if (y >= 0) {
-        [w moveToPoint:CGPointMake(0, y)];
-        [w lineToPoint:CGPointMake(self.graph_total_width, y)];
+        [w moveToPoint:CGPointMake(self.offset_x, y)];
+        [w lineToPoint:CGPointMake(self.offset_x + self.graph_total_width, y)];
     }
     self.selection_y_layer.path = [w quartzPath];
 
