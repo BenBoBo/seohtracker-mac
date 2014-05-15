@@ -14,6 +14,8 @@
 #define _MIN_MAX_FONT_NAME @"Helvetica-Bold"
 #define _MIN_MAX_FG_COL [NSColor blackColor]
 #define _MIN_MAX_BG_COL [NSColor clearColor]
+#define _GRAPH_COLOR [NSColor colorWithSRGBRed:255/255.0 \
+    green:174/255.0 blue:0 alpha:0.9]
 
 // Forward declarations.
 static void get_curve_control_points(const CGPoint *knots, CGPoint *first_cp,
@@ -89,8 +91,7 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     self.backgroundColor = [NSColor whiteColor];
     // Create the layer for the graph content.
     CAShapeLayer *shape = [CAShapeLayer new];
-    [shape setFillColor:[[[NSColor blueColor]
-        colorWithAlphaComponent:0.6] CGColor]];
+    [shape setFillColor:[_GRAPH_COLOR CGColor]];
     [shape setStrokeColor:[[NSColor blackColor] CGColor]];
     [shape setLineWidth:2.f];
 
