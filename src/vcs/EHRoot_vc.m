@@ -2,18 +2,24 @@
 
 #import "EHApp_delegate.h"
 #import "EHBannerButton.h"
+#import "EHGraph_scroll.h"
 #import "EHModify_vc.h"
 #import "EHProgress_vc.h"
 
 #import "ELHASO.h"
+#import "NSBezierPath+Seohtracker.h"
 #import "NSNotificationCenter+ELHASO.h"
 #import "SHNotifications.h"
 #import "categories/NSObject+seohyun.h"
 #import "categories/NSString+seohyun.h"
 #import "formatters.h"
 
+#import <QuartzCore/QuartzCore.h>
+
 
 @interface EHRoot_vc ()
+    <EHGraph_click_delegate>
+
 /// The table we need to refresh during scrolls.
 @property (nonatomic, weak) IBOutlet NSTableView *table_view;
 /// Hint displaying at the bottom of the table_view.
@@ -28,6 +34,8 @@
 @property (nonatomic, assign) BOOL did_awake;
 /// Needs to be disabled if nothing is selected.
 @property (weak) IBOutlet NSButton *minus_button;
+/// Scrollview containing the graph.
+@property (weak) IBOutlet EHGraph_scroll *graph_scroll;
 /// Rotating local ads.
 @property (weak) IBOutlet EHBannerButton *banner_button;
 /// The image on top of the banner to produce the fading.
@@ -64,6 +72,8 @@
         [self refresh_ui];
         const long last = get_num_weights();
         if (last > 0) [self.table_view scrollRowToVisible:last - 1];
+        self.graph_scroll.click_delegate = self;
+        self.graph_scroll.redraw_lock = get_last_weight();
 
         NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
         [center refresh_observer:self selector:@selector(refresh_ui_observer:)
@@ -100,7 +110,7 @@
     TWeight *w = [self selected_weight];
     if (w) {
         self.read_date_textfield.stringValue = [NSString
-            stringWithFormat:@"Date: %@", format_date(w)];
+            stringWithFormat:@"Date: %@", format_relative_date(w)];
         self.read_weight_textfield.stringValue = [NSString
             stringWithFormat:@"Weight: %s %s",
             format_weight_with_current_unit(w), get_weight_string()];
@@ -112,6 +122,7 @@
         self.modify_button.enabled = NO;
         self.minus_button.enabled = NO;
     }
+    self.graph_scroll.selected_weight = w;
 
     const BOOL show_overlay = get_num_weights() < 5;
     [self.table_overlay setHidden:(show_overlay ? NO : YES)];
@@ -124,6 +135,14 @@
     [self refresh_ui];
     [self.table_view reloadData];
     // Attempt to recover previous row selection.
+    [self select_table_pos:pos];
+    [self.graph_scroll refresh_graph];
+    self.graph_scroll.redraw_lock = [self selected_weight];
+}
+
+/// Forces the table and scrolling to a specific row in the table.
+- (void)select_table_pos:(const NSInteger)pos
+{
     if (pos >= 0) {
         NSIndexSet *rows = [NSIndexSet indexSetWithIndex:pos];
         [self.table_view selectRowIndexes:rows byExtendingSelection:NO];
@@ -177,8 +196,11 @@
     // Force selection to the new position.
     [self.table_view deselectAll:self];
     [self.table_view selectRowIndexes:new_row byExtendingSelection:NO];
+    [self animate_scroll_to:new_pos];
     // Focus tableview.
     [[self.table_view window] makeFirstResponder:self.table_view];
+    [self.graph_scroll refresh_graph];
+    self.graph_scroll.redraw_lock = [self selected_weight];
 }
 
 /// Removes the selected weight, but first asks if really should be done.
@@ -195,7 +217,7 @@
     alert.messageText = @"Are you sure you want to remove the entry?";
     alert.informativeText = [NSString stringWithFormat:@"%s %s - %@",
         format_weight_with_current_unit(weight), get_weight_string(),
-        format_date(weight)];
+        format_relative_date(weight)];
     [alert addButtonWithTitle:@"Cancel"];
     [alert addButtonWithTitle:@"Accept"];
     const BOOL accept = (NSAlertSecondButtonReturn == [alert runModal]);
@@ -214,6 +236,8 @@
         [self.table_view endUpdates];
         [self refresh_row_backgrounds];
     }
+    [self.graph_scroll refresh_graph];
+    self.graph_scroll.redraw_lock = [self selected_weight];
 }
 
 /// Adds a new entry, displaying the modification sheet.
@@ -263,6 +287,8 @@
     [self animate_scroll_to:new_pos];
     // Focus tableview.
     [[self.table_view window] makeFirstResponder:self.table_view];
+    [self.graph_scroll refresh_graph];
+    self.graph_scroll.redraw_lock = [self selected_weight];
 }
 
 /** Better animated scrollRowToVisible.
@@ -354,6 +380,7 @@
 
     [self.table_view reloadData];
     [self refresh_ui];
+    [self.graph_scroll refresh_graph];
 
     [progress dismiss];
     self.table_view.enabled = YES;
@@ -508,6 +535,16 @@
 }
 
 #pragma mark -
+#pragma mark EHGraph_click_delegate protocol
+
+/// Called by the graph when the user clicks on it.
+- (void)did_click_on_weight:(TWeight*)w
+{
+    [self select_table_pos:find_pos(w)];
+    [self refresh_ui];
+}
+
+#pragma mark -
 #pragma mark NSTableViewDataSource protocol
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView*)tableView
@@ -537,7 +574,7 @@
 
     if ([tableColumn.identifier isEqualToString:@"EHHistory_date"]) {
         if (changes_day(w)) {
-            cell.textField.stringValue = format_date(w);
+            cell.textField.stringValue = format_relative_date(w);
         } else {
             cell.textField.attributedStringValue =
                 format_shadowed_date(w, cell.textField.font,

@@ -8,7 +8,7 @@ This is a brief changes log. But you can `always check the detailed log
 v5.1, ????-??-??
 ----------------
 
-* Nothing yet.
+* Added graphical weight timeline.
 
 v5, 2014-04-01
 --------------
