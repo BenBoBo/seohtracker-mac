@@ -39,13 +39,18 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
 @property (nonatomic, strong) CATextLayer *min_y_text_layer;
 /// Layer for the maximum weight.
 @property (nonatomic, strong) CATextLayer *max_y_text_layer;
-/// Layer controlling the vertical selection of a weight.
-@property (nonatomic, strong) CAShapeLayer *selection_layer;
+/// Layer controlling the vertical highlighting of a weight.
+@property (nonatomic, strong) CAShapeLayer *selection_x_layer;
+/// Layer controlling the horizontal highlighting of a weight.
+@property (nonatomic, strong) CAShapeLayer *selection_y_layer;
 
 // Keeps the parameters required to calculate the X position of a graph.
 @property (nonatomic, assign) double graph_min_date;
 @property (nonatomic, assign) double graph_w_factor;
 @property (nonatomic, assign) double graph_total_height;
+@property (nonatomic, assign) double graph_min_weight;
+@property (nonatomic, assign) double graph_h_factor;
+@property (nonatomic, assign) double graph_total_width;
 
 // Offsets to center the graphic if there is not enough data.
 @property (nonatomic, assign) double offset_y;
@@ -124,7 +129,18 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     [shape setLineWidth:_DAY_SCALE * 0.5];
 
     [doc.layer addSublayer:shape];
-    self.selection_layer = shape;
+    self.selection_x_layer = shape;
+
+    // The horizontal selection is very much like a white line, only using a
+    // more notable color.
+
+    shape = [CAShapeLayer new];
+    [shape setStrokeColor:[[[NSColor blackColor]
+        colorWithAlphaComponent:0.4] CGColor]];
+    [shape setLineWidth:0.5];
+
+    [doc.layer addSublayer:shape];
+    self.selection_y_layer = shape;
 
     CATextLayer*(^build_text_layer)(void) = ^(void) {
         CATextLayer *l = [CATextLayer new];
@@ -185,7 +201,8 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     self.graph_layer.opacity = 0;
     self.white_lines_layer.opacity = 0;
     self.black_lines_layer.opacity = 0;
-    self.selection_layer.opacity = 0;
+    self.selection_x_layer.opacity = 0;
+    self.selection_y_layer.opacity = 0;
     self.shield_view.animator.alphaValue = 1;
     [CATransaction commit];
 
@@ -214,7 +231,8 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     self.graph_layer.opacity = 1;
     self.white_lines_layer.opacity = 1;
     self.black_lines_layer.opacity = 1;
-    self.selection_layer.opacity = 1;
+    self.selection_x_layer.opacity = 1;
+    self.selection_y_layer.opacity = 1;
     self.shield_view.animator.alphaValue = 0;
 
     const long num_weights = get_num_weights();
@@ -340,6 +358,10 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     self.graph_min_date = nice_min_date;
     self.graph_w_factor = w_factor;
     self.graph_total_height = (nice_y_max - nice_y_min) * h_factor;
+    self.graph_min_weight = nice_y_min;
+    self.graph_h_factor = h_factor;
+    self.graph_total_width = (nice_x_max - nice_x_min) *
+        _DAY_MODULUS * w_factor;
 
     // Try to center a specific value?
     if (self.redraw_lock) {
@@ -449,13 +471,23 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
 {
     const double x = (weight ?
         (date(weight) - self.graph_min_date) * self.graph_w_factor : -1);
+    const double y = (weight ? (get_localized_weight(weight) -
+        self.graph_min_weight) * self.graph_h_factor + self.offset_y : -1);
 
     NSBezierPath *w = [NSBezierPath new];
     if (x >= 0) {
         [w moveToPoint:CGPointMake(x, self.offset_y)];
         [w lineToPoint:CGPointMake(x, self.offset_y + self.graph_total_height)];
     }
-    self.selection_layer.path = [w quartzPath];
+    self.selection_x_layer.path = [w quartzPath];
+
+    w = [NSBezierPath new];
+    if (y >= 0) {
+        [w moveToPoint:CGPointMake(0, y)];
+        [w lineToPoint:CGPointMake(self.graph_total_width, y)];
+    }
+    self.selection_y_layer.path = [w quartzPath];
+
     [self scroll_to_weight:weight];
 }
 
