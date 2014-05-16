@@ -140,7 +140,7 @@
     [image setSize:self.overlay.bounds.size];
     [self.overlay setImage:self.image];
     [self setImage:image];
-    DLOG(@"Showing banner pos %d", self.current_pos);
+    //DLOG(@"Showing banner pos %d", self.current_pos);
 
     // Fade out the overlay. I don't understand this at all.
     [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
