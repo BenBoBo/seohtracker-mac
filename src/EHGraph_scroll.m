@@ -557,7 +557,7 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
 {
     NSClipView *v = CAST(notification.object, NSClipView);
     LASSERT(v, @"Bad object?");
-    const CGFloat x = v.documentVisibleRect.origin.x;
+    const CGFloat x = v.documentVisibleRect.origin.x + self.offset_x;
 
     // Disable animations, otherwise there is a weird scrolling.
     [CATransaction begin];
