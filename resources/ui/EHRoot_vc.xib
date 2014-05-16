@@ -13,6 +13,7 @@
                 <outlet property="minus_button" destination="lKz-cR-LWN" id="M1Q-bz-NgU"/>
                 <outlet property="modify_button" destination="ifr-Hg-q6z" id="cFP-iy-1jv"/>
                 <outlet property="read_date_textfield" destination="VLA-fc-52m" id="8th-cl-6Mw"/>
+                <outlet property="read_total_textfield" destination="Nu2-qp-4QF" id="bFf-4V-Wu3"/>
                 <outlet property="read_weight_textfield" destination="jer-W6-c7X" id="r0a-EL-c7i"/>
                 <outlet property="scroll_view" destination="vzO-tJ-CI6" id="ubX-f1-Mq4"/>
                 <outlet property="table_overlay" destination="aq4-11-JLO" id="fGT-lc-qfr"/>
@@ -150,6 +151,15 @@
                     <rect key="frame" x="368" y="393" width="243" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Weight:" id="iWO-wc-oqt">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="Nu2-qp-4QF">
+                    <rect key="frame" x="20" y="26" width="243" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Total entries:" id="Dgv-ao-FUi">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
