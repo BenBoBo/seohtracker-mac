@@ -29,6 +29,7 @@
 @property (nonatomic, weak) IBOutlet NSMenuItem *delete_weight_menu;
 @property (nonatomic, weak) IBOutlet NSMenuItem *modify_weight_menu;
 @property (nonatomic, weak) IBOutlet NSMenuItem *add_weight_menu;
+@property (nonatomic, weak) IBOutlet NSMenuItem *delete_all_weights_menu;
 
 @end
 
@@ -270,12 +271,14 @@
 - (void)hook_menu_items
 {
     for (NSMenuItem *menu in @[self.delete_weight_menu,
-            self.modify_weight_menu, self.add_weight_menu]) {
+            self.modify_weight_menu, self.add_weight_menu,
+            self.delete_all_weights_menu]) {
         menu.target = self.root_vc;
     }
     self.delete_weight_menu.action = @selector(did_touch_minus_button:);
     self.modify_weight_menu.action = @selector(did_touch_modify_button:);
     self.add_weight_menu.action = @selector(did_touch_plus_button:);
+    self.delete_all_weights_menu.action = @selector(delete_all_entries:);
 }
 
 #pragma mark -

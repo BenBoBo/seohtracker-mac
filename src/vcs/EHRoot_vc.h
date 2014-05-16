@@ -7,5 +7,6 @@
 - (IBAction)did_touch_modify_button:(id)sender;
 - (IBAction)did_touch_minus_button:(id)sender;
 - (IBAction)did_touch_plus_button:(id)sender;
+- (IBAction)delete_all_entries:(id)sender;
 
 @end

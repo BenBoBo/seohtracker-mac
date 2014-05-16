@@ -291,6 +291,40 @@
     self.graph_scroll.redraw_lock = [self selected_weight];
 }
 
+/** Hook exposed for the main menu.
+ *
+ * Removes all the available entries, but first asks the user about it.
+ */
+- (IBAction)delete_all_entries:(id)sender
+{
+    LASSERT(get_num_weights() > 0, @"Shouldn't reach this with empty db");
+
+    [self end_modal_sheet];
+
+    // Make sure the user is really really sure.
+    const long total_entries = get_num_weights();
+    NSAlert *alert = [NSAlert new];
+    alert.alertStyle = NSCriticalAlertStyle;
+    alert.showsHelp = NO;
+    alert.messageText = [NSString stringWithFormat:@"Are you sure you want "
+        @"remove all weights? You have %ld entries.", total_entries];
+    [alert addButtonWithTitle:@"Cancel deletion"];
+    [alert addButtonWithTitle:@"Yes, remove everything"];
+
+    const long selected_button = [alert runModal];
+    if (selected_button == NSAlertFirstButtonReturn)
+        return;
+
+    for (long f = 0; f < total_entries; f++)
+        remove_weight(get_weight(0));
+    LASSERT(get_num_weights() == 0, @"Uh oh, couldn't remove all entries?");
+
+    [self.table_view reloadData];
+    [self refresh_ui];
+    self.graph_scroll.redraw_lock = nil;
+    [self.graph_scroll refresh_graph];
+}
+
 /** Better animated scrollRowToVisible.
  *
  * See http://stackoverflow.com/a/8480325/172690. While scrollRowToVisible
@@ -616,6 +650,8 @@
             _ACTION(did_touch_modify_button:)) {
         TWeight *w = [self selected_weight];
         return (w ? YES : NO);
+    } else if (_ACTION(delete_all_entries:)) {
+        return get_num_weights() > 0;
     } else {
         LASSERT(NO, @"Should not reach here. Probably.");
         return NO;

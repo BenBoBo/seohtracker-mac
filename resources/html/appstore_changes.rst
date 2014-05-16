@@ -9,6 +9,7 @@ v5.1, ????-??-??
 ----------------
 
 * Added graphical weight timeline.
+* Added option to remove all entries.
 
 v5, 2014-04-01
 --------------
