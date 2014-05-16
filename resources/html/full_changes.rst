@@ -13,6 +13,8 @@ v5.1, ????-??-??
   <https://github.com/gradha/seohtracker-mac/issues/16>`_.
 * `Added option to remove all entries
   <https://github.com/gradha/seohtracker-mac/issues/7>`_.
+* `Added label with number of total entries
+  <https://github.com/gradha/seohtracker-mac/issues/42>`_.
 
 v5, 2014-04-01
 --------------

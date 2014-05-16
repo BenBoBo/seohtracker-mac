@@ -28,6 +28,8 @@
 @property (nonatomic, weak) IBOutlet NSTextField *read_date_textfield;
 /// Holds a read only text for the selected weight.
 @property (nonatomic, weak) IBOutlet NSTextField *read_weight_textfield;
+/// Holds a read only text for total number of weights in the db.
+@property (nonatomic, weak) IBOutlet NSTextField *read_total_textfield;
 /// Needed to hide the button when nothing is selected.
 @property (nonatomic, weak) IBOutlet NSButton *modify_button;
 /// Avoids refreshing the UI during multiple awakeFromNib calls.
@@ -124,8 +126,15 @@
     }
     self.graph_scroll.selected_weight = w;
 
-    const BOOL show_overlay = get_num_weights() < 5;
+    const long total_weights = get_num_weights();
+    const BOOL show_overlay = total_weights < 5;
     [self.table_overlay setHidden:(show_overlay ? NO : YES)];
+
+    if (total_weights)
+        self.read_total_textfield.stringValue = [NSString
+            stringWithFormat:@"Total entries: %lld", get_num_weights()];
+    else
+        self.read_total_textfield.stringValue = @"Empty database";
 }
 
 /// Simple wrapper to refresh the UI when changes are done to user settings.
