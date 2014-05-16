@@ -311,6 +311,10 @@ DQ
                             <menuItem title="Add weight" keyEquivalent="+" id="GxZ-nS-aLE">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                             </menuItem>
+                            <menuItem isSeparatorItem="YES" id="FWd-Ds-lgB"/>
+                            <menuItem title="Delete all weights" id="gWO-Hr-FKj">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                            </menuItem>
                         </items>
                     </menu>
                 </menuItem>
@@ -379,6 +383,7 @@ DQ
         <customObject id="494" customClass="EHApp_delegate">
             <connections>
                 <outlet property="add_weight_menu" destination="GxZ-nS-aLE" id="VC1-fA-bcT"/>
+                <outlet property="delete_all_weights_menu" destination="gWO-Hr-FKj" id="Qjt-Ne-qI5"/>
                 <outlet property="delete_weight_menu" destination="0Fd-Zc-VkD" id="oUz-Pb-o2h"/>
                 <outlet property="modify_weight_menu" destination="S4a-48-NLK" id="YJ2-T5-8sw"/>
                 <outlet property="window" destination="371" id="532"/>

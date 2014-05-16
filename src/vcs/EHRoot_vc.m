@@ -291,6 +291,15 @@
     self.graph_scroll.redraw_lock = [self selected_weight];
 }
 
+/** Hook exposed for the main menu.
+ *
+ * Removes all the available entries, but first asks the user about it.
+ */
+- (IBAction)delete_all_entries:(id)sender
+{
+    DLOG(@"Purging!");
+}
+
 /** Better animated scrollRowToVisible.
  *
  * See http://stackoverflow.com/a/8480325/172690. While scrollRowToVisible
@@ -616,6 +625,8 @@
             _ACTION(did_touch_modify_button:)) {
         TWeight *w = [self selected_weight];
         return (w ? YES : NO);
+    } else if (_ACTION(delete_all_entries:)) {
+        return get_num_weights() > 0;
     } else {
         LASSERT(NO, @"Should not reach here. Probably.");
         return NO;
