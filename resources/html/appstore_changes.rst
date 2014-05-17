@@ -12,6 +12,7 @@ v5.1, ????-??-??
 * Added option to remove all entries.
 * Added label with number of total entries.
 * Improved date formatting.
+* Fixed dates as words not refreshing correctly.
 
 v5, 2014-04-01
 --------------
