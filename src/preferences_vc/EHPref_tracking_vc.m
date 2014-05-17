@@ -66,7 +66,7 @@
 
 - (NSImage*)toolbarItemImage
 {
-    return [NSImage imageNamed:NSImageNameActionTemplate];
+    return [NSImage imageNamed:@"track_radar"];
 }
 
 - (NSString*)toolbarItemLabel
