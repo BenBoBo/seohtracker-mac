@@ -1,4 +1,4 @@
-#import "EHSettings_vc.h"
+#import "EHPref_units_vc.h"
 
 #import "EHApp_delegate.h"
 
@@ -10,7 +10,7 @@
 #import "user_config.h"
 
 
-@interface EHSettings_vc ()
+@interface EHPref_units_vc ()
 
 /// Label to update with the current setting.
 @property (weak) IBOutlet NSTextField *weight_textfield;
@@ -21,7 +21,7 @@
 
 @end
 
-@implementation EHSettings_vc
+@implementation EHPref_units_vc
 
 #pragma mark -
 #pragma mark - Life
