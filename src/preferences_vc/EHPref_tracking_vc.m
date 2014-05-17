@@ -1,4 +1,4 @@
-#import "EHPref_units_vc.h"
+#import "EHPref_tracking_vc.h"
 
 #import "EHApp_delegate.h"
 
@@ -10,10 +10,8 @@
 #import "user_config.h"
 
 
-@interface EHPref_units_vc ()
+@interface EHPref_tracking_vc ()
 
-/// Label to update with the current setting.
-@property (weak) IBOutlet NSTextField *weight_textfield;
 /// Matrix of options the user can select.
 @property (weak) IBOutlet NSMatrix *weight_matrix;
 
@@ -21,7 +19,7 @@
 
 @end
 
-@implementation EHPref_units_vc
+@implementation EHPref_tracking_vc
 
 #pragma mark -
 #pragma mark - Life
@@ -38,17 +36,6 @@
 - (void)awakeFromNib
 {
     [self refresh_ui];
-
-    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-    [center refresh_observer:self selector:@selector(refresh_ui_observer:)
-        name:user_metric_prefereces_changed object:nil];
-}
-
-- (void)dealloc
-{
-    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-    [center removeObserver:self
-        name:user_metric_prefereces_changed object:nil];
 }
 
 #pragma mark -
@@ -57,24 +44,16 @@
 /// Updates the dynamic widgets.
 - (void)refresh_ui
 {
-    self.weight_textfield.stringValue = [NSString
-        stringWithFormat:@"Weight unit: %s", get_weight_string()];
-
-    const int user_pref = user_metric_preference();
-    [self.weight_matrix selectCellAtRow:user_pref column:0];
-}
-
-/// Simple wrapper to refresh the UI when changes are done to user settings.
-- (void)refresh_ui_observer:(NSNotification*)notification
-{
-    [self refresh_ui];
+    [self.weight_matrix
+        selectCellAtRow:(analytics_tracking_preference() ? 0 : 1) column:0];
 }
 
 /// Changes the user preferences.
 - (IBAction)did_touch_weight_matrix:(id)sender
 {
-    set_user_metric_preference((int)[self.weight_matrix selectedRow]);
-    // An implicit call to refresh_ui is done through a global notification.
+    set_analytics_tracking_preference(
+        (0 == [self.weight_matrix selectedRow] ? true : false));
+    [self refresh_ui];
 }
 
 #pragma mark -
@@ -92,7 +71,7 @@
 
 - (NSString*)toolbarItemLabel
 {
-    return @"Units";
+    return @"Tracking";
 }
 
 - (NSView*)initialKeyView

@@ -1,7 +1,8 @@
 #import "EHApp_delegate.h"
 
-#import "EHRoot_vc.h"
+#import "EHPref_tracking_vc.h"
 #import "EHPref_units_vc.h"
+#import "EHRoot_vc.h"
 #import "appstore_changes.h"
 #import "google_analytics_config.h"
 #import "help_defines.h"
@@ -171,8 +172,11 @@ NSString *midnight_happened = @"NSNotificationMidnightHappened";
             EHPref_units_vc *pane1 = [[EHPref_units_vc alloc]
                 initWithNibName:[EHPref_units_vc class_string] bundle:nil];
 
+            EHPref_tracking_vc *pane2 = [[EHPref_tracking_vc alloc]
+                initWithNibName:[EHPref_tracking_vc class_string] bundle:nil];
+
             self.preferences_vc = [[RHPreferencesWindowController alloc]
-                initWithViewControllers:@[pane1] andTitle:@"Units"];
+                initWithViewControllers:@[pane1, pane2] andTitle:@"Settings"];
         });
 }
 
