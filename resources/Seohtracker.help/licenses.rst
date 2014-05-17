@@ -23,4 +23,6 @@ build it:
 ----
 
 Seohtracker uses outgoing network connections for Google Analytics monitoring,
-but a network connection is not required for usage.
+but a network connection is not required for usage and can be disabled in the
+preferences pane. Base graphic for radar icon in preferences pane obtained from
+http://simpleicon.com/radar.html.
