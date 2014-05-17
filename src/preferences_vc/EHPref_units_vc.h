@@ -1,6 +1,6 @@
 #import "RHPreferences.h"
 
-@interface EHSettings_vc : NSViewController
+@interface EHPref_units_vc : NSViewController
    <RHPreferencesViewControllerProtocol>
 
 @end

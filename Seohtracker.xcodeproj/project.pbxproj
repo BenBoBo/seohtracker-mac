@@ -45,9 +45,8 @@
 		D52E74D918C50F6E00A8B6F1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D533F81C18B6650200A7FFC3 /* main.m */; };
 		D52E74DC18C50F6E00A8B6F1 /* EHProgress_vc.m in Sources */ = {isa = PBXBuildFile; fileRef = D5FCD4A218C1401600D7783B /* EHProgress_vc.m */; };
 		D52E74E318C50F6E00A8B6F1 /* EHModify_vc.m in Sources */ = {isa = PBXBuildFile; fileRef = D5318A7018BC03DC001FD6C0 /* EHModify_vc.m */; };
-		D52E74E518C50F6E00A8B6F1 /* EHSettings_vc.m in Sources */ = {isa = PBXBuildFile; fileRef = D5AD7DA718BD188B005F4865 /* EHSettings_vc.m */; };
 		D52E74E918C50F6E00A8B6F1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D533F7E518B662CB00A7FFC3 /* Cocoa.framework */; };
-		D52E74EC18C50F6E00A8B6F1 /* EHSettings_vc.xib in Resources */ = {isa = PBXBuildFile; fileRef = D5AD7DAB18BD4021005F4865 /* EHSettings_vc.xib */; };
+		D52E74EC18C50F6E00A8B6F1 /* EHPref_units_vc.xib in Resources */ = {isa = PBXBuildFile; fileRef = D5AD7DAB18BD4021005F4865 /* EHPref_units_vc.xib */; };
 		D52E74ED18C50F6E00A8B6F1 /* html in Resources */ = {isa = PBXBuildFile; fileRef = D5AD7DBB18BD5300005F4865 /* html */; };
 		D52E74EE18C50F6E00A8B6F1 /* RHPreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = D5AD7D9F18BD14A1005F4865 /* RHPreferencesWindow.xib */; };
 		D52E74EF18C50F6E00A8B6F1 /* contact_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D58A7A4818BE07D30005752B /* contact_logo@2x.png */; };
@@ -118,8 +117,7 @@
 		D58F1C23191ABE7D00DAE4F7 /* EHGraph_scroll.m in Sources */ = {isa = PBXBuildFile; fileRef = D58F1C21191ABE7D00DAE4F7 /* EHGraph_scroll.m */; };
 		D5AD7DA418BD14A1005F4865 /* RHPreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = D5AD7D9F18BD14A1005F4865 /* RHPreferencesWindow.xib */; };
 		D5AD7DA518BD14A1005F4865 /* RHPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5AD7DA118BD14A1005F4865 /* RHPreferencesWindowController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		D5AD7DA918BD188B005F4865 /* EHSettings_vc.m in Sources */ = {isa = PBXBuildFile; fileRef = D5AD7DA718BD188B005F4865 /* EHSettings_vc.m */; };
-		D5AD7DAC18BD4021005F4865 /* EHSettings_vc.xib in Resources */ = {isa = PBXBuildFile; fileRef = D5AD7DAB18BD4021005F4865 /* EHSettings_vc.xib */; };
+		D5AD7DAC18BD4021005F4865 /* EHPref_units_vc.xib in Resources */ = {isa = PBXBuildFile; fileRef = D5AD7DAB18BD4021005F4865 /* EHPref_units_vc.xib */; };
 		D5AD7DBC18BD5300005F4865 /* html in Resources */ = {isa = PBXBuildFile; fileRef = D5AD7DBB18BD5300005F4865 /* html */; };
 		D5D7BAB7191EB21D00B2AEF9 /* l_graph.m in Sources */ = {isa = PBXBuildFile; fileRef = D5D7BAB6191EB21D00B2AEF9 /* l_graph.m */; };
 		D5D7BAB8191EB21D00B2AEF9 /* l_graph.m in Sources */ = {isa = PBXBuildFile; fileRef = D5D7BAB6191EB21D00B2AEF9 /* l_graph.m */; };
@@ -131,6 +129,16 @@
 		D5E1B2C818E39B290078A2EC /* NSArray+ELHASO.m in Sources */ = {isa = PBXBuildFile; fileRef = D5E1B2C218E39B290078A2EC /* NSArray+ELHASO.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		D5E1B2C918E39B290078A2EC /* NSNotificationCenter+ELHASO.m in Sources */ = {isa = PBXBuildFile; fileRef = D5E1B2C418E39B290078A2EC /* NSNotificationCenter+ELHASO.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		D5E1B2CA18E39B290078A2EC /* NSNotificationCenter+ELHASO.m in Sources */ = {isa = PBXBuildFile; fileRef = D5E1B2C418E39B290078A2EC /* NSNotificationCenter+ELHASO.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		D5EC54511927D13300F999CF /* EHPref_units_vc.m in Sources */ = {isa = PBXBuildFile; fileRef = D5EC54501927D13300F999CF /* EHPref_units_vc.m */; };
+		D5EC54521927D13300F999CF /* EHPref_units_vc.m in Sources */ = {isa = PBXBuildFile; fileRef = D5EC54501927D13300F999CF /* EHPref_units_vc.m */; };
+		D5EC54541927D1DB00F999CF /* EHPref_tracking_vc.xib in Resources */ = {isa = PBXBuildFile; fileRef = D5EC54531927D1DB00F999CF /* EHPref_tracking_vc.xib */; };
+		D5EC54551927D1DB00F999CF /* EHPref_tracking_vc.xib in Resources */ = {isa = PBXBuildFile; fileRef = D5EC54531927D1DB00F999CF /* EHPref_tracking_vc.xib */; };
+		D5EC54581927D1E600F999CF /* EHPref_tracking_vc.m in Sources */ = {isa = PBXBuildFile; fileRef = D5EC54571927D1E500F999CF /* EHPref_tracking_vc.m */; };
+		D5EC54591927D1E600F999CF /* EHPref_tracking_vc.m in Sources */ = {isa = PBXBuildFile; fileRef = D5EC54571927D1E500F999CF /* EHPref_tracking_vc.m */; };
+		D5EC545C1927EE9F00F999CF /* track_radar.png in Resources */ = {isa = PBXBuildFile; fileRef = D5EC545A1927EE9F00F999CF /* track_radar.png */; };
+		D5EC545D1927EE9F00F999CF /* track_radar.png in Resources */ = {isa = PBXBuildFile; fileRef = D5EC545A1927EE9F00F999CF /* track_radar.png */; };
+		D5EC545E1927EE9F00F999CF /* track_radar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5EC545B1927EE9F00F999CF /* track_radar@2x.png */; };
+		D5EC545F1927EE9F00F999CF /* track_radar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5EC545B1927EE9F00F999CF /* track_radar@2x.png */; };
 		D5FCD4A018C13CA600D7783B /* EHProgress_vc.xib in Resources */ = {isa = PBXBuildFile; fileRef = D5FCD49F18C13CA600D7783B /* EHProgress_vc.xib */; };
 		D5FCD4A318C1401600D7783B /* EHProgress_vc.m in Sources */ = {isa = PBXBuildFile; fileRef = D5FCD4A218C1401600D7783B /* EHProgress_vc.m */; };
 /* End PBXBuildFile section */
@@ -235,9 +243,7 @@
 		D5AD7D9F18BD14A1005F4865 /* RHPreferencesWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RHPreferencesWindow.xib; sourceTree = "<group>"; };
 		D5AD7DA018BD14A1005F4865 /* RHPreferencesWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RHPreferencesWindowController.h; sourceTree = "<group>"; };
 		D5AD7DA118BD14A1005F4865 /* RHPreferencesWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RHPreferencesWindowController.m; sourceTree = "<group>"; };
-		D5AD7DA618BD188B005F4865 /* EHSettings_vc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EHSettings_vc.h; path = vcs/EHSettings_vc.h; sourceTree = "<group>"; };
-		D5AD7DA718BD188B005F4865 /* EHSettings_vc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EHSettings_vc.m; path = vcs/EHSettings_vc.m; sourceTree = "<group>"; };
-		D5AD7DAB18BD4021005F4865 /* EHSettings_vc.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EHSettings_vc.xib; path = resources/ui/EHSettings_vc.xib; sourceTree = "<group>"; };
+		D5AD7DAB18BD4021005F4865 /* EHPref_units_vc.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EHPref_units_vc.xib; path = resources/ui/pref/EHPref_units_vc.xib; sourceTree = "<group>"; };
 		D5AD7DBB18BD5300005F4865 /* html */ = {isa = PBXFileReference; lastKnownFileType = folder; path = html; sourceTree = "<group>"; };
 		D5C5795F18E4E3A3003AD573 /* appstore_changes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = appstore_changes.h; sourceTree = "<group>"; };
 		D5C94B2D18BFA0EC00EF34A8 /* help_defines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = help_defines.h; sourceTree = "<group>"; };
@@ -250,6 +256,13 @@
 		D5E1B2C218E39B290078A2EC /* NSArray+ELHASO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+ELHASO.m"; path = "src/NSArray+ELHASO.m"; sourceTree = "<group>"; };
 		D5E1B2C318E39B290078A2EC /* NSNotificationCenter+ELHASO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSNotificationCenter+ELHASO.h"; path = "src/NSNotificationCenter+ELHASO.h"; sourceTree = "<group>"; };
 		D5E1B2C418E39B290078A2EC /* NSNotificationCenter+ELHASO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSNotificationCenter+ELHASO.m"; path = "src/NSNotificationCenter+ELHASO.m"; sourceTree = "<group>"; };
+		D5EC544F1927D13300F999CF /* EHPref_units_vc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EHPref_units_vc.h; sourceTree = "<group>"; };
+		D5EC54501927D13300F999CF /* EHPref_units_vc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EHPref_units_vc.m; sourceTree = "<group>"; };
+		D5EC54531927D1DB00F999CF /* EHPref_tracking_vc.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EHPref_tracking_vc.xib; path = resources/ui/pref/EHPref_tracking_vc.xib; sourceTree = "<group>"; };
+		D5EC54561927D1E500F999CF /* EHPref_tracking_vc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EHPref_tracking_vc.h; sourceTree = "<group>"; };
+		D5EC54571927D1E500F999CF /* EHPref_tracking_vc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EHPref_tracking_vc.m; sourceTree = "<group>"; };
+		D5EC545A1927EE9F00F999CF /* track_radar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = track_radar.png; sourceTree = "<group>"; };
+		D5EC545B1927EE9F00F999CF /* track_radar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "track_radar@2x.png"; sourceTree = "<group>"; };
 		D5FCD49F18C13CA600D7783B /* EHProgress_vc.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EHProgress_vc.xib; path = resources/ui/EHProgress_vc.xib; sourceTree = "<group>"; };
 		D5FCD4A118C1401600D7783B /* EHProgress_vc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EHProgress_vc.h; path = vcs/EHProgress_vc.h; sourceTree = "<group>"; };
 		D5FCD4A218C1401600D7783B /* EHProgress_vc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EHProgress_vc.m; path = vcs/EHProgress_vc.m; sourceTree = "<group>"; };
@@ -286,8 +299,6 @@
 				D5FCD4A218C1401600D7783B /* EHProgress_vc.m */,
 				D5318A5C18BBB745001FD6C0 /* EHRoot_vc.h */,
 				D5318A5D18BBB745001FD6C0 /* EHRoot_vc.m */,
-				D5AD7DA618BD188B005F4865 /* EHSettings_vc.h */,
-				D5AD7DA718BD188B005F4865 /* EHSettings_vc.m */,
 			);
 			name = vcs;
 			sourceTree = "<group>";
@@ -354,6 +365,7 @@
 			isa = PBXGroup;
 			children = (
 				D58F1C18191ABD3A00DAE4F7 /* categories */,
+				D5EC544E1927D07000F999CF /* preferences_vc */,
 				D5318A5F18BBB74A001FD6C0 /* vcs */,
 				D533F81A18B6650200A7FFC3 /* EHApp_delegate.h */,
 				D533F81B18B6650200A7FFC3 /* EHApp_delegate.m */,
@@ -381,10 +393,10 @@
 		D533F82118B6653E00A7FFC3 /* ui */ = {
 			isa = PBXGroup;
 			children = (
+				D5EC544D1927D05600F999CF /* pref */,
 				D5318A7418BC0798001FD6C0 /* EHModify_vc.xib */,
 				D5FCD49F18C13CA600D7783B /* EHProgress_vc.xib */,
 				D5318A6018BBBEBE001FD6C0 /* EHRoot_vc.xib */,
-				D5AD7DAB18BD4021005F4865 /* EHSettings_vc.xib */,
 				D533F7FA18B662CB00A7FFC3 /* MainMenu.xib */,
 			);
 			name = ui;
@@ -529,6 +541,8 @@
 				D5683E6518C653BE00D92F0A /* ad_banner_4@2x.jpg */,
 				D58A7A4718BE07D30005752B /* contact_logo.png */,
 				D58A7A4818BE07D30005752B /* contact_logo@2x.png */,
+				D5EC545A1927EE9F00F999CF /* track_radar.png */,
+				D5EC545B1927EE9F00F999CF /* track_radar@2x.png */,
 			);
 			name = graphics;
 			path = resources/graphics;
@@ -553,6 +567,26 @@
 			);
 			name = RHPreferences;
 			path = external/RHPreferences/RHPreferences;
+			sourceTree = "<group>";
+		};
+		D5EC544D1927D05600F999CF /* pref */ = {
+			isa = PBXGroup;
+			children = (
+				D5EC54531927D1DB00F999CF /* EHPref_tracking_vc.xib */,
+				D5AD7DAB18BD4021005F4865 /* EHPref_units_vc.xib */,
+			);
+			name = pref;
+			sourceTree = "<group>";
+		};
+		D5EC544E1927D07000F999CF /* preferences_vc */ = {
+			isa = PBXGroup;
+			children = (
+				D5EC54561927D1E500F999CF /* EHPref_tracking_vc.h */,
+				D5EC54571927D1E500F999CF /* EHPref_tracking_vc.m */,
+				D5EC544F1927D13300F999CF /* EHPref_units_vc.h */,
+				D5EC54501927D13300F999CF /* EHPref_units_vc.m */,
+			);
+			path = preferences_vc;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -655,7 +689,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D52E74EC18C50F6E00A8B6F1 /* EHSettings_vc.xib in Resources */,
+				D52E74EC18C50F6E00A8B6F1 /* EHPref_units_vc.xib in Resources */,
+				D5EC545F1927EE9F00F999CF /* track_radar@2x.png in Resources */,
 				D52E74ED18C50F6E00A8B6F1 /* html in Resources */,
 				D52E74EE18C50F6E00A8B6F1 /* RHPreferencesWindow.xib in Resources */,
 				D5683E6718C653BE00D92F0A /* ad_banner_4.jpg in Resources */,
@@ -671,9 +706,11 @@
 				D52E74F318C50F6E00A8B6F1 /* contact_logo.png in Resources */,
 				D5683E5718C6499100D92F0A /* ad_banner_1@2x.jpg in Resources */,
 				D5683E6318C650DB00D92F0A /* ad_banner_3@2x.jpg in Resources */,
+				D5EC545D1927EE9F00F999CF /* track_radar.png in Resources */,
 				D5683E5118C6456300D92F0A /* ad_banner_0@2x.jpg in Resources */,
 				D5683E5B18C64DBB00D92F0A /* ad_banner_2.jpg in Resources */,
 				D52E74F418C50F6E00A8B6F1 /* EHModify_vc.xib in Resources */,
+				D5EC54551927D1DB00F999CF /* EHPref_tracking_vc.xib in Resources */,
 				D52E74F518C50F6E00A8B6F1 /* Seohtracker.help in Resources */,
 				D52E74F618C50F6E00A8B6F1 /* EHProgress_vc.xib in Resources */,
 				D5683E5D18C64DBB00D92F0A /* ad_banner_2@2x.jpg in Resources */,
@@ -686,7 +723,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D58A7A4518BE06050005752B /* seohtracker.icns in Resources */,
-				D5AD7DAC18BD4021005F4865 /* EHSettings_vc.xib in Resources */,
+				D5EC545E1927EE9F00F999CF /* track_radar@2x.png in Resources */,
+				D5AD7DAC18BD4021005F4865 /* EHPref_units_vc.xib in Resources */,
 				D5AD7DBC18BD5300005F4865 /* html in Resources */,
 				D5683E6618C653BE00D92F0A /* ad_banner_4.jpg in Resources */,
 				D5AD7DA418BD14A1005F4865 /* RHPreferencesWindow.xib in Resources */,
@@ -701,9 +739,11 @@
 				D58A7A4918BE07D30005752B /* contact_logo.png in Resources */,
 				D5683E5618C6499100D92F0A /* ad_banner_1@2x.jpg in Resources */,
 				D5683E6218C650DB00D92F0A /* ad_banner_3@2x.jpg in Resources */,
+				D5EC545C1927EE9F00F999CF /* track_radar.png in Resources */,
 				D5683E5018C6456300D92F0A /* ad_banner_0@2x.jpg in Resources */,
 				D5683E5A18C64DBB00D92F0A /* ad_banner_2.jpg in Resources */,
 				D5318A7518BC0798001FD6C0 /* EHModify_vc.xib in Resources */,
+				D5EC54541927D1DB00F999CF /* EHPref_tracking_vc.xib in Resources */,
 				D58A7A4C18BE4A280005752B /* Seohtracker.help in Resources */,
 				D5FCD4A018C13CA600D7783B /* EHProgress_vc.xib in Resources */,
 				D5683E5C18C64DBB00D92F0A /* ad_banner_2@2x.jpg in Resources */,
@@ -734,6 +774,7 @@
 				D52E74D418C50F6E00A8B6F1 /* RHPreferencesWindowController.m in Sources */,
 				D50E1E0018D84E82004BF4B2 /* stdlib_sqlite3.m in Sources */,
 				D50E1DFE18D84E82004BF4B2 /* stdlib_posix.m in Sources */,
+				D5EC54591927D1E600F999CF /* EHPref_tracking_vc.m in Sources */,
 				D50E1E0818D84E82004BF4B2 /* stdlib_times.m in Sources */,
 				D52E74D718C50F6E00A8B6F1 /* EHRoot_vc.m in Sources */,
 				D54FDD0118D4727E005083DB /* NSObject+seohyun.m in Sources */,
@@ -750,9 +791,9 @@
 				D52E74E318C50F6E00A8B6F1 /* EHModify_vc.m in Sources */,
 				D554515118D32E7D00BD4D7D /* NSString+seohyun.m in Sources */,
 				D554515918D32E7D00BD4D7D /* SHNotifications.m in Sources */,
-				D52E74E518C50F6E00A8B6F1 /* EHSettings_vc.m in Sources */,
 				D50E1E0618D84E82004BF4B2 /* stdlib_system.m in Sources */,
 				D50E1DF018D84E82004BF4B2 /* l_types.m in Sources */,
+				D5EC54521927D13300F999CF /* EHPref_units_vc.m in Sources */,
 				D50E1DF218D84E82004BF4B2 /* n_global.m in Sources */,
 				D50E1DEC18D84E82004BF4B2 /* l_log.m in Sources */,
 				D5E1B2C618E39B290078A2EC /* ELHASO.m in Sources */,
@@ -779,6 +820,7 @@
 				D5AD7DA518BD14A1005F4865 /* RHPreferencesWindowController.m in Sources */,
 				D50E1DFF18D84E82004BF4B2 /* stdlib_sqlite3.m in Sources */,
 				D50E1DFD18D84E82004BF4B2 /* stdlib_posix.m in Sources */,
+				D5EC54581927D1E600F999CF /* EHPref_tracking_vc.m in Sources */,
 				D50E1E0718D84E82004BF4B2 /* stdlib_times.m in Sources */,
 				D5318A5E18BBB745001FD6C0 /* EHRoot_vc.m in Sources */,
 				D54FDD0018D4727E005083DB /* NSObject+seohyun.m in Sources */,
@@ -795,9 +837,9 @@
 				D5318A7218BC03DC001FD6C0 /* EHModify_vc.m in Sources */,
 				D554515018D32E7D00BD4D7D /* NSString+seohyun.m in Sources */,
 				D554515818D32E7D00BD4D7D /* SHNotifications.m in Sources */,
-				D5AD7DA918BD188B005F4865 /* EHSettings_vc.m in Sources */,
 				D50E1E0518D84E82004BF4B2 /* stdlib_system.m in Sources */,
 				D50E1DEF18D84E82004BF4B2 /* l_types.m in Sources */,
+				D5EC54511927D13300F999CF /* EHPref_units_vc.m in Sources */,
 				D50E1DF118D84E82004BF4B2 /* n_global.m in Sources */,
 				D50E1DEB18D84E82004BF4B2 /* l_log.m in Sources */,
 				D5E1B2C518E39B290078A2EC /* ELHASO.m in Sources */,

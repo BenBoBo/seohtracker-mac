@@ -1,7 +1,8 @@
 #import "EHApp_delegate.h"
 
+#import "EHPref_tracking_vc.h"
+#import "EHPref_units_vc.h"
 #import "EHRoot_vc.h"
-#import "EHSettings_vc.h"
 #import "appstore_changes.h"
 #import "google_analytics_config.h"
 #import "help_defines.h"
@@ -168,11 +169,14 @@ NSString *midnight_happened = @"NSNotificationMidnightHappened";
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-            EHSettings_vc *pane1 = [[EHSettings_vc alloc]
-                initWithNibName:[EHSettings_vc class_string] bundle:nil];
+            EHPref_units_vc *pane1 = [[EHPref_units_vc alloc]
+                initWithNibName:[EHPref_units_vc class_string] bundle:nil];
+
+            EHPref_tracking_vc *pane2 = [[EHPref_tracking_vc alloc]
+                initWithNibName:[EHPref_tracking_vc class_string] bundle:nil];
 
             self.preferences_vc = [[RHPreferencesWindowController alloc]
-                initWithViewControllers:@[pane1] andTitle:@"Preferences"];
+                initWithViewControllers:@[pane1, pane2] andTitle:@"Settings"];
         });
 }
 
@@ -221,6 +225,10 @@ NSString *midnight_happened = @"NSNotificationMidnightHappened";
 - (void)start_google_analytics
 {
 #ifdef GOOGLE_ANALYTICS
+    if (!analytics_tracking_preference()) {
+        DLOG(@"Analytics disabled by user preference");
+        return;
+    }
     NSBundle *b = [NSBundle mainBundle];
     NSString *name = [b objectForInfoDictionaryKey:@"CFBundleName"];
     NSString *version = [b objectForInfoDictionaryKey:@"CFBundleVersion"];
