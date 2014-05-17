@@ -74,10 +74,14 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     // Hide the shield and make it ignore clicks, letting them through.
     self.shield_view.alphaValue = 0;
     self.shield_view.hidden = YES;
+    NSRect rect = self.frame;
+    [self.documentView setFrameSize:rect.size];
     [self setPostsFrameChangedNotifications:YES];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-        selector:@selector(frame_did_change:)
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center addObserver:self selector:@selector(frame_did_change:)
         name:NSViewFrameDidChangeNotification object:self];
+    [center addObserver:self selector:@selector(scroller_did_change:)
+        name:NSPreferredScrollerStyleDidChangeNotification object:nil];
 }
 
 /** Takes care of constructing the layers for the view.
@@ -166,8 +170,11 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
 {
     [NSObject cancelPreviousPerformRequestsWithTarget:self
         selector:@selector(do_resize_graph) object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center removeObserver:self
         name:NSViewBoundsDidChangeNotification object:nil];
+    [center removeObserver:self
+        name:NSPreferredScrollerStyleDidChangeNotification object:nil];
 }
 
 #pragma mark -
@@ -183,6 +190,30 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
 #pragma mark -
 #pragma mark Methods
 
+// Returns the bounds width minus scroller size.
+- (CGFloat)visible_w
+{
+    const CGFloat w = self.bounds.size.width;
+    const NSScrollerStyle s = [self scrollerStyle];
+    if (NSScrollerStyleOverlay == s || ![self hasVerticalScroller])
+        return w;
+    const NSControlSize cs = [self.verticalScroller controlSize];
+    CGFloat sw = [NSScroller scrollerWidthForControlSize:cs scrollerStyle:s];
+    return w - sw;
+}
+
+// Returns the bounds height minus scroller size.
+- (CGFloat)visible_h
+{
+    const CGFloat h = self.bounds.size.height;
+    const NSScrollerStyle s = [self scrollerStyle];
+    if (NSScrollerStyleOverlay == s || ![self hasHorizontalScroller])
+        return h;
+    const NSControlSize cs = [self.horizontalScroller controlSize];
+    CGFloat sw = [NSScroller scrollerWidthForControlSize:cs scrollerStyle:s];
+    return h - sw;
+}
+
 /** Requests the graph to resize its contents to match the scroll view frame.
  *
  * You can call this at any time as much as you want. It will queue a pending
@@ -194,7 +225,7 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
  */
 - (void)refresh_graph
 {
-    const int new_height = self.bounds.size.height;
+    const int new_height = [self visible_h];
     const long new_data_points = get_num_weights();
     // Check if we have to update the graph.
     // Patched to avoid weird scroll content view issues.
@@ -257,7 +288,8 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
         });
 
     const long num_weights = get_num_weights();
-    const int graph_height = self.last_height;
+    const int view_h = self.last_height;
+    const int view_w = [self visible_w];
 
     // Calculate the width of the graph. This can be done taking the distance
     // in days between the first and last entries.
@@ -285,7 +317,7 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     }
 
     // Calculate the start/end of the y axis along with number of ticks.
-    const int max_y_ticks = (graph_height - 2 * _TICK_SPACE) / _TICK_SPACE;
+    const int max_y_ticks = (view_h - 2 * _TICK_SPACE) / _TICK_SPACE;
     Nice_scale *y_axis = (!num_weights ? nil :
         malloc_scale(min_weight, max_weight, max_y_ticks));
     const double nice_y_min = scale_nice_min(y_axis);
@@ -302,10 +334,10 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     double h_factor = _DAY_SCALE * 3;
     self.offset_y = 0;
     // If the graph is small, add an offset. Otherwise scale down the h_factor.
-    if (weight_range * h_factor < graph_height)
-        self.offset_y = (graph_height - weight_range * h_factor) * 0.5;
+    if (weight_range * h_factor < view_h)
+        self.offset_y = (view_h - weight_range * h_factor) * 0.5;
     else
-        h_factor = graph_height / weight_range;
+        h_factor = view_h / weight_range;
 
     // For the x axis we scale down the times to get days, then scale back
     // again to use in the future plotting calculation.
@@ -321,8 +353,8 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     const double w_factor = _DAY_SCALE / ((double)_DAY_MODULUS);
     const double graph_width = (nice_x_max - nice_x_min) * _DAY_SCALE;
     self.offset_x = 0;
-    if (graph_width < self.bounds.size.width)
-        self.offset_x = (self.bounds.size.width - graph_width) * 0.5;
+    if (graph_width < view_w)
+        self.offset_x = (view_w - graph_width) * 0.5;
 
     // Create bezier path.
     NSBezierPath *waveform = [NSBezierPath new];
@@ -367,9 +399,9 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
         free(control1);
         free(control2);
     }
-    DLOG(@"Got %ld total days, graph height %d", total_days, graph_height);
+    DLOG(@"Got %ld total days, graph height %d", total_days, view_h);
 
-    [self.documentView setFrameSize:NSMakeSize(graph_width, graph_height)];
+    [self.documentView setFrameSize:NSMakeSize(graph_width, view_h)];
     [self.graph_layer setPath:[waveform quartzPath]];
 
     [self build_axis_layer:x_axis y_axis:y_axis
@@ -390,7 +422,7 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     if (self.redraw_lock) {
         DLOG(@"Got a request to lock on %p", self.redraw_lock);
         NSClipView *clip = CAST(self.contentView, NSClipView);
-        const CGFloat x = MIN(graph_width - self.bounds.size.width,
+        const CGFloat x = MIN(graph_width - view_w,
             (date(self.redraw_lock) - nice_min_date) * w_factor);
         if (x > 0) {
             [clip scrollToPoint:CGPointMake(x, 0)];
@@ -487,7 +519,7 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
         scale_nice_max(y_axis)] : @"");
 
     rect.size = [text sizeWithAttributes:attributes];
-    rect.origin.y = self.bounds.size.height - rect.size.height -
+    rect.origin.y = [self visible_h] - rect.size.height -
         MAX(0, self.offset_y - rect.size.height);
     [self.max_y_text_layer setFrame:rect];
     [self.max_y_text_layer setString:text];
@@ -588,6 +620,15 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     NSScrollView *s = CAST(notification.object, NSScrollView);
     LASSERT(s, @"Bad object?");
     //DLOG(@"Frame changed! %@", NSStringFromRect(s.frame));
+    [self refresh_graph];
+}
+
+/** Invoked when the user plugs in/out the mouse on a laptop.
+ * This changes the size of window scrollers, so we need to recalculate the
+ * size of our visible area.
+ */
+- (void)scroller_did_change:(NSNotification*)notification
+{
     [self refresh_graph];
 }
 
