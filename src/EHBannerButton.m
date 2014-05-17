@@ -161,9 +161,11 @@
 {
     NSURL *url = CAST([self.urls get:self.current_pos], NSURL);
     DLOG(@"Clicked on %@", url);
-    [AnalyticsHelper.sharedInstance recordCachedEventWithCategory:@"Ads"
-        action:@"Clicked banner" label:[url absoluteString]
-        value:@(self.current_pos)];
+    if (analytics_tracking_preference()) {
+        [AnalyticsHelper.sharedInstance recordCachedEventWithCategory:@"Ads"
+            action:@"Clicked banner" label:[url absoluteString]
+            value:@(self.current_pos)];
+    }
     if (url)
         [[NSWorkspace sharedWorkspace] openURL:url];
 }

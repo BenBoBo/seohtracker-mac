@@ -225,6 +225,10 @@ NSString *midnight_happened = @"NSNotificationMidnightHappened";
 - (void)start_google_analytics
 {
 #ifdef GOOGLE_ANALYTICS
+    if (!analytics_tracking_preference()) {
+        DLOG(@"Analytics disabled by user preference");
+        return;
+    }
     NSBundle *b = [NSBundle mainBundle];
     NSString *name = [b objectForInfoDictionaryKey:@"CFBundleName"];
     NSString *version = [b objectForInfoDictionaryKey:@"CFBundleVersion"];
