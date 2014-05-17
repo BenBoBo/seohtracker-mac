@@ -82,6 +82,8 @@
             name:user_metric_prefereces_changed object:nil];
         [center refresh_observer:self selector:@selector(refresh_ui_observer:)
             name:decimal_separator_changed object:nil];
+        [center refresh_observer:self selector:@selector(refresh_ui_observer:)
+            name:midnight_happened object:nil];
 
         self.banner_button.overlay = self.banner_overlay;
         [self.banner_button start];
@@ -95,6 +97,7 @@
         name:user_metric_prefereces_changed object:nil];
     [center removeObserver:self
         name:decimal_separator_changed object:nil];
+    [center removeObserver:self name:midnight_happened object:nil];
 }
 
 #pragma mark -

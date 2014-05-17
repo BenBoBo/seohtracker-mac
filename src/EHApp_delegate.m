@@ -17,6 +17,9 @@
 #import "user_config.h"
 
 
+NSString *midnight_happened = @"NSNotificationMidnightHappened";
+
+
 @interface EHApp_delegate ()
     <NSApplicationDelegate, NSUserNotificationCenterDelegate>
 
@@ -57,7 +60,6 @@
         selector:@selector(locale_did_change:)
         name:NSCurrentLocaleDidChangeNotification object:nil];
 
-    // Insert code here to initialize your application
     self.root_vc = [[EHRoot_vc alloc]
         initWithNibName:[EHRoot_vc class_string] bundle:nil];
     self.window.delegate = self;
@@ -78,6 +80,8 @@
     dispatch_async_low(^{ [self build_preferences]; });
 
     dispatch_async_low(^{ [self generate_changelog_notification]; });
+
+    [self prepare_midnight_notification];
 
     // Detect if we are being launched due to the user clicking on notification.
     NSDictionary *start_info = aNotification.userInfo;
@@ -134,8 +138,7 @@
     NSString *separator = [locale objectForKey:NSLocaleDecimalSeparator];
     if (set_decimal_separator([separator cstring])) {
         DLOG(@"The decimal separator changed to '%@'", separator);
-        NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-        [center postNotificationName:decimal_separator_changed object:nil];
+        [SHNotifications post_decimal_separator_changed];
     }
 }
 
@@ -279,6 +282,46 @@
     self.modify_weight_menu.action = @selector(did_touch_modify_button:);
     self.add_weight_menu.action = @selector(did_touch_plus_button:);
     self.delete_all_weights_menu.action = @selector(delete_all_entries:);
+}
+
+/** Schedules an event to fire at midnight.
+ * The event will then generate a fake
+ * UIApplicationSignificantTimeChangeNotification named midnight_happened and
+ * reschedule itself for the next midnight event.
+ */
+- (void)prepare_midnight_notification
+{
+    // Find out the moment of the next midnight.
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *date_components = [calendar
+        components:(NSYearCalendarUnit | NSMonthCalendarUnit |
+            NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit |
+            NSSecondCalendarUnit) fromDate:[NSDate date]];
+
+    date_components.day += 1;
+    date_components.hour = 0;
+    date_components.minute = 0;
+    date_components.second = 1;
+    NSDate *future = [calendar dateFromComponents:date_components];
+    const NSTimeInterval seconds = [future timeIntervalSinceNow];
+    LASSERT(seconds > 0 && seconds <= 60 * 60 * 24, @"Unexpected future!");
+    DLOG(@"Midnight happens at %@ in %0.1f seconds", future, seconds);
+
+    [self performSelector:@selector(free_gremlins) withObject:nil
+        afterDelay:seconds];
+}
+
+/** Generates midnight notification.
+ *
+ * Don't run this method directly! It's a callback for
+ * prepare_midnight_notification. The midnight_happened notification will be
+ * posted and prepare_midnight_notification called to loop again.
+ */
+- (void)free_gremlins
+{
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center postNotificationName:midnight_happened object:nil];
+    [self prepare_midnight_notification];
 }
 
 #pragma mark -

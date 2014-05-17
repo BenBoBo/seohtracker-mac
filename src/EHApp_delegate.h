@@ -4,3 +4,5 @@
 @property (assign) IBOutlet NSWindow *window;
 
 @end
+
+extern NSString *midnight_happened;
