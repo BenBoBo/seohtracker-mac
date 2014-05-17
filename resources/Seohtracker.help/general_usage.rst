@@ -3,14 +3,21 @@ General usage
 =============
 
 Seohtracker is very simple to use. On the left of the main application window
-you can see the list of measurements you have taken over time, and below this
-list there is a minus and plus button, to remove and add entries.
+you can see the list of measurements you have taken over time. To its right
+there is a graph plotting the measurements. Below the measurement list there is
+a minus and plus button to remove and add entries.
 
 By pressing the plus button at the bottom you will be asked to enter the weight
 and date of a new measurement. After accepting the dialog the new entry will
 appear in the measurements list. If you need to change a measurement, select it
 on the list and use the modification button on the right of the main
 application window.
+
+You can also click on the graph displayed to the right, which will select the
+nearest measurement on the list. Selecting manually an entry on the list will
+highlight it on the graph too. When an entry is selected a horizontal line is
+drawn on the graph so you can visually see where that value lies compared to
+other points on the graph.
 
 By default Seohtracker will attempt to detect your locale settings, but if you
 see the weights being specified in **kg** when you want them in **lb** (or vice
