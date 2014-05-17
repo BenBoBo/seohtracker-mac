@@ -80,6 +80,8 @@
         NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
         [center refresh_observer:self selector:@selector(refresh_ui_observer:)
             name:user_metric_prefereces_changed object:nil];
+        [center refresh_observer:self selector:@selector(refresh_ui_observer:)
+            name:decimal_separator_changed object:nil];
 
         self.banner_button.overlay = self.banner_overlay;
         [self.banner_button start];
@@ -91,6 +93,8 @@
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center removeObserver:self
         name:user_metric_prefereces_changed object:nil];
+    [center removeObserver:self
+        name:decimal_separator_changed object:nil];
 }
 
 #pragma mark -
@@ -140,6 +144,7 @@
 /// Simple wrapper to refresh the UI when changes are done to user settings.
 - (void)refresh_ui_observer:(NSNotification*)notification
 {
+    update_formatter_limits_on_significant_time_change();
     const NSInteger pos = [self.table_view selectedRow];
     [self refresh_ui];
     [self.table_view reloadData];
