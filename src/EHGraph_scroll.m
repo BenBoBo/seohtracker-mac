@@ -73,7 +73,7 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     [super awakeFromNib];
     // Hide the shield and make it ignore clicks, letting them through.
     self.shield_view.alphaValue = 0;
-    self.shield_view.nextResponder = self;
+    self.shield_view.hidden = YES;
     [self setPostsFrameChangedNotifications:YES];
     [[NSNotificationCenter defaultCenter] addObserver:self
         selector:@selector(frame_did_change:)
@@ -207,6 +207,7 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
         selector:@selector(do_resize_graph) object:nil];
 
     // Hide existing graphs/layers.
+    self.shield_view.hidden = NO;
     [CATransaction begin];
     [CATransaction setAnimationDuration:_GRAPH_REDRAW_DELAY];
     self.min_y_text_layer.opacity = 0;
@@ -239,6 +240,8 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     LASSERT(self.graph_layer, @"Bad initialization");
 
     // Recover hidden layers.
+    [CATransaction begin];
+    [CATransaction setAnimationDuration:_GRAPH_REDRAW_DELAY];
     self.min_y_text_layer.opacity = 1;
     self.max_y_text_layer.opacity = 1;
     self.graph_layer.opacity = 1;
@@ -247,6 +250,11 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     self.selection_x_layer.opacity = 1;
     self.selection_y_layer.opacity = 1;
     self.shield_view.animator.alphaValue = 0;
+    [CATransaction commit];
+
+    RUN_AFTER(_GRAPH_REDRAW_DELAY, ^{
+            self.shield_view.hidden = YES;
+        });
 
     const long num_weights = get_num_weights();
     const int graph_height = self.last_height;
