@@ -1,6 +1,7 @@
 #import "EHPref_tracking_vc.h"
 
 #import "EHApp_delegate.h"
+#import "help_defines.h"
 
 #import "ELHASO.h"
 #import "NSNotificationCenter+ELHASO.h"
@@ -13,9 +14,10 @@
 @interface EHPref_tracking_vc ()
 
 /// Matrix of options the user can select.
-@property (weak) IBOutlet NSMatrix *weight_matrix;
+@property (weak, nonatomic) IBOutlet NSMatrix *weight_matrix;
 
 - (IBAction)did_touch_weight_matrix:(id)sender;
+- (IBAction)did_touch_policy_button:(id)sender;
 
 @end
 
@@ -54,6 +56,15 @@
     set_analytics_tracking_preference(
         (0 == [self.weight_matrix selectedRow] ? true : false));
     [self refresh_ui];
+}
+
+/// Open the help to show the user the data collection info.
+- (IBAction)did_touch_policy_button:(id)sender
+{
+    NSString *locBookName = [[NSBundle mainBundle]
+        objectForInfoDictionaryKey:@"CFBundleHelpBookName"];
+    [[NSHelpManager sharedHelpManager]
+     openHelpAnchor:help_anchor_tracking inBook:locBookName];
 }
 
 #pragma mark -
