@@ -5,8 +5,10 @@
 // Code taken from http://stackoverflow.com/a/1956021/172690.
 
 @implementation NSBezierPath (BezierPathQuartzUtilities)
-// This method works only in OS X v10.2 and later.
-- (CGPathRef)quartzPath
+/* This method works only in OS X v10.2 and later.
+ * You need to release the path with CGPathRelease.
+ */
+- (CGPathRef)newQuartzPath
 {
     NSInteger i, numElements;
 

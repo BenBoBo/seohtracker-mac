@@ -129,6 +129,8 @@
 		D5E1B2C818E39B290078A2EC /* NSArray+ELHASO.m in Sources */ = {isa = PBXBuildFile; fileRef = D5E1B2C218E39B290078A2EC /* NSArray+ELHASO.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		D5E1B2C918E39B290078A2EC /* NSNotificationCenter+ELHASO.m in Sources */ = {isa = PBXBuildFile; fileRef = D5E1B2C418E39B290078A2EC /* NSNotificationCenter+ELHASO.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		D5E1B2CA18E39B290078A2EC /* NSNotificationCenter+ELHASO.m in Sources */ = {isa = PBXBuildFile; fileRef = D5E1B2C418E39B290078A2EC /* NSNotificationCenter+ELHASO.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		D5EBD97A19289472001C4BDD /* CAShapeLayer+Seohtracker.m in Sources */ = {isa = PBXBuildFile; fileRef = D5EBD97919289472001C4BDD /* CAShapeLayer+Seohtracker.m */; };
+		D5EBD97B19289472001C4BDD /* CAShapeLayer+Seohtracker.m in Sources */ = {isa = PBXBuildFile; fileRef = D5EBD97919289472001C4BDD /* CAShapeLayer+Seohtracker.m */; };
 		D5EC54511927D13300F999CF /* EHPref_units_vc.m in Sources */ = {isa = PBXBuildFile; fileRef = D5EC54501927D13300F999CF /* EHPref_units_vc.m */; };
 		D5EC54521927D13300F999CF /* EHPref_units_vc.m in Sources */ = {isa = PBXBuildFile; fileRef = D5EC54501927D13300F999CF /* EHPref_units_vc.m */; };
 		D5EC54541927D1DB00F999CF /* EHPref_tracking_vc.xib in Resources */ = {isa = PBXBuildFile; fileRef = D5EC54531927D1DB00F999CF /* EHPref_tracking_vc.xib */; };
@@ -256,6 +258,8 @@
 		D5E1B2C218E39B290078A2EC /* NSArray+ELHASO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+ELHASO.m"; path = "src/NSArray+ELHASO.m"; sourceTree = "<group>"; };
 		D5E1B2C318E39B290078A2EC /* NSNotificationCenter+ELHASO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSNotificationCenter+ELHASO.h"; path = "src/NSNotificationCenter+ELHASO.h"; sourceTree = "<group>"; };
 		D5E1B2C418E39B290078A2EC /* NSNotificationCenter+ELHASO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSNotificationCenter+ELHASO.m"; path = "src/NSNotificationCenter+ELHASO.m"; sourceTree = "<group>"; };
+		D5EBD97819289472001C4BDD /* CAShapeLayer+Seohtracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CAShapeLayer+Seohtracker.h"; sourceTree = "<group>"; };
+		D5EBD97919289472001C4BDD /* CAShapeLayer+Seohtracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CAShapeLayer+Seohtracker.m"; sourceTree = "<group>"; };
 		D5EC544F1927D13300F999CF /* EHPref_units_vc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EHPref_units_vc.h; sourceTree = "<group>"; };
 		D5EC54501927D13300F999CF /* EHPref_units_vc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EHPref_units_vc.m; sourceTree = "<group>"; };
 		D5EC54531927D1DB00F999CF /* EHPref_tracking_vc.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EHPref_tracking_vc.xib; path = resources/ui/pref/EHPref_tracking_vc.xib; sourceTree = "<group>"; };
@@ -551,6 +555,8 @@
 		D58F1C18191ABD3A00DAE4F7 /* categories */ = {
 			isa = PBXGroup;
 			children = (
+				D5EBD97819289472001C4BDD /* CAShapeLayer+Seohtracker.h */,
+				D5EBD97919289472001C4BDD /* CAShapeLayer+Seohtracker.m */,
 				D58F1C1A191ABD3A00DAE4F7 /* NSBezierPath+Seohtracker.h */,
 				D58F1C1B191ABD3A00DAE4F7 /* NSBezierPath+Seohtracker.m */,
 			);
@@ -794,6 +800,7 @@
 				D50E1E0618D84E82004BF4B2 /* stdlib_system.m in Sources */,
 				D50E1DF018D84E82004BF4B2 /* l_types.m in Sources */,
 				D5EC54521927D13300F999CF /* EHPref_units_vc.m in Sources */,
+				D5EBD97B19289472001C4BDD /* CAShapeLayer+Seohtracker.m in Sources */,
 				D50E1DF218D84E82004BF4B2 /* n_global.m in Sources */,
 				D50E1DEC18D84E82004BF4B2 /* l_log.m in Sources */,
 				D5E1B2C618E39B290078A2EC /* ELHASO.m in Sources */,
@@ -840,6 +847,7 @@
 				D50E1E0518D84E82004BF4B2 /* stdlib_system.m in Sources */,
 				D50E1DEF18D84E82004BF4B2 /* l_types.m in Sources */,
 				D5EC54511927D13300F999CF /* EHPref_units_vc.m in Sources */,
+				D5EBD97A19289472001C4BDD /* CAShapeLayer+Seohtracker.m in Sources */,
 				D50E1DF118D84E82004BF4B2 /* n_global.m in Sources */,
 				D50E1DEB18D84E82004BF4B2 /* l_log.m in Sources */,
 				D5E1B2C518E39B290078A2EC /* ELHASO.m in Sources */,

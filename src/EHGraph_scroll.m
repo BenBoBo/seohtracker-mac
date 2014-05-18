@@ -1,5 +1,6 @@
 #import "EHGraph_scroll.h"
 
+#import "CAShapeLayer+Seohtracker.h"
 #import "ELHASO.h"
 #import "NSBezierPath+Seohtracker.h"
 
@@ -402,7 +403,7 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
     DLOG(@"Got %ld total days, graph height %d", total_days, view_h);
 
     [self.documentView setFrameSize:NSMakeSize(graph_width, view_h)];
-    [self.graph_layer setPath:[waveform quartzPath]];
+    [self.graph_layer setQuartzPath:waveform];
 
     [self build_axis_layer:x_axis y_axis:y_axis
         w_factor:_DAY_MODULUS * w_factor h_factor:h_factor];
@@ -470,7 +471,7 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
         }
     }
 
-    [self.white_lines_layer setPath:[b quartzPath]];
+    [self.white_lines_layer setQuartzPath:b];
 
     // Create axis and daily ticks.
     b = [NSBezierPath new];
@@ -500,7 +501,7 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
         }
     }
 
-    [self.black_lines_layer setPath:[b quartzPath]];
+    [self.black_lines_layer setQuartzPath:b];
 
     NSDictionary *attributes = @{ NSFontAttributeName:
         [NSFont fontWithName:@"Helvetica-Bold" size:16] };
@@ -542,14 +543,14 @@ static CGFloat *get_first_control_points(const CGFloat *rhs, const long n);
         [w lineToPoint:CGPointMake(self.offset_x + x,
             self.offset_y + self.graph_total_height)];
     }
-    self.selection_x_layer.path = [w quartzPath];
+    [self.selection_x_layer setQuartzPath:w];
 
     w = [NSBezierPath new];
     if (y >= 0) {
         [w moveToPoint:CGPointMake(self.offset_x, y)];
         [w lineToPoint:CGPointMake(self.offset_x + self.graph_total_width, y)];
     }
-    self.selection_y_layer.path = [w quartzPath];
+    [self.selection_y_layer setQuartzPath:w];
 
     [self scroll_to_weight:weight];
 }

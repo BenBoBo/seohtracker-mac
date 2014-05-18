@@ -1,5 +1,5 @@
 @interface NSBezierPath (Seohtracker)
 
-- (CGPathRef)quartzPath;
+- (CGPathRef)newQuartzPath;
 
 @end
